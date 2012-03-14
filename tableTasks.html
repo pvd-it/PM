@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>list-test</title>
+		<meta name="author" content="pide" />
+		<style type="text/css">
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+	<body class="yui3-skin-sam">
+		<style type="text/css">
+			.yui3-skin-sam .yui3-datatable-header {
+			    background: #d9d9d9;
+			    color: #474747;
+			    font-weight: bolder;
+			    text-align: left;
+			    vertical-align: bottom;
+			}
+			
+
+		</style>
+		<div id="tools">
+			<button id="save">Save</button>
+			<button id="addRow">Add Row</button>
+			<button id="addCol">Add Column</button>
+			<button id="remCol">Remove Column</button>			
+			<button id="remRow">Remove Row</button>
+		</div>
+		<script src="../node_modules/yui/yui/yui.js"></script>
+		<script>
+			YUI({
+				combine: false,
+				filter: 'RAW',
+				groups: {
+					pm: {
+						base: './',
+						modules: {
+							task: {
+								path: 'task/task.js',
+								requires: ['model']
+							},
+							
+							'task-list': {
+								path: 'task/task-list.js',
+								requires: ['task', 'modellist']
+							},
+							
+							'inline-editor': {
+								path: 'inline-editor/inline-editor.js',
+								requires: ['button', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'node', 'event-key', 'event-outside'],
+								skinnable: true
+							},
+							
+							'datatable-edit': {
+								path: 'datatable-edit/datatable-edit.js',
+								requires: ['plugin', 'inline-editor'],
+								skinnable: true
+							}
+						}
+					}
+				}
+			}).use('datatable-edit', 'datatable-mutable', 'event-key', 'inline-editor', 'task', 'task-list', 'json', function(Y) {
+				var table = new Y.DataTable({
+						tabIndex: 0,
+						columns: [
+							{key: 'parent',				label: 'Index',				
+								formatter: function(o){
+									o.value = o.rowindex+1;
+								}													},
+							{key: 'parent',				label: 'Tree',				
+								formatter: function(o){
+									if (o.data.children.size()) {
+								 		if (o.data.collapsed){
+								 			o.className += 'cell-close';
+								 		} else {
+								 			o.className += ' cell-open';	
+								 		}
+								 	}
+								 	o.value = ''
+								 	
+								 	if (!o.data.visible){
+								 		o.rowClass += ' hidden';
+								 	};
+								}
+																					},	
+							{key: 'name', 				label: 'Task Name',
+							 formatter: function(o) {
+							 	o.className += ' cell-depth-' + o.data.depthLevel;
+							 	if (o.data.children.size()) {
+							 		o.className += ' has-child';
+							 	}
+							 }			
+																					},
+							{key: 'work', 				label: 'W'	},
+							{key: 'duration', 			label: 'D'	},
+							{key: 'startDate', 			label: 'Start Date'			},
+							{key: 'endDate', 			label: 'End Date'			},
+							{key: 'isFixedDuration',	label: 'Fixed Duration'		}
+						],
+						caption: 'Project Schedule',
+						recordType: Y.Task,
+						data: new Y.TaskList()
+					});
+				
+				table.plug(Y.Plugin.DatatableEditPlugin);	
+				table.render();
+				table.focus();
+				
+				Y.one('#tools').delegate('click', function(e){
+					switch (e.currentTarget.get('id')) {
+						case 'save':
+							Y.log(Y.JSON.stringify(table.get('data').toJSON()));
+							break;
+					}
+				}, 'button');
+				
+			});
+		</script>
+	</body>
+</html>

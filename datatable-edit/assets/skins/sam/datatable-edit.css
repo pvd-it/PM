@@ -1,0 +1,27 @@
+.yui3-datatable-cell.selectedCell {
+	background: #5C7B91 ;
+	outline: solid #005189;
+	color: #dd0000;
+	text-shadow: none;
+}
+
+.yui3-skin-sam .cell-open { background: url(open.png) no-repeat;}
+
+.yui3-skin-sam .cell-close {background: url(closed.png) no-repeat;}
+
+.yui3-skin-sam .hidden {
+	display: none;
+}
+
+.yui3-skin-sam .cell-depth-0 {padding-left: 10px;}
+.yui3-skin-sam .cell-depth-1 {padding-left: 25px;}
+.yui3-skin-sam .cell-depth-2 {padding-left: 40px;}
+.yui3-skin-sam .cell-depth-3 {padding-left: 55px;}
+.yui3-skin-sam .cell-depth-4 {padding-left: 70px;}
+.yui3-skin-sam .cell-depth-5 {padding-left: 85px;}
+.yui3-skin-sam .cell-depth-6 {padding-left: 100px;}
+.yui3-skin-sam .cell-depth-7 {padding-left: 115px;}
+.yui3-skin-sam .cell-depth-8 {padding-left: 130px;}
+.yui3-skin-sam .cell-depth-9 {padding-left: 145px;}
+
+.yui3-skin-sam .has-child {font-weight: bold;}

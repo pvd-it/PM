@@ -1,0 +1,38 @@
+.yui3-inlineeditor.yui3-widget-positioned {
+	position: absolute;
+}
+.yui3-inlineeditor-content .callout {
+	background-color: #d6dee2;
+	padding: 5px;
+	border: 1px solid #9999ff;
+	position: relative;
+    top: -1px;
+}
+
+.yui3-inlineeditor-content .notch-border {
+	height: 0;
+    width: 0;
+    border-bottom: 12px solid #9999ff;
+    border-left: 12px dotted transparent;
+    border-right: 12px dotted transparent;
+    left: 0px;
+    top: 0px;
+    margin-left: 20px;
+    z-index: 10;
+}
+
+.yui3-inlineeditor-content .notch {
+	position: relative;
+	left: -10px;
+	top: 2px;
+	height: 0;
+	width: 0;
+	border-bottom: 10px solid #d6dee2;
+	border-left: 10px dotted transparent;
+	border-right: 10px dotted transparent;
+	z-index: 11;
+}
+
+.yui3-inlineeditor-hidden {
+	visibility: hidden;
+}
