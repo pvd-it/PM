@@ -10,20 +10,27 @@
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: 14px;
 			}
+			
+			.fieldContainer {
+				position: relative;
+				margin-bottom: 1em;
+			}
+			
+			.fieldContainer input {
+				position: absolute;
+				left: 12em;
+			}
 		</style>
 	</head>
 	<body class="yui3-skin-sam">
-		<style type="text/css">
-			.yui3-skin-sam .yui3-datatable-header {
-			    background: #d9d9d9;
-			    color: #474747;
-			    font-weight: bolder;
-			    text-align: left;
-			    vertical-align: bottom;
-			}
-			
-
-		</style>
+		<div class="fieldContainer">
+			<label for="daysToAdd">Day(s) to add:</label>
+			<input type="text" id="daysToAdd" />
+		</div>
+		<div class="fieldContainer">
+			<label for="dayInWeek">Day in week (zero based):</label>
+			<input type="text" id="dayInWeek" />
+		</div>
 		<div id="tools">
 			<button id="save">Save</button>
 			<button id="addRow">Add Row</button>
@@ -31,7 +38,7 @@
 			<button id="remCol">Remove Column</button>			
 			<button id="remRow">Remove Row</button>
 		</div>
-		<script src="../node_modules/yui/yui/yui.js"></script>
+		<script src="/YUI/3.5.0pr4/yui/yui.js"></script>
 		<script>
 			YUI({
 				combine: false,
@@ -42,83 +49,90 @@
 						modules: {
 							task: {
 								path: 'task/task.js',
-								requires: ['model']
+								requires: ['model', 'arraylist', 'arraylist-add']
 							},
 							
 							'task-list': {
 								path: 'task/task-list.js',
-								requires: ['task', 'modellist']
+								requires: ['task', 'model-list']
 							},
-							
-							'inline-editor': {
-								path: 'inline-editor/inline-editor.js',
-								requires: ['button', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'node', 'event-key', 'event-outside'],
-								skinnable: true
-							},
-							
-							'datatable-edit': {
-								path: 'datatable-edit/datatable-edit.js',
-								requires: ['plugin', 'inline-editor'],
-								skinnable: true
-							}
 						}
 					}
 				}
-			}).use('datatable-edit', 'datatable-mutable', 'event-key', 'inline-editor', 'task', 'task-list', 'json', function(Y) {
-				var table = new Y.DataTable({
-						tabIndex: 0,
-						columns: [
-							{key: 'parent',				label: 'Index',				
-								formatter: function(o){
-									o.value = o.rowindex+1;
-								}													},
-							{key: 'parent',				label: 'Tree',				
-								formatter: function(o){
-									if (o.data.children.size()) {
-								 		if (o.data.collapsed){
-								 			o.className += 'cell-close';
-								 		} else {
-								 			o.className += ' cell-open';	
-								 		}
-								 	}
-								 	o.value = ''
-								 	
-								 	if (!o.data.visible){
-								 		o.rowClass += ' hidden';
-								 	};
-								}
-																					},	
-							{key: 'name', 				label: 'Task Name',
-							 formatter: function(o) {
-							 	o.className += ' cell-depth-' + o.data.depthLevel;
-							 	if (o.data.children.size()) {
-							 		o.className += ' has-child';
-							 	}
-							 }			
-																					},
-							{key: 'work', 				label: 'W'	},
-							{key: 'duration', 			label: 'D'	},
-							{key: 'startDate', 			label: 'Start Date'			},
-							{key: 'endDate', 			label: 'End Date'			},
-							{key: 'isFixedDuration',	label: 'Fixed Duration'		}
-						],
-						caption: 'Project Schedule',
-						recordType: Y.Task,
-						data: new Y.TaskList()
-					});
-				
-				table.plug(Y.Plugin.DatatableEditPlugin);	
-				table.render();
-				table.focus();
-				
+			}).use('io-xdr', 'event', 'node', 'json', 'task', 'task-list', function(Y) {
 				Y.one('#tools').delegate('click', function(e){
 					switch (e.currentTarget.get('id')) {
 						case 'save':
-							Y.log(Y.JSON.stringify(table.get('data').toJSON()));
+							var uri = 'http://localhost:3000/Hello',
+								cfg = {
+									method: 'POST',
+									headers: {
+								        'Content-Type': 'application/json',
+								    },
+									data: '{"a":1, "b": 2}',
+									on: {
+										start: function(transactionId, arguments){
+											
+										},
+										
+										complete: function(transactionId, response, arguments){
+											Y.log(response.responseText);
+										},
+										
+										success: function(transactionId, response, arguments){
+											
+										},
+										
+										failure: function(transactionId, response, arguments){
+											Y.log('Failure: ' + response.statusText);
+											Y.log('Failure: ' + response.status);
+										},
+										
+										end: function(transactionId, arguments){
+											
+										}
+									},
+									
+									xdr: {use: 'native', dataType: 'text'}
+								};
+								
+							Y.io(uri, cfg);
+							
+							break;
+						case 'addRow':
+							var taskList = new Y.TaskList()
+							taskList.add([
+								{"clientId":"task_1","name":"hi","isFixedDuration":false,"work":8,"duration":1,"depthLevel":0,"children":["task_2"],"collapsed":false,"visible":true},
+								{"clientId":"task_2","name":"hello","isFixedDuration":false,"work":8,"duration":1,"depthLevel":1,"parent":"task_1","children":["task_3"],"collapsed":false,"visible":true},
+								{"clientId":"task_3","name":"how","isFixedDuration":false,"work":8,"duration":1,"depthLevel":2,"parent":"task_2","children":[],"collapsed":false,"visible":true}
+							]);
+							
+							Y.log(Y.JSON.stringify(taskList.item(0).toJSON()));
+							Y.log(Y.JSON.stringify(taskList.item(1).toJSON()));
+							Y.log(Y.JSON.stringify(taskList.item(2).toJSON()));
+							break;
+							
+						case 'addCol':
+							var today = new Date(),
+								n = parseInt(Y.one('#daysToAdd').get('value'), 10),
+								day = parseInt(Y.one('#dayInWeek').get('value')),
+								part1, part2, part3;
+								    
+							    part1 = n;
+							    part2 = (day === 6 ? 2 : +!day);
+							    part3 = (Math.floor((n - 1 + (day % 6 || 1)) / 5) * 2);
+							    
+							    //Y.log('part1: ' + part1);
+							    Y.log('part2: ' + part2);
+							    //Y.log('part3: ' + part3);
+							break;
+							
+						case 'remCol':
+							var currDate = new Date();
+							Y.log(currDate.getDay());
 							break;
 					}
 				}, 'button');
-				
 			});
 		</script>
 	</body>

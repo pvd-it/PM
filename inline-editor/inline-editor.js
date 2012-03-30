@@ -10,24 +10,20 @@ YUI.add('inline-editor', function(Y) {
 								'</div>' +
 								'<div class="callout">' +
 									'<input type="text" />' +
-									'<div class="buttonContainer"></div>' +
+									'<div class="buttonContainer">' +
+										'<button class="save">Save</button>' +
+										'<button class="cancel">Cancel</button>' +
+									'</div>' +
 								'</div>');
 			
-			this._saveButton = new Y.Button({
-				label: 'Save'
-			});
-			this._cancelButton = new Y.Button({
-				label: 'Cancel'
-			});
-			contentBox.one('.buttonContainer').append(this._saveButton.getNode()).append(this._cancelButton.getNode());
 			this._inputNode = contentBox.one('input');
 		},
 		
 		bindUI: function() {
 			var boundingBox = this.get('boundingBox');
 			boundingBox.delegate('key', Y.bind(this._onEscEnter, this), 'down:esc, enter', 'input');
-			this._saveButton.on('click', Y.bind(this._doDone, this));
-			this._cancelButton.on('click', Y.bind(this._doCancel, this));
+			boundingBox.delegate('click', Y.bind(this._doDone, this), '.save');
+			boundingBox.delegate('click', Y.bind(this._doCancel, this), '.cancel');
 		},
 		
 		show: function(node, val) {

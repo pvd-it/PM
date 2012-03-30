@@ -37,7 +37,8 @@ YUI.add('datatable-edit', function(Y) {
 
         _afterHostRenderEvent : function(e) {
     		this._inEdit = new Y.InlineEditor({
-					visible: false
+					visible: false,
+					zIndex: 1
 			});
 			this._inEdit.render();
 			this._inEdit.after('cancel', Y.bind(this._cancelInEditing, this));
@@ -63,12 +64,14 @@ YUI.add('datatable-edit', function(Y) {
         },
         
         _clickHandler: function(e) {
-        	var rowId = e.currentTarget.get('parentNode').get('id'),
+        	var rowId = e.currentTarget.get('parentNode').getData('yui3-record'),
         		colKey = this._getColKey(e.currentTarget),
         		colNum = Y.Array.indexOf(this.get('host').get('columns'), this.get('host')._columnMap[colKey]),
-				model = this.get('host').get('data').getByClientId(rowId),
+        		modelList = this.get('host').get('data'),
+				model = modelList.getByClientId(rowId),
         		rowNum = this.get('host').get('data').indexOf(model);
         	
+        	Y.log('colNum: ' + colNum + ' rowNum: ' + rowNum);
         	this.set(CURRENT_CELL_XY, [rowNum, colNum]);
         },
         
@@ -135,9 +138,7 @@ YUI.add('datatable-edit', function(Y) {
 					}
 					break;
 			}
-			if (e.shiftKey){
-				e.preventDefault();
-			}
+			e.preventDefault();
 			this.set(CURRENT_CELL_XY, [row, col]);
 		},
 		
@@ -187,10 +188,8 @@ YUI.add('datatable-edit', function(Y) {
         
         _syncSelectedCell: function() {
         	var cellXY = this.get(CURRENT_CELL_XY),
-        		row = cellXY[0], col= cellXY[1], 
-        		cell = this.get('host').getCell(row,col);
+        		cell = this.get('host').getCell(cellXY);
         	this.set(SELECTED_CELL, cell);
-        	this.get('host').set('caption', (row+1) + ' x ' + (col+1));
         },
         
         _cellXYValidator: function(val){

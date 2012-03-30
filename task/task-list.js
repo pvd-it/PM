@@ -9,10 +9,10 @@ YUI.add('task-list', function(Y) {
 		},
 		
 		_addInterceptor: function(e){
-			e.index = e.pos;
-			
-			e.pos = e.pos-1;
 			if (e.pos){
+				e.index = e.pos;
+				e.pos = e.pos-1;
+
 				var newClientId = e.model.get('clientId'),
 					above = this.item(e.pos),
 					defaultParentClientId = above ? above.get('parent') : undefined;
@@ -45,6 +45,83 @@ YUI.add('task-list', function(Y) {
 				arr.push(modelItem);
 				this._findDescendants(modelItem, arr);
 			},this);
+		},
+		
+		persistList: function(){
+			var uri = 'http://localhost:3000/Hello',
+				cfg = {
+					method: 'POST',
+					headers: {
+				        'Content-Type': 'application/json',
+				    },
+					data: Y.JSON.stringify({
+						tasks: this.toJSON(),
+						lastCount: Y.Task.lastCount
+						}),
+					on: {
+						start: function(transactionId, arguments){
+							Y.log('Saving....');
+						},
+						
+						complete: function(transactionId, response, arguments){
+							Y.log('Done....');
+						},
+						
+						success: function(transactionId, response, arguments){
+							Y.log('Saved successfully');
+						},
+						
+						failure: function(transactionId, response, arguments){
+							Y.log('Failure: ' + response.statusText);
+							Y.log('Failure: ' + response.status);
+						},
+						
+						end: function(transactionId, arguments){
+							
+						}
+					},
+					
+					xdr: {use: 'native', dataType: 'text'}
+				};
+				
+			Y.io(uri, cfg);
+		},
+		
+		loadFromServer: function(){
+			var uri = 'http://localhost:3000/hello',
+				cfg = {
+					method: 'GET',
+					on: {
+						start: function(transactionId, arguments){
+							Y.log('Loading....');
+						},
+						
+						complete: function(transactionId, response, arguments){
+							Y.log('Done....');
+						},
+						
+						success: function(transactionId, response, arguments){
+							var res = Y.JSON.parse(response.responseText);
+							Y.Task.lastCount = res.lastCount;
+							arguments.modellist.reset(res.tasks);
+						},
+						
+						failure: function(transactionId, response, arguments){
+							Y.log('Failure: ' + response.statusText);
+							Y.log('Failure: ' + response.status);
+							Y.log('Error loading data...');
+						},
+						
+						end: function(transactionId, arguments){
+							
+						}
+					},
+					
+					xdr: {use: 'native', dataType: 'text'},
+					
+					arguments: {modellist: this}
+				};
+			Y.io(uri, cfg, this);
 		}
 	});
 });
