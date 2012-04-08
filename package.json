@@ -1,19 +1,24 @@
 {
   "author": "Piyush Deshpande <techie.piyush@gmail.com>",
   "name": "PM",
-  "description": "Provides configuration for starting node instance on Dev SmartMachine",
-  "version": "0.0.1",
+  "description": "Web based project management",
+  "version": "0.0.1-1",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "https://pvd-it@github.com/pvd-it/PM.git"
   },
   "main": "js/server/combo-server.js",
-  
-  "scripts": { "start": "./js/server/combo-server.js" },
-  
-  "engines": {
-    "node": "~0.6.14"
+  "scripts": {
+    "start": "node ./js/server/combo-server.js"
   },
-  "dependencies": {},
+  "engines": {
+    "node": ">=0.4"
+  },
+  "dependencies": {
+    "express": ">=2.2.0 <3.0.0",
+    "combohandler": "0.1.3"
+  },
   "devDependencies": {},
-  "optionalDependencies": {}
+  "optionalDependencies": {},
+  "subdomain": "pvd"
 }
