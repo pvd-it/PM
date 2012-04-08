@@ -78,7 +78,10 @@ YUI.add('datatable-edit', function(Y) {
         _keyHandler: function(e) {
         	var cellXY = this.get(CURRENT_CELL_XY),
         		row = cellXY[0],
-        		col = cellXY[1];
+        		col = cellXY[1],
+        		i = 0,
+        		list = this.get('host').get('data'),
+        		size = list.size();
         	
 			switch (e.keyCode) {
 				case 37: //Left
@@ -89,7 +92,16 @@ YUI.add('datatable-edit', function(Y) {
 					}
 					break;
 				case 38: //Up
-					row && row--;
+					for (i=row-1; i>=0; i--){
+						//while going up find the first visible item and stop at that
+						if (list.item(i).get('visible')){
+							break;
+						}
+					}
+					row = i;
+					if (row < 0) {
+						row = 0
+					}
 					break;
 				case 39: //Right
 					if (e.ctrlKey){
@@ -100,7 +112,13 @@ YUI.add('datatable-edit', function(Y) {
 					
 					break;
 				case 40: //Down
-					row++;
+					for (i=row+1; i<size; i++){
+						//while going down find the first visible item and stop at that
+						if (list.item(i).get('visible')){
+							break;
+						}
+					}
+					row = i;
 					break;
 				case 13: //Enter
 					if (this.get(CURRENT_CELL_XY)[1] === 1){
@@ -128,7 +146,12 @@ YUI.add('datatable-edit', function(Y) {
 				case 35: //End
 					col = this.get('host').get('columns').length-1;
 					if (e.ctrlKey){
-						row = this.get('host').get('data').size()-1;
+						for (i=size-1; i>=0; i--) {
+							if (list.item(i).get('visible')){
+								break;
+							}
+						}
+						row = i;
 					}
 					break;
 				case 36: //Home

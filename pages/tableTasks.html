@@ -38,14 +38,16 @@
 			<button id="remCol">Remove Column</button>			
 			<button id="remRow">Remove Row</button>
 		</div>
-		<script src="/YUI/3.5.0pr4/yui/yui.js"></script>
+		<script src="http://127.0.0.1:8020/YUI/3.5.0pr4/yui/yui.js"></script>
 		<script>
 			YUI({
 				combine: false,
 				filter: 'RAW',
 				groups: {
 					pm: {
-						base: './',
+						root: '/',
+						combine: true,
+						comboBase: 'http://localhost:3000/customjs?',
 						modules: {
 							task: {
 								path: 'task/task.js',
@@ -56,10 +58,14 @@
 								path: 'task/task-list.js',
 								requires: ['task', 'model-list']
 							},
+							
+							'schedule-date': {
+								path: 'schedule-date/schedule-date.js'
+							}
 						}
 					}
 				}
-			}).use('io-xdr', 'event', 'node', 'json', 'task', 'task-list', function(Y) {
+			}).use('io-xdr', 'event', 'node', 'json', 'task', 'task-list', 'schedule-date', function(Y) {
 				Y.one('#tools').delegate('click', function(e){
 					switch (e.currentTarget.get('id')) {
 						case 'save':
@@ -130,6 +136,11 @@
 						case 'remCol':
 							var currDate = new Date();
 							Y.log(currDate.getDay());
+							break;
+							
+						case 'remRow':
+							var n = parseInt(Y.one('#daysToAdd').get('value'), 10);
+							Y.log(Y.PM.ScheduleDate.getDurationFromEffort(n));
 							break;
 					}
 				}, 'button');

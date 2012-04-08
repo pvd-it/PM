@@ -6,6 +6,24 @@ YUI.add('task-list', function(Y) {
 		initializer: function(){
 			this.on('add', this._addInterceptor);
 			this.on('remove', this._removeInterceptor);
+			this.on('task:change', this._taskChangeInterceptor);
+		},
+		
+		_taskChangeInterceptor: function(e){
+			var task = e.target,
+				list = this;
+			
+			if (e.changed.startDate){
+				this._handleStartDateChange(task, e.changed.startDate.newVal);
+			}
+		},
+		
+		_handleStartDateChange: function(task, newStartDate){
+			task.get('children').each(function(childTaskId){
+				var childTask = this.getByClientId(childTaskId);
+				childTask.set('startDate', newStartDate, {silent: true});
+				this._handleStartDateChange(childTask, newStartDate);
+			}, this);
 		},
 		
 		_addInterceptor: function(e){
@@ -48,7 +66,7 @@ YUI.add('task-list', function(Y) {
 		},
 		
 		persistList: function(){
-			var uri = 'http://localhost:3000/Hello',
+			var uri = '/data',
 				cfg = {
 					method: 'POST',
 					headers: {
@@ -79,16 +97,16 @@ YUI.add('task-list', function(Y) {
 						end: function(transactionId, arguments){
 							
 						}
-					},
+					}/*,
 					
-					xdr: {use: 'native', dataType: 'text'}
+					xdr: {use: 'native', dataType: 'text'}*/
 				};
 				
 			Y.io(uri, cfg);
 		},
 		
 		loadFromServer: function(){
-			var uri = 'http://localhost:3000/hello',
+			var uri = '/data',
 				cfg = {
 					method: 'GET',
 					on: {
@@ -116,9 +134,9 @@ YUI.add('task-list', function(Y) {
 							
 						}
 					},
-					
-					xdr: {use: 'native', dataType: 'text'},
-					
+					/*
+					xdr: {use: 'native', dataType: 'text'} ,
+					*/
 					arguments: {modellist: this}
 				};
 			Y.io(uri, cfg, this);

@@ -5,9 +5,9 @@
 	text-shadow: none;
 }
 
-.yui3-skin-sam .cell-open { background: url(open.png) no-repeat;}
+.yui3-skin-sam .cell-open { background: url(/images/datatable-edit/assets/skins/sam/open.png) no-repeat;}
 
-.yui3-skin-sam .cell-close {background: url(closed.png) no-repeat;}
+.yui3-skin-sam .cell-close {background: url(/images/datatable-edit/assets/skins/sam/closed.png) no-repeat;}
 
 .yui3-skin-sam .hidden {
 	display: none;

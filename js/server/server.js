@@ -5,6 +5,7 @@ var http = require('http'),
 	fs = require('fs');
 
 server.on('request', function(req, res){
+	console.log(req.url);
 	var acrh = req.headers['access-control-request-headers'],
 		origin = req.headers['origin'],
 		postData = '';

@@ -1,0 +1,19 @@
+{
+  "author": "Piyush Deshpande <techie.piyush@gmail.com>",
+  "name": "PM",
+  "description": "Provides configuration for starting node instance on Dev SmartMachine",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "main": "js/server/combo-server.js",
+  
+  "scripts": { "start": "./js/server/combo-server.js" },
+  
+  "engines": {
+    "node": "~0.6.14"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}

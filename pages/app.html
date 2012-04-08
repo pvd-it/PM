@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Manage Me</title>
+		<meta name="author" content="pide" />
+		<style type="text/css">
+			html {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 14px;
+				margin: 0;
+				padding: 0;
+				background-color: #5c7b91;
+			}
+			
+			.yui3-app-views {
+				background-color: #d6dee2;
+				width: 960px;
+				margin: 0 auto;
+			}
+			
+			.yui3-datatable-table {
+				width: 100%
+			}
+			
+			.yui3-datatable-caption {
+				font-size: 14px;
+				font-style: normal;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body class="yui3-skin-sam">
+		</div>
+		<script id="t-login" type="text/x-handlebars-template">
+			<form>
+				<h1>Login to Projects</h1>
+				<p>
+					<label for="username">Username</label>
+					<input id="username" type="text" value="" placeholder="Username" />
+				</p>
+				<p>
+					<label for="username">Password</label>
+					<input id="password" type="password" value="" placeholder="Password" />
+				</p>
+				<p>
+					<input type="submit" class="yui3-button" value="Let's Manage" />
+				</p>
+			</form>
+		</script>
+		<!--
+			Uncomment for local development
+		<script src="http://127.0.0.1:8020/YUI/3.5.0pr4/yui/yui.js"></script>
+		-->
+		<script src="http://yui.yahooapis.com/3.5.0pr6/build/yui/yui-min.js"></script>
+		<script>
+			YUI({
+				/*
+				 * Uncomment for local development 
+				filter: 'RAW',
+				*/
+				combine: true,
+				comboBase: 'http://yui.yahooapis.com/combo?',
+				root: '3.5.0pr6/build/',
+				groups: {
+					pm: {
+						root: '/',
+						combine: true,
+						/* Uncomment for local development
+						comboBase: 'http://localhost:3000/customjs?',
+						*/
+						comboBase: 'http://pvd.no.de/customjs?',
+						filter: 'RAW',
+						modules: {
+							task: {
+								path: 'task/task.js',
+								requires: ['model', 'arraylist', 'arraylist-add']
+							},
+							
+							'task-list': {
+								path: 'task/task-list.js',
+								requires: ['task', 'model-list', 'io-base']
+							},
+							
+							'inline-editor': {
+								path: 'inline-editor/inline-editor.js',
+								requires: ['button', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'node', 'event-key', 'event-outside'],
+								skinnable: true
+							},
+							
+							'datatable-edit': {
+								path: 'datatable-edit/datatable-edit.js',
+								requires: ['plugin', 'inline-editor'],
+								skinnable: true
+							}
+						}
+					}
+				}
+			}).use('app-base', 'app-transitions', 'handlebars', 'datatable-edit', 'datatable-mutable', 'event-key', 'inline-editor', 'task', 'task-list', 'json', function(Y){
+				
+				Y.LoginView = Y.Base.create('loginView', Y.View, [], {
+					template: Y.Handlebars.compile(Y.one('#t-login').getContent()),
+					
+					render: function(){
+						var content = this.template();
+						
+						this.get('container').setContent(content);
+						
+						return this;
+					},
+					
+					events: {
+						'form': {submit: 'doLogin'}
+					},
+					
+					doLogin: function(e){
+						Y.log('doLogin' + e);
+						this.fire('loginSuccess');
+						e.halt();
+					}
+				});
+				
+				Y.ScheduleView = Y.Base.create('scheduleView', Y.View, [], {
+					
+					events: {
+						'.save': {
+							click: function(e){
+								this.get('modelList').persistList();
+							}
+						},
+						
+						'.print': {
+							click: function(e){
+								Y.log(this.get('modelList')._clientIdMap);
+							}
+						}
+					},
+					
+					render: function(){
+						var table = new Y.DataTable({
+							tabIndex: 0,
+							columns: [
+								{key: 'parent',				label: 'Index',				
+									formatter: function(o){
+										o.value = o.rowIndex+1;
+									}													},
+								{key: 'parent',				label: 'T',
+									formatter: function(o){
+										if (o.data.children.size()) {
+									 		if (o.data.collapsed){
+									 			o.className += 'cell-close';
+									 		} else {
+									 			o.className += ' cell-open';	
+									 		}
+									 	}
+									 	o.value = ''
+									 	
+									 	if (!o.data.visible){
+									 		o.rowClass += ' hidden';
+									 	};
+									}
+																						},	
+								{key: 'name', 				label: 'Task Name',
+								 formatter: function(o) {
+								 	o.className += ' cell-depth-' + o.data.depthLevel;
+								 	if (o.data.children.size()) {
+								 		o.className += ' has-child';
+								 	}
+								 }			
+																						},
+								{key: 'work', 				label: 'W'	},
+								{key: 'duration', 			label: 'D'	},
+								{key: 'startDate', 			label: 'Start Date'			},
+								{key: 'endDate', 			label: 'End Date'			},
+								{key: 'isFixedDuration',	label: 'Fixed Duration'		}
+							],
+							caption: 'Project Schedule',
+							recordType: Y.Task,
+							data: this.get('modelList')
+						});
+				
+						table.plug(Y.Plugin.DatatableEditPlugin);	
+						table.render(this.get('container'));
+						
+						this.get('container').append('<div>' +
+														'<button class="save">Save</button>' + 
+														'<button class="print">Print</button>' +
+													'</div>');
+						table.focus();
+					}
+				});
+				
+				Y.ProjectManagementApp = Y.Base.create('projectManagementApp', Y.App, [], {
+					views: {
+						login: {type: 'LoginView'},
+						schedule: {type: 'ScheduleView', preserve: true, parent: 'login'}
+					},
+					
+					initializer: function(){
+						this.after('*:loginSuccess', this.handleLogin);
+					},
+					
+					handleLogin: function(){
+						Y.log('loginSuccess');
+						this.replace('/schedule');
+					},
+					
+					handleSchedule: function(req, res, next){
+						Y.log('handleSchedule');
+						this.get('tasks').loadFromServer();
+						next();
+					},
+					
+					showScheduleView: function(req, res){
+						Y.log('showScheduleView');
+						this.showView('schedule', {
+							modelList: this.get('tasks')
+						});
+					}
+				}, {
+					ATTRS: {
+						routes: {
+							value: [
+								{path: '/schedule', callback: 'handleSchedule'},
+								{path: '/schedule', callback: 'showScheduleView'}
+							]
+						},
+						
+						root: {
+							value: '/ProjectManagement/' 
+						},
+						
+						tasks: {
+							value: new Y.TaskList()
+						}
+					}
+				});
+				
+				var pmApp = new Y.ProjectManagementApp();
+				pmApp.render();
+				
+				pmApp.showView('login');
+				/*
+				 * Uncomment for local development
+				pmApp.handleSchedule(null, null, function(){});
+				pmApp.showScheduleView();
+				*/
+			});
+		</script>
+	</body>
+</html>
