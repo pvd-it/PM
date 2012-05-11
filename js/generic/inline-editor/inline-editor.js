@@ -42,6 +42,7 @@ YUI.add('inline-editor', function(Y) {
 			} else if(e.keyCode === 13) {
 				this._doDone();
 			}
+			e.halt();
 		},
 		
 		_doDone: function(val){

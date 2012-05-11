@@ -1,0 +1,21 @@
+.yui3-datatable-navigate-clipboard {
+	position: absolute;
+	left: -10000px;
+}
+
+.yui3-skin-sam .yui3-datatable-navigate-activeRow .yui3-datatable-cell {
+	background-color: #f1efd9;
+}
+
+.yui3-datatable-navigate-activeCell {
+	background: #5C7B91 ;
+	outline: solid #005189;
+	color: #dd0000;
+}
+
+.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-caption {
+	background: #005189;
+	color: #eef2f2;
+	font-style: normal;
+	font-weight: bold;
+}

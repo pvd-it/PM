@@ -1,7 +1,9 @@
 var combo = require('combohandler'),
 	express = require('express'),
 	path = require('path'),
-	
+	util = require('util'),
+	fs = require('fs'),
+		
 	jsRoot = path.join(__dirname, '..'),
 	pageRoot = path.join(__dirname, '../../pages'),
 	dataRoot = path.join(__dirname, '../../data'),
@@ -36,21 +38,28 @@ app.get('/images/*', function(req, res, next){
 	express['static'].send(req, res, next, options);
 });
 
-app.get('/data', function(req, res, next){
+app.get('/data/:type', function(req, res, next){
+	console.log(req.params.type);
 	var options = {
 		root: dataRoot,
-		path: 'tasks.json',
+		path: req.params.type + '.json',
 		getOnly: true
 	};
+	console.log(options.path);
 	express['static'].send(req, res, next, options);
 });
 
-app.post('/data', function(req, res, next){
-	//This is just dummy currently.
-	res.send('Ok', 200);
+app.post('/data/:type', function(req, res, next){
+	var savePath = path.join(dataRoot, '/' + req.params.type + '.json');
+	var fstream = fs.createWriteStream(savePath);
+			req.pipe(fstream);
+			res.writeHead(200);
+			req.on('end', function(){
+				res.end();
+			});
 });
 
-app.get('/', function(req, res, next) {
+app.get('*', function(req, res, next) {
 	var options = {
 		root: pageRoot,
 		path: 'app.html',
@@ -58,7 +67,5 @@ app.get('/', function(req, res, next) {
 	};
 	express['static'].send(req, res, next, options);
 });
-
-app.get('/')
 
 app.listen(process.env.PORT || 3000);

@@ -26,13 +26,23 @@ YUI.add('datatable-edit', function(Y) {
 
     Y.extend(DatatableEditPlugin, Y.Plugin.Base, {
 
-        initializer: function() {             
+        initializer: function() {
 			this.after(CURRENT_CELL_XY+CHANGE, this._afterCurrentCellXYChange);
             this.after(SELECTED_CELL+CHANGE, this._afterSelectedCellChange);
             this.afterHostEvent('render', this._afterHostRenderEvent);
+            this.afterHostEvent('focusedChange', this._afterHostFocused);
         },
 
         destructor : function() {
+        },
+        
+        _afterHostFocused: function(e){
+        	Y.log('focused changed...' + e.newVal);
+        	if (e.newVal){
+        		Y.log('selecting text area');
+        		this._clipTextArea.focus();
+        		this._clipTextArea.select();
+        	}
         },
 
         _afterHostRenderEvent : function(e) {
@@ -43,10 +53,16 @@ YUI.add('datatable-edit', function(Y) {
 			this._inEdit.render();
 			this._inEdit.after('cancel', Y.bind(this._cancelInEditing, this));
 			this._inEdit.after('done', Y.bind(this._doneInEditing, this));
-			
-			this.get('host').get('boundingBox').on('key', Y.bind(this._keyHandler, this), 'down: 37, 38, 39, 40, 13, 45, 46, 35, 36');
+			this._clipTextArea = Y.Node.create('<textarea class="yui3-datatable-clipboard"></textarea>');
+			var hostBB = this.get('host').get('boundingBox');
+			hostBB.prepend(this._clipTextArea); 
+			hostBB.on('key', Y.bind(this._keyHandler, this), 'down: 37, 38, 39, 40, 13, 45, 46, 35, 36, 67');
 			this.get('host').delegate('click', Y.bind(this._clickHandler, this), 'tbody td');
 			this._syncSelectedCell();
+        },
+        
+        _afterPaste: function(e){
+        	Y.log(e);
         },
         
         _afterCurrentCellXYChange: function(e) {
@@ -193,7 +209,8 @@ YUI.add('datatable-edit', function(Y) {
         },
         
         _cancelInEditing: function(e) {
-        	this.get('host').focus();
+        	this._clipTextArea.select();
+        	//this.get('host').focus();
         },
         
         _getColKey: function(td){
@@ -206,13 +223,20 @@ YUI.add('datatable-edit', function(Y) {
         	var ml = this.get('host').get('data');
         	ml.item(this.get(CURRENT_CELL_XY)[0]).set(colKey, e.value);
         	this._syncSelectedCell();
-        	this.get('host').focus();
+        	this._clipTextArea.select();
         },
         
         _syncSelectedCell: function() {
         	var cellXY = this.get(CURRENT_CELL_XY),
         		cell = this.get('host').getCell(cellXY);
         	this.set(SELECTED_CELL, cell);
+        	if (cell){
+        		if (this.get('host').get('focused')) {
+        			this._clipTextArea.set('value', cell.get('innerHTML'));
+        			this._clipTextArea.select();
+        		}
+        	}
+        	
         },
         
         _cellXYValidator: function(val){

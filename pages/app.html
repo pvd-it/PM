@@ -34,10 +34,13 @@
 				font-style: normal;
 				font-weight: bold;
 			}
+			
+			.yui3-datatable {
+				position: relative;
+			}
 		</style>
 	</head>
 	<body class="yui3-skin-sam">
-		</div>
 		<script id="t-login" type="text/x-handlebars-template">
 			<form>
 				<h1>Login to Projects</h1>
@@ -55,151 +58,127 @@
 			</form>
 		</script>
 		<!--
-			Uncomment for local development
-		<script src="http://127.0.0.1:8020/YUI/3.5.0pr4/yui/yui.js"></script>
+			Uncomment for local development -->
+		<script src="http://127.0.0.1:8020/YUI/3.5.1/build/yui/yui.js"></script>
+		<!--
+		<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
 		-->
-		<script src="http://yui.yahooapis.com/3.5.0pr6/build/yui/yui-min.js"></script>
 		<script>
 			YUI({
 				/*
-				 * Uncomment for local development 
+				 * Uncomment for local development
+				 */ 
 				filter: 'RAW',
-				*/
+				/*
 				combine: true,
 				comboBase: 'http://yui.yahooapis.com/combo?',
-				root: '3.5.0pr6/build/',
+				root: '3.5.1/build/',
+				*/
 				groups: {
-					pm: {
-						root: '/',
+					gallery: {
+						root: '/gallery/',
 						combine: true,
-						/* Uncomment for local development
-						comboBase: 'http://localhost:3000/customjs?',
-						*/
-						comboBase: 'http://pvd.nodejitsu.com/customjs?',
+						comboBase: '/customjs?',
 						filter: 'RAW',
 						modules: {
-							task: {
-								path: 'task/task.js',
+							'gallery-event-pasted': {
+								path: 'gallery-event-pasted/gallery-event-pasted.js',
+								requires: ['event-synthetic']
+							}
+						}
+					},
+					
+					generic: {
+						root: '/generic/',
+						combine: true,
+						comboBase: '/customjs?',
+						filter: 'RAW',
+						modules: {
+							'tree-model': {
+								path: 'tree-model/tree-model.js',
 								requires: ['model', 'arraylist', 'arraylist-add']
 							},
 							
-							'task-list': {
-								path: 'task/task-list.js',
-								requires: ['task', 'model-list', 'io-base']
+							'tree-model-list': {
+								path: 'tree-model-list/tree-model-list.js',
+								requires: ['model-list', 'tree-model']
 							},
 							
-							'inline-editor': {
-								path: 'inline-editor/inline-editor.js',
-								requires: ['button', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'node', 'event-key', 'event-outside'],
+							'datatable-navigate-key': {
+								path: 'datatable-navigate/datatable-navigate-key.js',
+								requires: ['event-key', 'event-focus', 'gallery-event-pasted']
+							},
+							
+							'datatable-navigate': {
+								path: 'datatable-navigate/datatable-navigate.js',
+								requires: ['node', 'datatable-base', 'substitute', 'datatable-navigate-key'],
 								skinnable: true
 							},
 							
 							'datatable-edit': {
 								path: 'datatable-edit/datatable-edit.js',
-								requires: ['plugin', 'inline-editor'],
+								requires: ['datatable-navigate', 'datatable-mutable'],
+								skinnable: true
+							},
+							
+							'datatable-tree': {
+								path: 'datatable-tree/datatable-tree.js',
+								requires: ['datatable-navigate'],
 								skinnable: true
 							}
 						}
+					},
+					
+					app: {
+						root: '/app/',
+						combine: true,
+						comboBase: '/customjs?',
+						filter: 'RAW',
+						modules: {
+							'login-view': {
+								path: 'pm-views/login-view.js',
+								requires: ['view']
+							},
+							
+							'resource-view': {
+								path: 'pm-views/resource-view.js',
+								requires: ['view', 'datatable-edit', 'resource-list', 'resource']
+							},
+							
+							'schedule-view': {
+								path: 'pm-views/schedule-view.js',
+								requires: ['view', 'datatable-tree', 'task-list']
+							},
+							
+							resource: {
+								path: 'resource/resource.js',
+								requires: ['model']
+							},
+							
+							'resource-list': {
+								path: 'resource/resource-list.js',
+								requires: ['model-list', 'resource', 'io-base']
+							},
+							
+							task: {
+								path: 'task/task.js',
+								requires: ['tree-model']
+							},
+							
+							'task-list': {
+								path: 'task/task-list.js',
+								requires: ['tree-model-list','task', 'io-base']
+							},
+						}
 					}
 				}
-			}).use('app-base', 'app-transitions', 'handlebars', 'datatable-edit', 'datatable-mutable', 'event-key', 'inline-editor', 'task', 'task-list', 'json', function(Y){
-				
-				Y.LoginView = Y.Base.create('loginView', Y.View, [], {
-					template: Y.Handlebars.compile(Y.one('#t-login').getContent()),
-					
-					render: function(){
-						var content = this.template();
-						
-						this.get('container').setContent(content);
-						
-						return this;
-					},
-					
-					events: {
-						'form': {submit: 'doLogin'}
-					},
-					
-					doLogin: function(e){
-						Y.log('doLogin' + e);
-						this.fire('loginSuccess');
-						e.halt();
-					}
-				});
-				
-				Y.ScheduleView = Y.Base.create('scheduleView', Y.View, [], {
-					
-					events: {
-						'.save': {
-							click: function(e){
-								this.get('modelList').persistList();
-							}
-						},
-						
-						'.print': {
-							click: function(e){
-								Y.log(this.get('modelList')._clientIdMap);
-							}
-						}
-					},
-					
-					render: function(){
-						var table = new Y.DataTable({
-							tabIndex: 0,
-							columns: [
-								{key: 'parent',				label: 'Index',				
-									formatter: function(o){
-										o.value = o.rowIndex+1;
-									}													},
-								{key: 'parent',				label: 'T',
-									formatter: function(o){
-										if (o.data.children.size()) {
-									 		if (o.data.collapsed){
-									 			o.className += 'cell-close';
-									 		} else {
-									 			o.className += ' cell-open';	
-									 		}
-									 	}
-									 	o.value = ''
-									 	
-									 	if (!o.data.visible){
-									 		o.rowClass += ' hidden';
-									 	};
-									}
-																						},	
-								{key: 'name', 				label: 'Task Name',
-								 formatter: function(o) {
-								 	o.className += ' cell-depth-' + o.data.depthLevel;
-								 	if (o.data.children.size()) {
-								 		o.className += ' has-child';
-								 	}
-								 }			
-																						},
-								{key: 'work', 				label: 'W'	},
-								{key: 'duration', 			label: 'D'	},
-								{key: 'startDate', 			label: 'Start Date'			},
-								{key: 'endDate', 			label: 'End Date'			},
-								{key: 'isFixedDuration',	label: 'Fixed Duration'		}
-							],
-							caption: 'Project Schedule',
-							recordType: Y.Task,
-							data: this.get('modelList')
-						});
-				
-						table.plug(Y.Plugin.DatatableEditPlugin);	
-						table.render(this.get('container'));
-						
-						this.get('container').append('<div>' +
-														'<button class="save">Save</button>' + 
-														'<button class="print">Print</button>' +
-													'</div>');
-						table.focus();
-					}
-				});
-				
+			}).use('app-base', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', function(Y){
+
 				Y.ProjectManagementApp = Y.Base.create('projectManagementApp', Y.App, [], {
 					views: {
-						login: {type: 'LoginView'},
-						schedule: {type: 'ScheduleView', preserve: true, parent: 'login'}
+						login: {type: Y.PMApp.LoginView},
+						schedule: {type: Y.PMApp.ScheduleView, preserve: true, parent: 'login'},
+						resource: {type: Y.PMApp.ResourceView, preserve: true}
 					},
 					
 					initializer: function(){
@@ -213,8 +192,12 @@
 					
 					handleSchedule: function(req, res, next){
 						Y.log('handleSchedule');
-						this.get('tasks').loadFromServer();
-						next();
+						if (this.get('tasks').size() === 0){
+							this.get('tasks').loadFromServer(next);
+						} else {
+							next();
+						}
+													
 					},
 					
 					showScheduleView: function(req, res){
@@ -222,22 +205,47 @@
 						this.showView('schedule', {
 							modelList: this.get('tasks')
 						});
+						this.get('activeView').moveFocusToTable();
+					},					
+					
+					handleResource: function(req, res, next){
+						Y.log('handleSchedule');
+						if (this.get('resources').size() === 0){
+							this.get('resources').loadFromServer(next);
+						} else {
+							next();
+						}
+													
+					},
+					
+					showResourceView: function(req, res){
+						Y.log('showResourceView');
+						this.showView('resource', {
+							modelList: this.get('resources')
+						});
+						this.get('activeView').moveFocusToTable();
 					}
 				}, {
 					ATTRS: {
 						routes: {
 							value: [
 								{path: '/schedule', callback: 'handleSchedule'},
-								{path: '/schedule', callback: 'showScheduleView'}
+								{path: '/schedule', callback: 'showScheduleView'},
+								{path: '/resource', callback: 'handleResource'},
+								{path: '/resource', callback: 'showResourceView'}
 							]
 						},
 						
 						root: {
-							value: '/ProjectManagement/' 
+							value: '/projectmanagement/' 
 						},
 						
 						tasks: {
 							value: new Y.TaskList()
+						},
+						
+						resources: {
+							value: new Y.ResourceList()
 						}
 					}
 				});
@@ -245,11 +253,12 @@
 				var pmApp = new Y.ProjectManagementApp();
 				pmApp.render();
 				
-				pmApp.showView('login');
+				/* Uncomment for local development
+				*/
+				pmApp.replace('/resource');
+				
 				/*
-				 * Uncomment for local development
-				pmApp.handleSchedule(null, null, function(){});
-				pmApp.showScheduleView();
+				pmApp.showView('login');
 				*/
 			});
 		</script>
