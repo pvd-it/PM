@@ -13,19 +13,19 @@
 			
 			body {
 				font-family: Arial, Helvetica, sans-serif;
-				font-size: 14px;
+				font-size: 12px;
 				margin: 0;
 				padding: 0;
-				background-color: #5c7b91;
+				background-color: #877DA0;
 			}
 			
 			.yui3-app-views {
-				background-color: #d6dee2;
-				width: 960px;
+				width: 80%;
 				margin: 0 auto;
 			}
 			
 			.yui3-datatable-table {
+				background-color: #5C7B91;
 				width: 100%
 			}
 			
@@ -58,7 +58,7 @@
 			</form>
 		</script>
 		<!--
-			Uncomment for local development -->
+			Uncomment for local development --> 
 		<script src="http://127.0.0.1:8020/YUI/3.5.1/build/yui/yui.js"></script>
 		<!--
 		<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
@@ -67,8 +67,9 @@
 			YUI({
 				/*
 				 * Uncomment for local development
-				 */ 
+				*/  
 				filter: 'RAW',
+				
 				/*
 				combine: true,
 				comboBase: 'http://yui.yahooapis.com/combo?',
@@ -104,6 +105,12 @@
 								requires: ['model-list', 'tree-model']
 							},
 							
+							'inline-editor': {
+								path: 'inline-editor/inline-editor.js',
+								requires: ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align'],
+								skinnable: true
+							},
+							
 							'datatable-navigate-key': {
 								path: 'datatable-navigate/datatable-navigate-key.js',
 								requires: ['event-key', 'event-focus', 'gallery-event-pasted']
@@ -111,19 +118,24 @@
 							
 							'datatable-navigate': {
 								path: 'datatable-navigate/datatable-navigate.js',
-								requires: ['node', 'datatable-base', 'substitute', 'datatable-navigate-key'],
+								requires: ['node', 'datatable-base', 'substitute', 'datatable-selection', 'datatable-navigate-key'],
 								skinnable: true
 							},
 							
 							'datatable-edit': {
 								path: 'datatable-edit/datatable-edit.js',
-								requires: ['datatable-navigate', 'datatable-mutable'],
+								requires: ['inline-editor', 'datatable-navigate', 'datatable-mutable'],
 								skinnable: true
 							},
 							
 							'datatable-tree': {
 								path: 'datatable-tree/datatable-tree.js',
 								requires: ['datatable-navigate'],
+								skinnable: true
+							},
+							
+							'datatable-selection': {
+								path: 'datatable-selection/datatable-selection.js',
 								skinnable: true
 							}
 						}
@@ -172,7 +184,7 @@
 						}
 					}
 				}
-			}).use('app-base', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', function(Y){
+			}).use('app-base', 'app-transitions', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', function(Y){
 
 				Y.ProjectManagementApp = Y.Base.create('projectManagementApp', Y.App, [], {
 					views: {
@@ -215,7 +227,6 @@
 						} else {
 							next();
 						}
-													
 					},
 					
 					showResourceView: function(req, res){
@@ -255,6 +266,8 @@
 				
 				/* Uncomment for local development
 				*/
+				//pmApp.replace('/schedule');
+				
 				pmApp.replace('/resource');
 				
 				/*

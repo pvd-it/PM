@@ -7,9 +7,9 @@
 	background-color: #f1efd9;
 }
 
-.yui3-datatable-navigate-activeCell {
+.yui3-skin-sam .yui3-datatable-navigate-activeCell {
 	background: #5C7B91 ;
-	outline: solid #005189;
+	border: 1px solid #005189;
 	color: #dd0000;
 }
 

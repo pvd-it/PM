@@ -95,19 +95,14 @@ YUI.add('tree-model-list', function(Y) {
 		},
 		
 		_addInterceptor: function(e){
-			if (e.pos){
-				e.index = e.pos;
-				e.pos = e.pos-1;
-
-				var newClientId = e.model.get('clientId'),
-					above = this.item(e.pos),
-					defaultParentClientId = above ? above.get('parent') : undefined;
-				
-				if (defaultParentClientId){
-					e.model._set('parent', defaultParentClientId);
-					this.getByClientId(defaultParentClientId).get('children').add(newClientId);
-					e.model.set('depthLevel', above.get('depthLevel'), {silent: true});
-				}
+			var newClientId = e.model.get('clientId'),
+				above = this.item(e.index-1),
+				defaultParentClientId = above ? above.get('parent') : undefined;
+			
+			if (defaultParentClientId){
+				e.model._set('parent', defaultParentClientId);
+				this.getByClientId(defaultParentClientId).get('children').add(newClientId);
+				e.model.set('depthLevel', above.get('depthLevel'), {silent: true});
 			}
 		},
 		

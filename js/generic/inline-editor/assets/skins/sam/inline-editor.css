@@ -1,10 +1,11 @@
-.yui3-inlineeditor.yui3-widget-positioned {
+.yui3-skin-sam .yui3-inlineeditor.yui3-widget-positioned {
 	position: absolute;
 }
+
 .yui3-inlineeditor-content .callout {
-	background-color: #d6dee2;
+	background-color: #DED8A8;
 	padding: 5px;
-	border: 1px solid #9999ff;
+	border: 1px solid #6F0000;
 	position: relative;
     top: -1px;
 }
@@ -12,7 +13,7 @@
 .yui3-inlineeditor-content .notch-border {
 	height: 0;
     width: 0;
-    border-bottom: 12px solid #9999ff;
+    border-bottom: 12px solid #6F0000;
     border-left: 12px dotted transparent;
     border-right: 12px dotted transparent;
     left: 0px;
@@ -27,7 +28,7 @@
 	top: 2px;
 	height: 0;
 	width: 0;
-	border-bottom: 10px solid #d6dee2;
+	border-bottom: 10px solid #DED8A8;
 	border-left: 10px dotted transparent;
 	border-right: 10px dotted transparent;
 	z-index: 11;

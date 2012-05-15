@@ -1,4 +1,7 @@
 YUI.add('task', function(Y) {
+	var YLang = Y.Lang,
+		YArray = Y.Array;
+		
 	Y.Task = Y.Base.create('task', Y.TreeModel, [], {
 		initializer: function(config){
 			if (config && config.clientId){
@@ -53,6 +56,50 @@ YUI.add('task', function(Y) {
 			
 			clientId: {
 				valueFn: undefined
+			},
+			
+			predecessors: {
+				setter: function(val) {
+					var list = this.lists[0],
+						preTasks = [];
+					
+					if(YLang.isString(val)){
+						val = val.trim();
+						
+						if (val.length > 0){
+							var tokens = val.split(';');
+							YArray.each(tokens, function(token){
+								token = token.trim();
+								
+								var itemIndex = parseInt(token),
+									item = list.item(itemIndex),
+									pred = {};
+								
+								if (item){
+									var itemIndexStr = itemIndex + '';
+									if (itemIndexStr === token){
+										pred.type = 'FS';
+									} else {
+										pred.type =  token.substring(itemIndexStr.length);
+									}
+									pred.task = item.get('clientId');
+									preTasks.push(pred);
+								}
+							});
+							
+							return new Y.ArrayList(preTasks);	
+						
+						} else {
+							return new Y.ArrayList();
+						}
+							
+					} else if (YLang.isArray(val)){
+						return new Y.ArrayList(val);
+					}
+				}
+			},
+			
+			successors: {
 			}
 		}	
 	});

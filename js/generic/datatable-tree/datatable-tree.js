@@ -52,17 +52,23 @@ YUI.add('datatable-tree', function(Y) {
 			}, this);
 		},
 		
-		toggle: function(){
+		doEdit: function(){
 			if (this.get(ACTIVE_COL_INDEX) === this._knobColIndex) {
-				var rowIndex	= this.get(ACTIVE_ROW_INDEX), 
-					model 		= this.get('data').item(rowIndex),
-					collapsed 	= model.get('collapsed');
-				
-				collapsed = !collapsed;
-				model.set('collapsed', collapsed);
-				
-				this._afterSyncUI();
+				this.toggle();
+			} else {
+				Y.DataTable.Edit.prototype.doEdit.call(this, arguments);
 			}
+		},
+		
+		toggle: function(){
+			var rowIndex	= this.get(ACTIVE_ROW_INDEX), 
+				model 		= this.get('data').item(rowIndex),
+				collapsed 	= model.get('collapsed');
+			
+			collapsed = !collapsed;
+			model.set('collapsed', collapsed);
+			
+			this._afterSyncUI();
 		},
 		
 		moveUp: function(){

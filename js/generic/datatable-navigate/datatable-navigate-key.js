@@ -18,7 +18,6 @@ YUI.add('datatable-navigate-key', function(Y) {
 		},
 		
 		_focusHandler: function(e){
-			Y.log('focused....');
 			this.set('focused', true);
 		},
 		
@@ -43,7 +42,28 @@ YUI.add('datatable-navigate-key', function(Y) {
 						this.addBeforeCurrentRow();
 						e.preventDefault();
 						break;
+							
+					case 37: //Left
+						this.selectLeft();
+						e.preventDefault();
+						break;
+					
+					case 38: //Up
+						this.selectUp();
+						e.preventDefault();
+						break;
+						
+					case 39: //right
+						this.selectRight();
+						e.preventDefault();
+						break;
+						
+					case 40: //down
+						this.selectDown();
+						e.preventDefault();
+						break;
 				}
+				
 				return;
 			}
 			
@@ -105,7 +125,7 @@ YUI.add('datatable-navigate-key', function(Y) {
 					break;
 					
 				case 13: //Enter
-					this.toggle();
+					this.doEdit();
 					e.preventDefault();
 					break;
 					

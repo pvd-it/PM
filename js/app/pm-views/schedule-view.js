@@ -5,21 +5,45 @@ YUI.add('schedule-view', function(Y){
 		initializer: function(){
 			this.table = new Y.DataTableTree({
 				columns: [
-					{key: 'parent',				label: 'Index',				
+					//1
+					{key: 'parent',				label: '#',				
 						formatter: function(o){
 							o.value = o.rowIndex+1;
-						}													},
-					{key: 'parent',				label: 'T',
-						isTreeKnob: true,
-																			},	
+						},
+						editFromNode: true									},
+					
+					//2
+					{key: 'parent',				label: '&nbsp;',
+						isTreeKnob: true,		editFromNode: true			},
+						
+					//3
 					{key: 'name', 				label: 'Task Name',
-					 	isTreeColumn: true,
-																			},
+					 	isTreeColumn: true,									},
+					
+					//4
 					{key: 'work', 				label: 'W'					},
+					
+					//5
 					{key: 'duration', 			label: 'D'					},
+					
+					//6
 					{key: 'startDate', 			label: 'Start Date'			},
+					
+					//7
 					{key: 'endDate', 			label: 'End Date'			},
-					{key: 'isFixedDuration',	label: 'Fixed Duration'		}
+					
+					//8
+					{key: 'predecessors',		label: 'Predecessors',					
+						formatter: function(o){
+							var data = this.get('data');
+							o.value = '';
+							o.data.predecessors && o.data.predecessors.each && o.data.predecessors.each(function(item, index){
+								var i = data.getByClientId(item.task);
+								o.value += data.indexOf(i) + item.type + '; ';
+							});
+							o.value = o.value.substring(o, o.value.length-2);
+						},
+						editFromNode: true									}
 				],
 				caption: 'Project Schedule',
 				recordType: Y.Task,

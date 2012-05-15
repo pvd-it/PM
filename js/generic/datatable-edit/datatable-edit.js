@@ -3,6 +3,7 @@ YUI.add('datatable-edit', function(Y) {
 	ACTIVE_CELL			=	'activeCell',
 	ACTIVE_ROW_INDEX	=	'activeRowIndex',
 	ACTIVE_COL_INDEX 	= 	'activeColIndex',
+	SELECTION_IN_PROGRESS = 'selectionInProgress',
 	YLang = Y.Lang,
 	YArray = Y.Array;
 			
@@ -10,10 +11,93 @@ YUI.add('datatable-edit', function(Y) {
     
     Edit.prototype = {
         
+        initializer: function(){
+        	Y.Do.after(this._afterRenderUIEdit, this, 'renderUI');
+        	Y.Do.after(this._afterBindUIEdit, this, 'bindUI');
+        },
+        
+        _afterRenderUIEdit: function(){
+        	this._inEdit = new Y.InlineEditor({
+        		zIndex: 1,
+        		visible: false
+        	});
+        	this._inEdit.render();
+        },
+        
+        _afterBindUIEdit: function(){
+        	this._inEdit.after('cancel', Y.bind(this._cancelEdit, this));
+        	this._inEdit.after('done', Y.bind(this._doneEdit, this));
+        },
+        
+        _cancelEdit: function(e) {
+        	this.focus();
+        },
+        
+        _doneEdit: function(e){
+        	var cellTd = this.get(ACTIVE_CELL),
+        		data = this.get('data'),
+        		columns = this.get('columns'),
+        		row = this.get(ACTIVE_ROW_INDEX),
+        		col = this.get(ACTIVE_COL_INDEX),
+        		item = data.item(row),
+        		key = columns[col]['key'];
+        		
+        	item.set(key, e.value);
+			this._afterSyncUI();
+        	this.focus();
+        },
+        
+        doEdit: function(){
+        	var cellTd = this.get(ACTIVE_CELL),
+        		data = this.get('data'),
+        		columns = this.get('columns'),
+        		row = this.get(ACTIVE_ROW_INDEX),
+        		col = this.get(ACTIVE_COL_INDEX),
+        		item = data.item(row),
+        		key = columns[col]['key'],
+        		value;
+        		
+        	
+        	if (columns[col].editFromNode){
+        		value = cellTd.get('text');
+        	} else {
+        		value = item.get(key);	
+        	}
+    		this._inEdit.show(cellTd, value);
+    	},
+        
         doCopy: function(){
-        	var copyContent = this.get(ACTIVE_CELL).get('innerHTML');
+        	var isSelectionInProgress = this.get(SELECTION_IN_PROGRESS),
+        		copyContent;
+        	
+        	if (isSelectionInProgress){
+        		var data = this.get('data'),
+        			columns = this.get('columns'),
+        			selectionRegion = this._computeSelectionRegion(),
+        			row, col, buffer=[], model;
+        			
+        		for (row=selectionRegion.startRow; row <= selectionRegion.endRow; row++){
+        			model = data.item(row);
+        			for(col=selectionRegion.startCol; col<=selectionRegion.endCol; col++){
+        				if (columns[col].editFromNode) {
+        					buffer.push(this.getCell([row, col]).get('innerHTML'));
+        				} else {
+        					buffer.push(model.get(columns[col].key));		
+        				}
+        			
+        				buffer.push('\t');
+        			}
+        			buffer.push('\n')
+        		}
+        		
+        		copyContent = buffer.join('');
+        		        			
+        	} else {
+				copyContent = this.get(ACTIVE_CELL).get('innerHTML');
+        	}
+        	
         	this._clipTextArea.set('value', copyContent);
-        	this._clipTextArea.select();
+	        this._clipTextArea.select();
         },
         
         doPaste: function(pasteString){
@@ -28,6 +112,10 @@ YUI.add('datatable-edit', function(Y) {
         		lineTokens = pasteString.split('\n'),
         		silent = true,
         		lastIndex = lineTokens.length -1;
+        		
+        	if (this.get(SELECTION_IN_PROGRESS)){
+        		
+        	}
         		
 			YArray.each(lineTokens, function(lineToken, index){
 				//Publish change event when we are pasting last item,
@@ -58,6 +146,7 @@ YUI.add('datatable-edit', function(Y) {
 			
 			//Since changing any row data causes the Table to re-render, so we need to make sure that
 			//currenlty active cell is also synced up
+			Y.log(data);
 			this._afterSyncUI();
         },
         
@@ -67,7 +156,6 @@ YUI.add('datatable-edit', function(Y) {
         		recType = this.get('recordType');
 
         	data.add(new recType(), {index: indexToAddAt});
-        	
         	this._set(ACTIVE_ROW_INDEX, indexToAddAt);
         	this._afterSyncUI();
         },
@@ -108,7 +196,7 @@ YUI.add('datatable-edit', function(Y) {
         		 */
         		this._afterSyncUI();	
         	}
-        }
+        },
     }
     
     if (YLang.isFunction(Y.DataTable)) {

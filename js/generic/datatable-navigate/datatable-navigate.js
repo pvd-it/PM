@@ -45,11 +45,6 @@ YUI.add('datatable-navigate', function(Y) {
     	activeRow: {
     		value: null
     	},
-    	
-    	
-    	selection: {
-    		
-    	}
     }
     
     Navigate.prototype = {
@@ -247,6 +242,6 @@ YUI.add('datatable-navigate', function(Y) {
     }
     
     if (YLang.isFunction(Y.DataTable)) {
-    	Y.Base.mix(Y.DataTable, [Navigate, Y.DataTable.NavigateKey]);
+    	Y.Base.mix(Y.DataTable, [Navigate, Y.DataTable.Selection, Y.DataTable.NavigateKey]);
 	}
 });
