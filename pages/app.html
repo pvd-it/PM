@@ -207,11 +207,16 @@
 							'project-calendar': {
 								path: 'project-calendar/project-calendar.js',
 								requires: ['datatype-date-format', 'datatype-date-math']
+							},
+							
+							'datatable-tree-body': {
+								path: 'datatable-tree-body/datatable-tree-body.js',
+								requires: ['datatable-body'],
 							}
 						}
 					}
 				}
-			}).use('app-base', 'app-transitions', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', 'gantt-view', function(Y){
+			}).use('datatable-tree-body', 'app-base', 'app-transitions', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', 'gantt-view', function(Y){
 
 				Y.ProjectManagementApp = Y.Base.create('projectManagementApp', Y.App, [], {
 					views: {

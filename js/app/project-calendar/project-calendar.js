@@ -58,9 +58,6 @@ YUI.add('project-calendar', function(Y){
 					}
 				}
 			}
-			
-			Y.log(Y.JSON.stringify(data));
-			
 			return endDate;
 		},
 		
