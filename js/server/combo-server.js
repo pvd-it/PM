@@ -51,6 +51,7 @@ app.get('/data/:type', function(req, res, next){
 
 app.post('/data/:type', function(req, res, next){
 	var savePath = path.join(dataRoot, '/' + req.params.type + '.json');
+	console.log('POST: ' + savePath);
 	var fstream = fs.createWriteStream(savePath);
 			req.pipe(fstream);
 			res.writeHead(200);

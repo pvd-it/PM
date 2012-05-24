@@ -1,5 +1,5 @@
 .yui3-datatable-navigate-clipboard {
-	position: absolute;
+	position: fixed;
 	left: -10000px;
 }
 

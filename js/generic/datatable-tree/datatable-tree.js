@@ -52,21 +52,13 @@ YUI.add('datatable-tree', function(Y) {
 			}, this);
 		},
 		
-		doEdit: function(){
-			if (this.get(ACTIVE_COL_INDEX) === this._knobColIndex) {
-				this.toggle();
-			} else {
-				Y.DataTable.Edit.prototype.doEdit.call(this, arguments);
-			}
-		},
-		
 		toggle: function(){
 			var rowIndex	= this.get(ACTIVE_ROW_INDEX), 
 				model 		= this.get('data').item(rowIndex),
 				collapsed 	= model.get('collapsed');
 			
 			collapsed = !collapsed;
-			model.set('collapsed', collapsed);
+			model.set('collapsed', collapsed, {src: 'UI'});
 			
 			this._afterSyncUI();
 		},

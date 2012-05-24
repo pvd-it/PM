@@ -10,6 +10,7 @@ YUI.add('datatable-navigate', function(Y) {
 		DIR_DOWN			=	'DOWN',
 		DIR_LEFT			=	'LEFT',
 		DIR_RIGHT			=	'RIGHT',
+		DIR_NONE            =   'NONE',
 		CLS_ACTIVE_ROW,
 		CLS_ACTIVE_CELL,
 		CLS_CLIP,
@@ -117,17 +118,16 @@ YUI.add('datatable-navigate', function(Y) {
         	if (trNode){
         		this._scrollRowIntoView(trNode);	
         	}
-        	Y.log('Focused....');
         },
         
         _afterSyncUI: function(){
         	var row = this.get(ACTIVE_ROW_INDEX),
         		col = this.get(ACTIVE_COL_INDEX),
-        		initialActiveRow = this.getRow(row),
-        		initialActiveCell = this.getCell([row, col]);
-        	
-        		this.set(ACTIVE_ROW, initialActiveRow);
-        		this.set(ACTIVE_CELL, initialActiveCell);	
+	    		initialActiveRow = this.getRow(row),
+	    		initialActiveCell = this.getCell([row, col]);
+	    	
+    		this.set(ACTIVE_ROW, initialActiveRow);
+    		this.set(ACTIVE_CELL, initialActiveCell);	
         },
         
         _afterActiveRowIndexChange: function(e){
@@ -163,6 +163,10 @@ YUI.add('datatable-navigate', function(Y) {
         },
         
         _scrollRowIntoView: function(trNewNode){
+			if (this._direction === DIR_NONE){
+			    return;
+			}
+			
 			if(!trNewNode.inRegion(trNewNode.get('viewportRegion'), true)) {
 				var nextTr;
 				

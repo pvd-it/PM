@@ -47,6 +47,8 @@ YUI.add('datatable-selection', function(Y) {
 			Y.Do.before(this._beforeMove, this, 'moveDown');
 			Y.Do.before(this._beforeMove, this, 'moveLeft');
 			Y.Do.before(this._beforeMove, this, 'moveRight');
+			
+			Y.Do.after(this._afterSyncUI, this, 'clearSelection');
 		},
 		
 		_afterSelectionInProgressChange: function(e){

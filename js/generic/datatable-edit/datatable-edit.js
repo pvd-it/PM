@@ -5,7 +5,8 @@ YUI.add('datatable-edit', function(Y) {
 	ACTIVE_COL_INDEX 	= 	'activeColIndex',
 	SELECTION_IN_PROGRESS = 'selectionInProgress',
 	YLang = Y.Lang,
-	YArray = Y.Array;
+	YArray = Y.Array,
+	YObject = Y.Object;
 			
 	Y.namespace('DataTable').Edit = Edit = function() {}
     
@@ -13,20 +14,38 @@ YUI.add('datatable-edit', function(Y) {
         
         initializer: function(){
         	Y.Do.after(this._afterRenderUIEdit, this, 'renderUI');
-        	Y.Do.after(this._afterBindUIEdit, this, 'bindUI');
+        	
+        	// This loop here prepares a hash of InlineEditors to use
+        	this._inlineEditors = {};
+        	YArray.each(this.get('columns'), function(col){
+				if (col.inlineEditor){
+					this._inlineEditors[col.inlineEditor] = false;
+				}
+        	}, this);
         },
         
         _afterRenderUIEdit: function(){
-        	this._inEdit = new Y.InlineEditor({
+        	var config = {
         		zIndex: 1,
         		visible: false
-        	});
-        	this._inEdit.render();
+        	};
+        	
+        	YObject.each(this._inlineEditors, function(val, key, o){
+        		 o[key] = new Y[key](config);
+        		 o[key].render();
+        	}, this);
         },
         
-        _afterBindUIEdit: function(){
-        	this._inEdit.after('cancel', Y.bind(this._cancelEdit, this));
-        	this._inEdit.after('done', Y.bind(this._doneEdit, this));
+        _bindUIEdit: function(editor){
+        	if (this._editorEventHandle){
+        		YArray.each(this._editorEventHandle, function(eh){
+        			eh.detach();
+        		});
+        	} else {
+        		this._editorEventHandle = [];
+        	}
+        	this._editorEventHandle.push(editor.after('cancel', Y.bind(this._cancelEdit, this)));
+        	this._editorEventHandle.push(editor.after('done', Y.bind(this._doneEdit, this)));
         },
         
         _cancelEdit: function(e) {
@@ -41,8 +60,8 @@ YUI.add('datatable-edit', function(Y) {
         		col = this.get(ACTIVE_COL_INDEX),
         		item = data.item(row),
         		key = columns[col]['key'];
-        		
-        	item.set(key, e.value);
+        	
+        	item.set(key, e.value, {src: 'UI'});
 			this._afterSyncUI();
         	this.focus();
         },
@@ -54,16 +73,28 @@ YUI.add('datatable-edit', function(Y) {
         		row = this.get(ACTIVE_ROW_INDEX),
         		col = this.get(ACTIVE_COL_INDEX),
         		item = data.item(row),
+        		currentCol = columns[col],
         		key = columns[col]['key'],
-        		value;
+        		value,
+        		editorName,
+        		editor;
         		
+        	editorName = currentCol.inlineEditor;
+        	
+        	if (editorName){
+        		editor = this._inlineEditors[editorName];
+        	} else {
+        		return;
+        	}
         	
         	if (columns[col].editFromNode){
         		value = cellTd.get('text');
         	} else {
         		value = item.get(key);	
         	}
-    		this._inEdit.show(cellTd, value);
+        	
+    		this._bindUIEdit(editor);
+    		editor.show(cellTd, value);
     	},
         
         doCopy: function(){

@@ -1,4 +1,6 @@
 YUI.add('tree-model-list', function(Y) {
+	var YArray = Y.Array;
+	
 	Y.TreeModelList = Y.Base.create('treeModelList', Y.ModelList, [], {
 		model: Y.TreeModel,
 		
@@ -9,59 +11,103 @@ YUI.add('tree-model-list', function(Y) {
 			this.after('*:collapsedChange', this._childCollapsedChanged);
 		},
 		
-		_childDepthChanging: function(e){
-			//If event was published with silent property as true, then ignore it.
-			if (e.silent){
-				return true;
-			}
-			
-			var child = e.target,							//item whose depth is changing
-				childProposedDepth = e.newVal,				//item's proposed depth
-				childCurrentDepth = e.prevVal,				//item's current depth
-				list = this,								//the list where item is attached to
-				aboveIndex = list.indexOf(child)-1,			//Index of list item just above the item in consideration 
-				newParent,									//variable to hold newParent of item in case we find one
-				currentParentId = child.get('parent');		//item's current parent's id
+		indent: function(item){
+			var list = this,
+				itemIndex = list.indexOf(item),
+				itemParentId = item.get('parent'),
+				itemDepthLevel = item.get('depthLevel'),
+				newParent,
+				i;
 				
-			for (; aboveIndex >=0; aboveIndex--){			//Climb up the list looking for such an item, whose depth is one less than the current depth
-				var listItem = list.item(aboveIndex);
-				if ((childProposedDepth - listItem.get('depthLevel'))=== 1){
-					newParent = listItem;					//Item found so now make this item as new parent
-					break;
+			//Indent means become child of you sibling.				
+			for(i=itemIndex-1; i>=0; i--){
+				newParent = list.item(i);
+				//So climb up in the list to find an item whose parent is same as your parent (means find previous sibling) 
+				if (itemParentId == newParent.get('parent')) {
+					this._changeParent(item, newParent);
+					break;	
+				} else {
+				    //if no proper parent is found then newParent is undefined
+				    newParent = undefined;
 				}
 			}
 			
-			if (newParent){
-				this._changeParent(child, newParent);
-			} else {										
-				e.preventDefault();							//New parent not found so cancel the event of depthLevelChange
+			return newParent;
+		},
+		
+		outdent: function(item){
+			var list = this,
+				itemIndex = list.indexOf(item),
+				itemParentId = item.get('parent'),
+				newParentId,
+				newParent,
+				currentParent,
+				i;
+				
+			//Outdent means become sibling of your parent, if you don't have parent then outdent is not possible
+			if (itemParentId){
+				currentParent = list.getByClientId(itemParentId);
+				newParentId = currentParent.get('parent');
+				
+				if (newParentId) {
+					newParent = list.getByClientId(newParentId);
+					var descendants = this._changeParent(item, newParent);
+					
+					//Move the outdented item (as will it's descendants) next to it's old parent
+					list.remove(descendants, {silent: true});
+					var currentParentIndex = list.indexOf(currentParent),
+						currentParentDescendants = [],
+						newLocation;
+					
+					//Moving next to it's old parent means, moving after oldparent and oldparent's descendants
+					this._findDescendants(currentParent, currentParentDescendants);	
+					newLocation = currentParentIndex + currentParentDescendants.length + 1;
+					
+					YArray.each(descendants, function(model, index){
+						list.add(model, {index: (newLocation+index), silent: true});	
+					});
+				}
 			}
 		},
 		
 		_changeParent: function(child, newParent){
 			var currentParentId = child.get('parent'),
 				childClientId = child.get('clientId'),
+				oldParent,
 				list = this,
+				childVisibility,
+				depthAdjustment;
+				
+				//If current parent is there, then remove the item from being a child of current parent
+				if (currentParentId){
+					oldParent = list.getByClientId(currentParentId);
+					oldParent.get('children').remove(childClientId);
+				}
+				
+				newParent.get('children').add(childClientId); //Add the item as child of new parent				
+				child.set('parent', newParent.get('clientId')); //Associate new parent with item
+				
 				//Adjustment for the depth of descendants = child's new depth - child's current depth
 				//child's new depth = newParent's depth + 1
 				depthAdjustment = (newParent.get('depthLevel') + 1) - child.get('depthLevel');
-				
-				//If current parent is there, then remove the item from being a child of current parent
-				if (currentParentId){						
-					list.getByClientId(currentParentId).get('children').remove(childClientId);
-				}
-				
-				newParent.get('children').add(childClientId); //Add the item as child of new parent
-				child.set('parent', newParent.get('clientId'), {silent: true}); //Associate new parent with item
+				//If new parent is collapsed then the child and all it's descendants should be invisible
+				childVisibility = !newParent.get('collapsed');
 				
 				//now change the depth of all the descendants of item
-				var descendants = [];				
+				var descendants = [];
+				descendants.push(child);				
 				this._findDescendants(child, descendants);
 				Y.Array.each(descendants, function(descendant){
 					var depthLevel = descendant.get('depthLevel');
 					depthLevel = parseInt(depthLevel, 10) + depthAdjustment;
 					descendant.set('depthLevel', depthLevel, {silent: true});
+					//if child is not visible all it's descendants should also not be visible
+					if (!childVisibility){
+						descendant.set('visible', childVisibility);
+					}
 				});
+				
+				return descendants;
 		},
 		
 		_childCollapsedChanged: function(e){

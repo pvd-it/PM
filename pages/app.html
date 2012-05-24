@@ -20,7 +20,7 @@
 			}
 			
 			.yui3-app-views {
-				width: 80%;
+				width: 90%;
 				margin: 0 auto;
 			}
 			
@@ -111,6 +111,12 @@
 								skinnable: true
 							},
 							
+							'inline-date-editor': {
+								path: 'inline-editor/inline-date-editor.js',
+								requires: ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'calendar'],
+								skinnable: false
+							},
+							
 							'datatable-navigate-key': {
 								path: 'datatable-navigate/datatable-navigate-key.js',
 								requires: ['event-key', 'event-focus', 'gallery-event-pasted']
@@ -124,13 +130,19 @@
 							
 							'datatable-edit': {
 								path: 'datatable-edit/datatable-edit.js',
-								requires: ['inline-editor', 'datatable-navigate', 'datatable-mutable'],
+								requires: ['inline-editor', 'datatable-navigate', 'datatable-mutable', 'inline-date-editor'],
 								skinnable: true
 							},
 							
 							'datatable-tree': {
 								path: 'datatable-tree/datatable-tree.js',
 								requires: ['datatable-navigate'],
+								skinnable: true
+							},
+							
+							'datatable-tree-edit': {
+								path: 'datatable-tree-edit/datatable-tree-edit.js',
+								requires: ['datatable-tree'],
 								skinnable: true
 							},
 							
@@ -159,7 +171,12 @@
 							
 							'schedule-view': {
 								path: 'pm-views/schedule-view.js',
-								requires: ['view', 'datatable-tree', 'task-list']
+								requires: ['view', 'datatable-schedule', 'task-list', 'datatype-date-format']
+							},
+							
+							'gantt-view': {
+								path: 'pm-views/gantt-view.js',
+								requires: ['view', 'project-calendar']
 							},
 							
 							resource: {
@@ -174,23 +191,34 @@
 							
 							task: {
 								path: 'task/task.js',
-								requires: ['tree-model']
+								requires: ['tree-model', 'datatype-date-parse', 'project-calendar']
 							},
 							
 							'task-list': {
 								path: 'task/task-list.js',
 								requires: ['tree-model-list','task', 'io-base']
 							},
+							
+							'datatable-schedule': {
+								path: 'datatable-schedule/datatable-schedule.js',
+								requires: ['datatable-tree-edit']
+							},
+							
+							'project-calendar': {
+								path: 'project-calendar/project-calendar.js',
+								requires: ['datatype-date-format', 'datatype-date-math']
+							}
 						}
 					}
 				}
-			}).use('app-base', 'app-transitions', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', function(Y){
+			}).use('app-base', 'app-transitions', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', 'gantt-view', function(Y){
 
 				Y.ProjectManagementApp = Y.Base.create('projectManagementApp', Y.App, [], {
 					views: {
-						login: {type: Y.PMApp.LoginView},
-						schedule: {type: Y.PMApp.ScheduleView, preserve: true, parent: 'login'},
-						resource: {type: Y.PMApp.ResourceView, preserve: true}
+						login:		{type: Y.PMApp.LoginView},
+						schedule:	{type: Y.PMApp.ScheduleView, preserve: true, parent: 'login'},
+						resource:	{type: Y.PMApp.ResourceView, preserve: true},
+						gantt:		{type: Y.PMApp.GanttView, preserve: false}
 					},
 					
 					initializer: function(){
@@ -205,7 +233,7 @@
 					handleSchedule: function(req, res, next){
 						Y.log('handleSchedule');
 						if (this.get('tasks').size() === 0){
-							this.get('tasks').loadFromServer(next);
+							this.get('tasks').loadFromServer(next);	
 						} else {
 							next();
 						}
@@ -235,6 +263,18 @@
 							modelList: this.get('resources')
 						});
 						this.get('activeView').moveFocusToTable();
+					},
+					
+					handleGantt: function(req, res){
+						
+					},
+					
+					showGanttView: function(req, res){
+						Y.log('showGanttView: ' + this.get('tasks').size());
+						
+						this.showView('gantt', {
+							modelList: this.get('tasks')
+						});
 					}
 				}, {
 					ATTRS: {
@@ -243,7 +283,8 @@
 								{path: '/schedule', callback: 'handleSchedule'},
 								{path: '/schedule', callback: 'showScheduleView'},
 								{path: '/resource', callback: 'handleResource'},
-								{path: '/resource', callback: 'showResourceView'}
+								{path: '/resource', callback: 'showResourceView'},
+								{path: '/gantt', callback: 'showGanttView'}
 							]
 						},
 						
@@ -268,7 +309,7 @@
 				*/
 				//pmApp.replace('/schedule');
 				
-				pmApp.replace('/resource');
+				pmApp.replace('/schedule');
 				
 				/*
 				pmApp.showView('login');

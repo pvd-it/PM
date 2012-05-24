@@ -10,8 +10,8 @@
 	background-position: center;
 }
 
-.yui3-skin-sam .yui3-datatable-tree-row-expanded .yui3-datatable-tree-col, 
-.yui3-skin-sam .yui3-datatable-tree-row-collapsed .yui3-datatable-tree-col {
+.yui3-skin-sam .yui3-datatable-tree-row-expanded .yui3-datatable-cell, 
+.yui3-skin-sam .yui3-datatable-tree-row-collapsed .yui3-datatable-cell {
 	font-weight: bold;
 }
 

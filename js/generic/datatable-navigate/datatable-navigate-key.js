@@ -1,5 +1,11 @@
 YUI.add('datatable-navigate-key', function(Y) {
-	var NavigateKey;
+    var NavigateKey,
+        ACTIVE_ROW_INDEX   =   'activeRowIndex',
+        ACTIVE_COL_INDEX    =   'activeColIndex',
+        ACTIVE_CELL         =   'activeCell',
+        ACTIVE_ROW          =   'activeRow',
+        SELECTION_IN_PROGRESS = 'selectionInProgress',
+        DIR_NONE            =   'NONE';
 	
 	Y.namespace('DataTable').NavigateKey = NavigateKey = function() {}
 	
@@ -15,7 +21,60 @@ YUI.add('datatable-navigate-key', function(Y) {
 			this._clipTextArea.on('pasted', Y.bind(this._pasteHandler, this), null, true);
 			this.delegate('focus', this._focusHandler);
 			this.delegate('blur', this._blurHandler);
+			this.get('contentBox').on("selectstart", function (ev) { ev.preventDefault();});
+		    this.delegate('mousedown', this._mouseDownHandler, 'tbody td', this);
+			    
 		},
+		
+		_mouseDownHandler: function(e){
+		    e.preventDefault();
+		    this.focus();
+			this._setActiveCell(e);
+			
+			if (e.ctrlKey){
+		    	this.doEdit();
+		    }
+		},
+		
+		 _setActiveCell: function(e){
+            var cellTd = e.target,
+                tr = cellTd.get('parentNode'),
+                currentItemClientId = tr.getAttribute('data-yui3-record'),
+                data = this.get('data'),
+                columns = this.get('columns'),
+                currentItem,
+                row,
+                col;
+                
+            currentItem = data.getByClientId(currentItemClientId);
+            row = data.indexOf(currentItem);
+            col = tr.get('children').indexOf(cellTd);
+            
+            this._direction = DIR_NONE;
+            
+            if (e.shiftKey){
+                this._startSelection();
+            } else if(this.get(SELECTION_IN_PROGRESS)){
+                this.set(SELECTION_IN_PROGRESS, false);
+                return;
+            }
+            
+            this._set(ACTIVE_ROW_INDEX, row);
+            this._set(ACTIVE_COL_INDEX, col);
+            
+            this.set(ACTIVE_ROW, tr);
+            this.set(ACTIVE_CELL, cellTd);
+            
+            if (columns[col].isTreeKnob) {
+                this.toggle();
+            }
+            
+            if (e.shiftKey){
+                this._doSelection();
+            } else {
+                this.clearSelection();                
+            }
+        },
 		
 		_focusHandler: function(e){
 			this.set('focused', true);
@@ -76,6 +135,16 @@ YUI.add('datatable-navigate-key', function(Y) {
 					
 					case 36: //Home
 						this.moveToFirstCell();
+						e.preventDefault();
+						break;
+						
+					case 37: //Left
+						this.outdent();
+						e.preventDefault();
+						break;
+						
+					case 39: //right
+						this.indent();
 						e.preventDefault();
 						break;
 					

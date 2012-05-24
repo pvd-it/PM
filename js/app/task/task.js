@@ -11,7 +11,16 @@ YUI.add('task', function(Y) {
 				this._set('clientId', generatedId);
 			}
 		},
-				
+		
+		_stringToDate: function(val){
+			if (YLang.isDate(val)) {
+				return val;
+			} else {
+				var d = Y.DataType.Date.parse(val);
+				return d;	
+			}
+		},
+		
 		toJSON: function () {
 			var attrs = this.getAttrs();
 			
@@ -31,11 +40,11 @@ YUI.add('task', function(Y) {
 			},
 		
 			startDate: {
-
+				setter: '_stringToDate'
 			},
 		
 			endDate: {
-		
+				setter: '_stringToDate'
 			},
 		
 			isFixedDuration: {
@@ -43,15 +52,10 @@ YUI.add('task', function(Y) {
 			},
 		
 			work: {
-				value: 8
+				value: 0
 			},
 			
 			duration: {
-				value: 1
-			},
-			
-			parentTask: {
-				
 			},
 			
 			clientId: {
@@ -61,7 +65,8 @@ YUI.add('task', function(Y) {
 			predecessors: {
 				setter: function(val) {
 					var list = this.lists[0],
-						preTasks = [];
+						preTasks = [],
+						self = this;
 					
 					if(YLang.isString(val)){
 						val = val.trim();
