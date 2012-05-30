@@ -1,6 +1,7 @@
 YUI.add('task', function(Y) {
 	var YLang = Y.Lang,
-		YArray = Y.Array;
+		YArray = Y.Array,
+		YObject = Y.Object;
 		
 	Y.Task = Y.Base.create('task', Y.TreeModel, [], {
 		initializer: function(config){
@@ -52,7 +53,21 @@ YUI.add('task', function(Y) {
 			},
 		
 			work: {
-				value: 0
+				value: 0,
+				setter: function(val){
+					if (YLang.isNumber(val)){
+						return val;
+					}
+					
+					if (YLang.isString(val)){
+						var num = parseInt(val);
+						if (YLang.isNumber(num)){
+							return num;
+						} else {
+							return 0;
+						}
+					}
+				}
 			},
 			
 			duration: {
@@ -65,46 +80,65 @@ YUI.add('task', function(Y) {
 			predecessors: {
 				setter: function(val) {
 					var list = this.lists[0],
-						preTasks = [],
-						self = this;
+						self = this,
+						selfIndex = list.indexOf(self);
 					
 					if(YLang.isString(val)){
 						val = val.trim();
 						
 						if (val.length > 0){
-							var tokens = val.split(';');
+							var tokens = val.split(';'),
+								pred = {};
+
 							YArray.each(tokens, function(token){
 								token = token.trim();
 								
 								var itemIndex = parseInt(token),
-									item = list.item(itemIndex),
-									pred = {};
+									item = list.item(itemIndex-1),
+									type, taskId;
+								
+								if ((itemIndex-1) === selfIndex) {
+									//Adding same item as it's predecessor is wrong, so do nothing for such index
+									return;
+								}
 								
 								if (item){
 									var itemIndexStr = itemIndex + '';
+									
 									if (itemIndexStr === token){
-										pred.type = 'FS';
+										type = 'FS';
 									} else {
-										pred.type =  token.substring(itemIndexStr.length);
+										type =  token.substring(itemIndexStr.length);
 									}
-									pred.task = item.get('clientId');
-									preTasks.push(pred);
+									
+									taskId = item.get('clientId');
+									
+									if (!YObject.hasKey(pred, type)){
+										pred[type] = {};
+									}
+									
+									if (taskId) {
+										pred[type][taskId] = taskId;
+									}
 								}
 							});
-							
-							return new Y.ArrayList(preTasks);	
+							return pred;	
 						
 						} else {
-							return new Y.ArrayList();
+							return {};
 						}
 							
-					} else if (YLang.isArray(val)){
-						return new Y.ArrayList(val);
+					} else if (YLang.isObject(val)){
+						return val;
 					}
 				}
 			},
 			
 			successors: {
+			},
+			
+			resources: {
+				
 			}
 		}	
 	});

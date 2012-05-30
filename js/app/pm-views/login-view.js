@@ -15,9 +15,8 @@ YUI.add('login-view', function(Y){
 		},
 		
 		doLogin: function(e){
-			Y.log('doLogin' + e);
-			this.fire('loginSuccess');
 			e.halt();
+			this.fire('loginSuccess');
 		}
 	});	
 });

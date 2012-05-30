@@ -1,4 +1,6 @@
 YUI.add('schedule-view', function(Y){
+	var YObject = Y.Object;
+	
 	Y.namespace('PMApp').ScheduleView = Y.Base.create('scheduleView', Y.View, [], {
 		table: null,
 		
@@ -23,7 +25,8 @@ YUI.add('schedule-view', function(Y){
 					
 					//4
 					{key: 'work', 				label: 'W',					
-						inlineEditor: 'InlineEditor'						},
+						inlineEditor: 'InlineEditor',
+						partialUpdate: true									},
 					
 					//5
 					{key: 'duration', 			label: 'D',					
@@ -40,7 +43,8 @@ YUI.add('schedule-view', function(Y){
 					   		} else {
 					   			o.value = '';
 					   		}
-					   }													},
+					   },
+					   partialUpdate: true									},
 					
 					//7
 					{key: 'endDate', 			label: 'End Date',			
@@ -52,21 +56,41 @@ YUI.add('schedule-view', function(Y){
 					   		} else {
 					   			o.value = '';
 					   		}
-					   }
+					   },
+					   partialUpdate: true
 																			},
 					
 					//8
 					{key: 'predecessors',		label: 'Predecessors',					
 						formatter: function(o){
-							var data = this.get('data');
+							var data = o.record.lists[0];
 							o.value = '';
-							o.data.predecessors && o.data.predecessors.each && o.data.predecessors.each(function(item, index){
-								var i = data.getByClientId(item.task);
-								o.value += data.indexOf(i) + item.type + '; ';
+							
+							YObject.each(o.data.predecessors, function(val, key, obj){
+								YObject.each(val, function(v, k){
+									var i = data.getByClientId(v),
+										displayIndex = data.indexOf(i) + 1;
+									if (i){
+										if (key === 'FS'){
+											o.value += displayIndex + '; ';
+										}else {
+											o.value += displayIndex + key + '; ';
+										}
+									}
+								});
 							});
 							o.value = o.value.substring(o, o.value.length-2);
 						},
-						editFromNode: true, inlineEditor: 'InlineEditor' }
+						editFromNode: true, inlineEditor: 'InlineEditor', partialUpdate: true },
+																	
+					//9
+					{
+						key: 'resources',	label: 'Resources',
+						inlineEditor: 'InlineAutoCompleteEditor',
+					},
+					
+					
+
 				],
 				caption: 'Project Schedule',
 				recordType: Y.Task,

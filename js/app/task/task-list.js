@@ -1,13 +1,17 @@
 YUI.add('task-list', function(Y) {
 	
-	var EVT_PARENT_CHANGE = 'parentChange';
+	var YLang 				= 	Y.Lang,
+		YArray 				= 	Y.Array,
+		YObject 			= 	Y.Object,
+		EVT_PARENT_CHANGE 	= 	'parentChange';
+
 	
 	Y.TaskList = Y.Base.create('taskList', Y.TreeModelList, [], {
 		
 		model: Y.Task,
 		
 		initializer: function(){
-			this.on('task:change', this._taskChangeInterceptor);
+			this.after('task:change', this._taskChangeInterceptor);
 			this.publish(EVT_PARENT_CHANGE,    {defaultFn: this._defAddFn});
 		},
 		
@@ -32,6 +36,72 @@ YUI.add('task-list', function(Y) {
 				this._handleParentChange(e);
 			}
 			
+			if (e.changed.predecessors){
+				this._handlePredecessorsChange(e);
+			}
+			
+		},
+		
+		_handlePredecessorsChange: function(e){
+			var list = this,
+				oldPred = e.changed.predecessors.prevVal,
+				newPred = e.changed.predecessors.newVal,
+				task = e.target,
+				selfId = task.get('clientId'),
+				maxEndDate = new Date();
+				emptyPredecessors = true;
+				maxEndDate.setFullYear(1970);
+				
+			YObject.each(oldPred, function(typeVal, typeKey){
+				YObject.each(typeVal, function(v, k){
+					var predTask = list.getByClientId(v),
+						predTaskSucc;
+					
+					if (predTask){
+						predTaskSucc = predTask.get('successors');
+						predTaskSucc && predTaskSucc[typeKey] && delete predTaskSucc[typeKey][selfId];	
+					}
+					
+					
+				});
+			});
+		
+			YObject.each(newPred, function(typeVal, typeKey){
+				YObject.each(typeVal, function(v, k){
+					var predTask = list.getByClientId(v),
+						predTaskSucc = predTask.get('successors'),
+						predTaskEndDate;
+						
+					emptyPredecessors = false;
+						
+					predTaskEndDate = predTask.get('endDate');
+					if(Y.DataType.Date.isGreater(predTaskEndDate, maxEndDate)){
+						maxEndDate = predTaskEndDate;
+					}
+						
+					predTaskSucc = predTaskSucc || {};
+					predTaskSucc[typeKey] = predTaskSucc[typeKey] || {};
+					predTaskSucc[typeKey][selfId] = selfId;
+					
+					predTask.set('successors', predTaskSucc, {silent: true});
+				});
+			});
+			
+			if (!emptyPredecessors){
+				task.set('startDate', maxEndDate);
+			} else {
+				var parentId = task.get('parent'),
+					parent,
+					parentStartDate;
+					
+				if (parentId){
+					parent = list.getByClientId(parentId);
+					parentStartDate = parent.get('startDate');
+					task.set('startDate', parentStartDate); 
+				}
+				
+			}
+
 		},
 		
 		_handleWorkChange: function(task, newWork, oldWork){
@@ -70,19 +140,20 @@ YUI.add('task-list', function(Y) {
 				//The task is parent task
 				task.get('children').each(function(childTaskId){
 					var childTask = this.getByClientId(childTaskId),
-						oldStartDate = childTask.get('startDate'),
-						newEndDate;
+						childPreds = childTask.get('predecessors'),
+						hasPreds = false;
 					
-					childTask.set('startDate', newStartDate, {silent: true});
-					this._handleStartDateChange(childTask, newStartDate, oldStartDate);
-					newEndDate = childTask.get('endDate');
+					YObject.each(childPreds, function(v, k){
+						YObject.each(v, function(tid){
+							hasPreds = true;
+						});
+					});
 					
-					if (Y.DataType.Date.isGreater(newEndDate, largestEndDate)){
-						largestEndDate = newEndDate;
+					if (!hasPreds){
+						childTask.set('startDate', newStartDate);
 					}
+					
 				}, this);
-				
-				task.set('endDate', largestEndDate);
 				
 			} else {
 				var endDate = Y.ProjectCalendar.calcTaskEndDate(task.get('clientId'), oldStartDate, newStartDate, task.get('work'), task.get('work'));
@@ -94,7 +165,8 @@ YUI.add('task-list', function(Y) {
 			var endDate = e.changed.endDate.newVal,
 				list = this,
 				task = e.target,
-				parentId = task.get('parent');
+				parentId = task.get('parent'),
+				taskSuccessors = task.get('successors');
 			
 			//If the task for which endDate is changing has a parent then update the endDate of parent
 			if (parentId){
@@ -123,6 +195,34 @@ YUI.add('task-list', function(Y) {
 					parent.set('endDate', parentEndDate);
 				}
 			}
+			
+			YObject.each(taskSuccessors, function(tsV, tsK){
+				YObject.each(tsV, function(succ){
+					this._handlePredecessorEndDateChange(succ);
+				}, list);
+			});
+		},
+		
+		_handlePredecessorEndDateChange: function(taskId){
+			var list = this,
+				task = list.getByClientId(taskId),
+				pred = task.get('predecessors'),
+				maxEndDate;
+		
+			YObject.each(pred, function(v, k){
+				if (k === 'FS'){
+					YObject.each(v, function(predId){
+						var predTask = list.getByClientId(predId),
+							predEndDate = predTask.get('endDate');
+						
+						if (!maxEndDate || Y.DataType.Date.isGreater(predEndDate, maxEndDate)){
+							maxEndDate = predEndDate;
+						}
+					});
+				}
+			});
+			
+			task.set('startDate', maxEndDate);
 		},
 		
 		_handleParentChange: function(e){
@@ -186,7 +286,6 @@ YUI.add('task-list', function(Y) {
 					
 					xdr: {use: 'native', dataType: 'text'}*/
 				};
-			Y.log(cfg.data);
 			Y.io(uri, cfg);
 		},
 		

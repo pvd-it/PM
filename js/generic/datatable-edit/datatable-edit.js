@@ -25,10 +25,12 @@ YUI.add('datatable-edit', function(Y) {
         },
         
         _afterRenderUIEdit: function(){
-        	var config = {
-        		zIndex: 1,
-        		visible: false
-        	};
+        	var bb = this.get('boundingBox'),
+        		config = {
+	        		zIndex: 1,
+	        		visible: false,
+	        		constrainNode: bb,
+        		};
         	
         	YObject.each(this._inlineEditors, function(val, key, o){
         		 o[key] = new Y[key](config);
@@ -167,17 +169,16 @@ YUI.add('datatable-edit', function(Y) {
 				
 				if (row < count && count > 0){
 					dataRow = data.item(row);
-					dataRow.setAttrs(itemData, {silent: silent});
+					dataRow.setAttrs(itemData);
 					row++;
 				} else {
 					dataRow = new recordType(itemData);
-					data.add(dataRow, {silent: silent});
+					data.add(dataRow);
 				}
 			}, this);
 			
 			//Since changing any row data causes the Table to re-render, so we need to make sure that
 			//currenlty active cell is also synced up
-			Y.log(data);
 			this._afterSyncUI();
         },
         

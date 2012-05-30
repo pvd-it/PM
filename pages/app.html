@@ -60,21 +60,25 @@
 		<!--
 			Uncomment for local development --> 
 		<script src="http://127.0.0.1:8020/YUI/3.5.1/build/yui/yui.js"></script>
+		
 		<!--
 		<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
 		-->
+		
 		<script>
 			YUI({
 				/*
 				 * Uncomment for local development
-				*/  
+				*/
 				filter: 'RAW',
+				
 				
 				/*
 				combine: true,
 				comboBase: 'http://yui.yahooapis.com/combo?',
 				root: '3.5.1/build/',
 				*/
+				
 				groups: {
 					gallery: {
 						root: '/gallery/',
@@ -114,6 +118,12 @@
 							'inline-date-editor': {
 								path: 'inline-editor/inline-date-editor.js',
 								requires: ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'calendar'],
+								skinnable: false
+							},
+							
+							'inline-autocomplete-editor': {
+								path: 'inline-editor/inline-autocomplete-editor.js',
+								requires: ['panel', 'autocomplete', 'autocomplete-filters', 'autocomplete-highlighters'],
 								skinnable: false
 							},
 							
@@ -171,7 +181,7 @@
 							
 							'schedule-view': {
 								path: 'pm-views/schedule-view.js',
-								requires: ['view', 'datatable-schedule', 'task-list', 'datatype-date-format']
+								requires: ['view', 'datatable-schedule', 'task-list', 'datatype-date-format', 'inline-autocomplete-editor']
 							},
 							
 							'gantt-view': {
@@ -257,6 +267,7 @@
 						Y.log('handleSchedule');
 						if (this.get('resources').size() === 0){
 							this.get('resources').loadFromServer(next);
+							Y.namespace('Project').Resources = this.get('resources');
 						} else {
 							next();
 						}
@@ -275,8 +286,6 @@
 					},
 					
 					showGanttView: function(req, res){
-						Y.log('showGanttView: ' + this.get('tasks').size());
-						
 						this.showView('gantt', {
 							modelList: this.get('tasks')
 						});
@@ -316,9 +325,7 @@
 				
 				pmApp.replace('/schedule');
 				
-				/*
-				pmApp.showView('login');
-				*/
+				//pmApp.showView('login');
 			});
 		</script>
 	</body>

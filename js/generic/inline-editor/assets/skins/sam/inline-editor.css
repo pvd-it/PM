@@ -2,7 +2,7 @@
 	position: absolute;
 }
 
-.yui3-inlineeditor-content .callout {
+.yui3-inlineeditor .callout {
 	background-color: #DED8A8;
 	padding: 5px;
 	border: 1px solid #6F0000;
@@ -10,7 +10,7 @@
     top: -1px;
 }
 
-.yui3-inlineeditor-content .notch-border {
+.yui3-inlineeditor .notch-border {
 	height: 0;
     width: 0;
     border-bottom: 12px solid #6F0000;
@@ -22,7 +22,7 @@
     z-index: 10;
 }
 
-.yui3-inlineeditor-content .notch {
+.yui3-inlineeditor .notch {
 	position: relative;
 	left: -10px;
 	top: 2px;

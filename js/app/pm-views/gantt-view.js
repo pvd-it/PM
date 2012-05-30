@@ -19,8 +19,9 @@ YUI.add('gantt-view', function(Y){
 				datesInMonth;
 		
 			this.get('container').append('<a href="./schedule">Schedule</a>');
-			Array.sort(dates);
-			
+
+			dates.sort();
+		
 			markUp.push('<table>');
 			monthRow.push('<tr><th>&nbsp;</th>');
 			dateRow.push('<tr><th>&nbsp;</th>');
