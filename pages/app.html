@@ -16,7 +16,7 @@
 				font-size: 12px;
 				margin: 0;
 				padding: 0;
-				background-color: #877DA0;
+				background-color: #888888;
 			}
 			
 			.yui3-app-views {
@@ -49,7 +49,7 @@
 					<input id="username" type="text" value="" placeholder="Username" />
 				</p>
 				<p>
-					<label for="username">Password</label>
+					<label for="password">Password</label>
 					<input id="password" type="password" value="" placeholder="Password" />
 				</p>
 				<p>
@@ -170,22 +170,22 @@
 						filter: 'RAW',
 						modules: {
 							'login-view': {
-								path: 'pm-views/login-view.js',
-								requires: ['view']
+								path: 'views/login-view.js',
+								requires: ['view', 'app-common-io']
 							},
 							
 							'resource-view': {
-								path: 'pm-views/resource-view.js',
+								path: 'views/resource-view.js',
 								requires: ['view', 'datatable-edit', 'resource-list', 'resource']
 							},
 							
 							'schedule-view': {
-								path: 'pm-views/schedule-view.js',
+								path: 'views/schedule-view.js',
 								requires: ['view', 'datatable-schedule', 'task-list', 'datatype-date-format', 'inline-autocomplete-editor']
 							},
 							
 							'gantt-view': {
-								path: 'pm-views/gantt-view.js',
+								path: 'views/gantt-view.js',
 								requires: ['view', 'project-calendar']
 							},
 							
@@ -222,110 +222,25 @@
 							'datatable-tree-body': {
 								path: 'datatable-tree-body/datatable-tree-body.js',
 								requires: ['datatable-body'],
+							},
+							
+							'app-project-management': {
+								path: 'app-project-management/app-project-management.js',
+								requires: ['datatable-tree-body', 'app', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', 'gantt-view'],
+							},
+							
+							'app-common-io': {
+								path: 'app-common-io/app-common-io.js',
+								requires: ['io-base']
 							}
 						}
 					}
 				}
-			}).use('datatable-tree-body', 'app-base', 'app-transitions', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', 'gantt-view', function(Y){
+			}).use('app-project-management', function(Y){
 
-				Y.ProjectManagementApp = Y.Base.create('projectManagementApp', Y.App, [], {
-					views: {
-						login:		{type: Y.PMApp.LoginView},
-						schedule:	{type: Y.PMApp.ScheduleView, preserve: true, parent: 'login'},
-						resource:	{type: Y.PMApp.ResourceView, preserve: true},
-						gantt:		{type: Y.PMApp.GanttView, preserve: false}
-					},
-					
-					initializer: function(){
-						this.after('*:loginSuccess', this.handleLogin);
-					},
-					
-					handleLogin: function(){
-						Y.log('loginSuccess');
-						this.replace('/schedule');
-					},
-					
-					handleSchedule: function(req, res, next){
-						Y.log('handleSchedule');
-						if (this.get('tasks').size() === 0){
-							this.get('tasks').loadFromServer(next);	
-						} else {
-							next();
-						}
-													
-					},
-					
-					showScheduleView: function(req, res){
-						Y.log('showScheduleView');
-						this.showView('schedule', {
-							modelList: this.get('tasks')
-						});
-						this.get('activeView').moveFocusToTable();
-					},					
-					
-					handleResource: function(req, res, next){
-						Y.log('handleSchedule');
-						if (this.get('resources').size() === 0){
-							this.get('resources').loadFromServer(next);
-							Y.namespace('Project').Resources = this.get('resources');
-						} else {
-							next();
-						}
-					},
-					
-					showResourceView: function(req, res){
-						Y.log('showResourceView');
-						this.showView('resource', {
-							modelList: this.get('resources')
-						});
-						this.get('activeView').moveFocusToTable();
-					},
-					
-					handleGantt: function(req, res){
-						
-					},
-					
-					showGanttView: function(req, res){
-						this.showView('gantt', {
-							modelList: this.get('tasks')
-						});
-					}
-				}, {
-					ATTRS: {
-						routes: {
-							value: [
-								{path: '/schedule', callback: 'handleSchedule'},
-								{path: '/schedule', callback: 'showScheduleView'},
-								{path: '/resource', callback: 'handleResource'},
-								{path: '/resource', callback: 'showResourceView'},
-								{path: '/gantt', callback: 'showGanttView'}
-							]
-						},
-						
-						root: {
-							value: '/projectmanagement/' 
-						},
-						
-						tasks: {
-							value: new Y.TaskList()
-						},
-						
-						resources: {
-							value: new Y.ResourceList()
-						}
-					}
-				});
-				
-				var pmApp = new Y.ProjectManagementApp();
+				var pmApp = new Y.ProjectManagement.App();
 				pmApp.render();
-				
-				/* Uncomment for local development
-				*/
-				//pmApp.replace('/schedule');
-				
-				pmApp.replace('/schedule');
-				
-				//pmApp.showView('login');
+				pmApp.dispatch();
 			});
 		</script>
 	</body>

@@ -34,7 +34,8 @@ YUI.add('inline-autocomplete-editor', function(Y) {
 				resultHighlighter: 'startsWith',
 				resultTextLocator: function(result){
 					return result.get('name');
-				}
+				},
+				queryDelimiter: ';'
 			});
 			this._ac.render();
 			
@@ -43,12 +44,12 @@ YUI.add('inline-autocomplete-editor', function(Y) {
 		
 		bindUI: function(){
 			var boundingBox = this.get('boundingBox');
-			boundingBox.delegate('key', Y.bind(this._onEscEnter, this), 'down:esc, enter');
+			//boundingBox.delegate('key', Y.bind(this._onEscEnter, this), 'down:esc, enter');
 		},
 		
 		show: function(node, val) {
 			this.set('visible', true);
-			var source = Y.Project.Resources;
+			var source = Y.Project.Resources.toArray();
 			this._ac.set('source', source);
 			this.align(node, [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.BL]);
 			

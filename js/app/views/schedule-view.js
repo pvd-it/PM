@@ -30,7 +30,8 @@ YUI.add('schedule-view', function(Y){
 					
 					//5
 					{key: 'duration', 			label: 'D',					
-					   inlineEditor: 'InlineEditor'							},
+					   inlineEditor: 'InlineEditor',
+					   partialUpdate: true									},
 					
 					//6
 					{key: 'startDate', 			label: 'Start Date',
