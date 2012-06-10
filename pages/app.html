@@ -10,25 +10,11 @@
 				margin: 0;
 				padding: 0;
 			}
-			
-			body {
-				font-family: Arial, Helvetica, sans-serif;
-				font-size: 12px;
-				margin: 0;
-				padding: 0;
-				background-color: #888888;
-			}
-			
-			.yui3-app-views {
-				width: 90%;
-				margin: 0 auto;
-			}
-			
+
 			.yui3-datatable-table {
 				background-color: #5C7B91;
 				width: 100%
 			}
-			
 			.yui3-datatable-caption {
 				font-size: 14px;
 				font-style: normal;
@@ -38,9 +24,47 @@
 			.yui3-datatable {
 				position: relative;
 			}
+			
 		</style>
 	</head>
 	<body class="yui3-skin-sam">
+		
+		<div class="yui3-app-navbar navbar">
+			<div class="navbar-inner" style="border-radius: 0">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span> 
+						<span class="icon-bar"></span> 
+						<span class="icon-bar"></span> 
+					</a>
+					<a class="brand" href="#">Project name</a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="active">
+								<a href="#">Home</a>
+							</li>
+							<li>
+								<a href="#about">About</a>
+							</li>
+							<li>
+								<a href="#contact">Contact</a>
+							</li>
+						</ul>
+						<ul class="nav pull-right yui3-app-loginbar">
+							<li>
+								<a href="/login">Login</a>
+							</li>
+							<li>
+								<a href="/logout">Logout</a>
+							</li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+		
+		<div class="yui3-app-alert-board"></div>
+		
 		<script id="t-login" type="text/x-handlebars-template">
 			<form>
 				<h1>Login to Projects</h1>
@@ -56,6 +80,10 @@
 					<input type="submit" class="yui3-button" value="Let's Manage" />
 				</p>
 			</form>
+		</script>
+		
+		<script id="t-logout" type="text/x-handlebars-template">
+				<h1>Thanks for using project. See you back soon.</h1>
 		</script>
 		<!--
 			Uncomment for local development --> 
@@ -99,6 +127,13 @@
 						comboBase: '/customjs?',
 						filter: 'RAW',
 						modules: {
+							
+							'alert': {
+								path: 'alert/alert.js',
+								requires: ['widget', 'transition'],
+								skinnable: true
+							},
+							
 							'tree-model': {
 								path: 'tree-model/tree-model.js',
 								requires: ['model', 'arraylist', 'arraylist-add']
@@ -171,7 +206,12 @@
 						modules: {
 							'login-view': {
 								path: 'views/login-view.js',
-								requires: ['view', 'app-common-io']
+								requires: ['view']
+							},
+
+							'logout-view': {
+								path: 'views/logout-view.js',
+								requires: ['view']
 							},
 							
 							'resource-view': {
@@ -226,7 +266,8 @@
 							
 							'app-project-management': {
 								path: 'app-project-management/app-project-management.js',
-								requires: ['datatable-tree-body', 'app', 'handlebars', 'json', 'login-view', 'schedule-view', 'resource-view', 'gantt-view'],
+								requires: ['datatable-tree-body', 'app', 'alert', 'handlebars', 'json', 'login-view', 'logout-view', 'schedule-view', 'resource-view', 'gantt-view'],
+								skinnable: true
 							},
 							
 							'app-common-io': {
@@ -240,6 +281,7 @@
 
 				var pmApp = new Y.ProjectManagement.App();
 				pmApp.render();
+				pmApp.reset();
 				pmApp.dispatch();
 			});
 		</script>

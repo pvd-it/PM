@@ -271,12 +271,17 @@ YUI.add('task-list', function(Y) {
 						},
 						
 						success: function(transactionId, response, arguments){
-							Y.log('Saved successfully');
+							Y.fire('alert', {
+								type: 'success',
+								message: 'Schedule saved successfully.'
+							})
 						},
 						
 						failure: function(transactionId, response, arguments){
-							Y.log('Failure: ' + response.statusText);
-							Y.log('Failure: ' + response.status);
+							Y.fire('alert', {
+								type: 'error',
+								message: 'Some problem occured in saving schedule details.'
+							})
 						},
 						
 						end: function(transactionId, arguments){

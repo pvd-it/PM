@@ -50,14 +50,22 @@ app.configure(function() {
 		}
 		// if no authentication then make it in progress 
 		else {
-			if (req.isXMLHttpRequest){
-				connectUtils.unauthorized(res);
-			} else {
-				req.session.authentication = 'inprogress';
-				req.session.save();
-				res.redirect('/login');
-			}
+			req.session.authentication = 'inprogress';
+			req.session.save();
 			
+			if (req.isXMLHttpRequest){
+				if (req.url.indexOf('/login') === 0){
+					if (req.method === 'POST') {
+						next();
+					} else {
+						connectUtils.unauthorized(res);
+					};
+				} else {
+					connectUtils.unauthorized(res);
+				}
+			} else {
+				res.redirect('/login');				
+			}
 		}
 	});
 });
@@ -123,6 +131,7 @@ app.post('/login', function(req, res, next){
 					req.session.authentication = 'done';
 					req.session.save();
 					res.send();
+					console.log('authenticated...');
 				} else {
 					connectUtils.unauthorized(res);
 				}
@@ -136,6 +145,22 @@ app.post('/login', function(req, res, next){
 	}
 });
 
+app.all('/logout', function(req, res, next){
+	if (req.isXMLHttpRequest){
+		req.session.destroy();
+		res.send();
+	} else {
+		var options = {
+			root: pageRoot,
+			path: 'app.html',
+			getOnly: true
+		};
+		express['static'].send(req, res, next, options);
+	}
+	console.log('logout');
+});
+
+
 app.get('*', function(req, res, next) {
 	var options = {
 		root: pageRoot,
@@ -145,8 +170,5 @@ app.get('*', function(req, res, next) {
 	express['static'].send(req, res, next, options);
 });
 
-app.all('/logout', function(req, res, next){
-	
-});
 
 app.listen(process.env.PORT || 3000);
