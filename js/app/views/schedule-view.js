@@ -123,9 +123,6 @@ YUI.add('schedule-view', function(Y){
 											'<button class="save">Save</button>' + 
 											'<button class="print">Print</button>' +
 										'</div>');
-			this.get('container').prepend('<a href="./resource">Resource View</a>' +
-											'<a href="./gantt">Gantt View</a>'
-										);
 		}
 	});
 });

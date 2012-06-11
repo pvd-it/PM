@@ -39,7 +39,6 @@ YUI.add('resource-view', function(Y){
 		},
 		
 		render: function(){
-			this.get('container').append('<a href="./schedule">Schedule</a>');
 			this.get('container').append('<div>' +
 											'<button class="save">Save</button>' + 
 											'<button class="print">Print</button>' +

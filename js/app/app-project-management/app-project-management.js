@@ -31,6 +31,7 @@ YUI.add('app-project-management', function(Y){
 			
 			this._renderLoginbar();
 			this._renderAlertBoard();
+			this._renderSubNavbar();
 		},
 		
 		_renderLoginbar: function(){
@@ -45,6 +46,12 @@ YUI.add('app-project-management', function(Y){
 		_renderAlertBoard: function(){
 			var alertBoard = Y.one('.' + getClassName('app', 'alert', 'board'));
 			this.alertBoard = alertBoard;
+		},
+		
+		_renderSubNavbar: function(){
+			var subNavbar = Y.one('.' + getClassName('app', 'sub', 'navbar'));
+			subNavbar.setStyle('display', 'none');
+			this.subNavbar = subNavbar;
 		},
 
 		_afterAlertReceived: function(e){
@@ -67,6 +74,7 @@ YUI.add('app-project-management', function(Y){
 			this.loginbar.append(this.logoutNode);
 			this.isAuthenticated = true;
 			this.replace('/schedule');
+			this.subNavbar.setStyle('display', 'block');
 		},
 		
 		_afterLogoutSuccess: function(e){
@@ -79,6 +87,7 @@ YUI.add('app-project-management', function(Y){
 			this.isAuthenticated = false;
 			this.set('tasks', new Y.TaskList());
 			this.set('resources', new Y.ResourceList());
+			this.subNavbar.setStyle('display', 'none');
 		},
 		
 		handleSchedule: function(req, res, next){

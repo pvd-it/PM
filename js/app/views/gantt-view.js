@@ -18,8 +18,6 @@ YUI.add('gantt-view', function(Y){
 				month,
 				datesInMonth;
 		
-			this.get('container').append('<a href="./schedule">Schedule</a>');
-
 			dates.sort();
 		
 			markUp.push('<table>');
