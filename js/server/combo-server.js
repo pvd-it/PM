@@ -11,6 +11,13 @@ var combo = require('combohandler'),
 	dataRoot = path.join(__dirname, '../../data'),
 	imageRoot = path.join(__dirname, '../../js'),
 	
+	mongoose = require('mongoose'),
+	User = require('./mongoose/app-objects/user'),
+	Organization = require('./mongoose/app-objects/organization'),
+	Project = require('./mongoose/app-objects/project'),
+	ProjectTask = require('./mongoose/app-objects/project-task'),
+
+	
 	app = express.createServer();
 
 app.configure(function() {
@@ -79,7 +86,11 @@ app.error(function(err, req, res, next){
 	}
 });
 
-var userProvider = new UserProvider('localhost', 27017);
+var userProvider = new UserProvider('localhost', 27017, 'pmapp', '', '');
+
+mongoose.connect('mongodb://localhost/pmapp');
+
+//var userProvider = new UserProvider('staff.mongohq.com', 10040, 'nodejitsudb650685699003', 'nodejitsu', '7473599b0969b76144917a93936805f0');
 
 app.get('/customjs', combo.combine({rootPath: jsRoot}), function(req, res){
 	res.send(res.body, 200);
@@ -109,13 +120,37 @@ app.get('/data/:type', function(req, res, next){
 app.post('/data/:type', function(req, res, next){
 	var savePath = path.join(dataRoot, '/' + req.params.type + '.json');
 	
-	fs.writeFile(savePath, JSON.stringify(req.body), function(err){
-		if (err){
-			res.send(500);
-		} else {
-			res.send();
+	if (req.params.type === 'tasks'){
+		var project = {
+			name: 'Hello',
+			tasks: []
+		};
+		
+		var len = req.body.tasks.length,
+			i = 0;
+		for (;i<len;i++){
+			var t = new ProjectTask(req.body.tasks);
+				t.save(function(err, result){
+					project.tasks.push(t._id);
+				});
 		}
-	});
+		
+		new Project(project).save();
+		
+		res.send();
+		
+		
+	} else {
+		fs.writeFile(savePath, JSON.stringify(req.body), function(err){
+			if (err){
+				res.send(500);
+			} else {
+				res.send();
+			}
+		});	
+	}
+	
+	
 });
 
 app.post('/login', function(req, res, next){

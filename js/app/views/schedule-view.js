@@ -87,7 +87,7 @@ YUI.add('schedule-view', function(Y){
 					//9
 					{
 						key: 'resources',	label: 'Resources',
-						inlineEditor: 'InlineAutoCompleteEditor',
+						inlineEditor: 'InlineResourceEditor',
 					},
 					
 					

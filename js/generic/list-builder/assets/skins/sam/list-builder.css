@@ -1,0 +1,75 @@
+.yui3-skin-sam .yui3-listbuilder-content {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	border: 1px solid #CCC;
+	overflow: auto;
+	cursor: text;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.yui3-skin-sam .yui3-listbuilder-focused .yui3-listbuilder-content {
+	border: 1px solid rgba(82, 168, 236, 0.8);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-item,
+.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-add {
+	float: left;
+	font-size: 1.3em;
+	margin: 2px 0 2px 2px;
+	color: #333;
+}
+
+.yui3-skin-sam .yui3-listbuilder-content input {
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	outline: 0;
+	line-height: 1.7;
+	color: #333;
+	width: 3em;
+}
+
+.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-item {
+	position: relative;
+	cursor: default;
+	border: 1px solid #7d7d7d;
+	border-radius: 4px;
+	background: #cdcdcd;
+}
+
+.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-key-delete {
+	background: #9a9a9a;
+	color: #eee;
+}
+
+.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-text {
+	padding: .4em;
+}
+
+.yui3-listbuilder-tag-close-button {
+	color: #000000;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 18px;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #FFFFFF;
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    top: -2px;
+}
+
+.yui3-listbuilder-tag-close-button:hover {
+    opacity: 0.4;
+}

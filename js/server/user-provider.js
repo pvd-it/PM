@@ -5,9 +5,14 @@ var Db = require('mongodb').Db,
 	ObjectID = require('mongodb').ObjectID;
 	
 
-var UserProvider = function(host, port){
-	this.db = new Db('pmapp', new Server(host, port, {auto_reconnect: true}, {}));
-	this.db.open(function(){});
+var UserProvider = function(host, port, database, user, password){
+	var db = this.db = new Db(database, new Server(host, port, {auto_reconnect: true}, {}));
+	db.open(function(){
+		db.authenticate(user, password, function(err, result){
+			console.log(err);
+			console.log(result);
+		});
+	});
 };
 
 UserProvider.prototype.getCollection = function(callback){

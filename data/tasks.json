@@ -1,1 +1,1551 @@
-{"tasks":[{"clientId":"task_1","depthLevel":0,"children":["task_2","task_3"],"collapsed":false,"visible":true,"name":"Sprint3","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-17T06:30:00.000Z","isFixedDuration":false,"work":700},{"clientId":"task_2","depthLevel":1,"parent":"task_1","children":[],"collapsed":true,"visible":true,"name":"A6 Canonical Document from Product Suggestion","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10},{"clientId":"task_3","depthLevel":1,"parent":"task_1","children":["task_4","task_15","task_27","task_30","task_36","task_44","task_53","task_62","task_68","task_73"],"collapsed":false,"visible":true,"name":"B24 Scenario","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-17T06:30:00.000Z","isFixedDuration":false,"work":690},{"clientId":"task_4","depthLevel":2,"parent":"task_3","children":["task_5","task_6","task_7","task_8","task_9","task_10","task_11","task_12","task_13","task_14"],"collapsed":false,"visible":true,"name":"ApplyProduct Wizard","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-16T06:30:00.000Z","isFixedDuration":false,"work":100},{"clientId":"task_5","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Skeleton","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","successors":{"FS":{"task_6":"task_6"}}},{"clientId":"task_6","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Basic level Integration","startDate":"2012-01-03T06:30:00.000Z","endDate":"2012-01-04T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_5":"task_5"}},"successors":{"FS":{"task_7":"task_7"}}},{"clientId":"task_7","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Clarification Required on dynamic wizard steps (no dynamic steps in W1)","startDate":"2012-01-04T06:30:00.000Z","endDate":"2012-01-05T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_6":"task_6"}},"successors":{"FS":{"task_8":"task_8"}}},{"clientId":"task_8","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Wizard Steps Inclusion","startDate":"2012-01-05T06:30:00.000Z","endDate":"2012-01-06T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_7":"task_7"}},"successors":{"FS":{"task_9":"task_9"}}},{"clientId":"task_9","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Wizard Step update pending","startDate":"2012-01-06T06:30:00.000Z","endDate":"2012-01-09T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_8":"task_8"}},"successors":{"FS":{"task_10":"task_10"}}},{"clientId":"task_10","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Wizard step updation","startDate":"2012-01-09T06:30:00.000Z","endDate":"2012-01-10T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_9":"task_9"}},"successors":{"FS":{"task_11":"task_11"}}},{"clientId":"task_11","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"24 hour logic ","startDate":"2012-01-10T06:30:00.000Z","endDate":"2012-01-11T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_10":"task_10"}},"successors":{"FS":{"task_12":"task_12"}}},{"clientId":"task_12","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Task page changes to implement error message display","startDate":"2012-01-11T06:30:00.000Z","endDate":"2012-01-12T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_11":"task_11"}},"successors":{"FS":{"task_13":"task_13"}}},{"clientId":"task_13","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"CSS classes for Error display","startDate":"2012-01-12T06:30:00.000Z","endDate":"2012-01-13T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_12":"task_12"}},"successors":{"FS":{"task_14":"task_14"}}},{"clientId":"task_14","depthLevel":3,"parent":"task_4","children":[],"collapsed":false,"visible":true,"name":"Unit Test Cases","startDate":"2012-01-13T06:30:00.000Z","endDate":"2012-01-16T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_13":"task_13"}}},{"clientId":"task_15","depthLevel":2,"parent":"task_3","children":["task_16","task_17","task_18","task_19","task_20","task_21","task_22","task_23","task_24","task_25","task_26"],"collapsed":false,"visible":true,"name":"Data flow analysis across screens","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-17T06:30:00.000Z","isFixedDuration":false,"work":110},{"clientId":"task_16","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.3: Enter customer data [P02]","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","successors":{"FS":{"task_17":"task_17"}}},{"clientId":"task_17","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.4: Evaluate warning list entry [P02]","startDate":"2012-01-03T06:30:00.000Z","endDate":"2012-01-04T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_16":"task_16"}},"successors":{"FS":{"task_18":"task_18"}}},{"clientId":"task_18","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.5: Choose product selection [P02]","startDate":"2012-01-04T06:30:00.000Z","endDate":"2012-01-05T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_17":"task_17"}},"successors":{"FS":{"task_19":"task_19"}}},{"clientId":"task_19","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.6: Person-related configuration [P02]","startDate":"2012-01-05T06:30:00.000Z","endDate":"2012-01-06T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_18":"task_18"}},"successors":{"FS":{"task_20":"task_20"}}},{"clientId":"task_20","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.7: Product-related configuration [P02]","startDate":"2012-01-06T06:30:00.000Z","endDate":"2012-01-09T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_19":"task_19"}},"successors":{"FS":{"task_21":"task_21"}}},{"clientId":"task_21","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.8: Answer question on health [P02]","startDate":"2012-01-09T06:30:00.000Z","endDate":"2012-01-10T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_20":"task_20"}},"successors":{"FS":{"task_22":"task_22"}}},{"clientId":"task_22","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.9: Confirmation page on account status [P02]","startDate":"2012-01-10T06:30:00.000Z","endDate":"2012-01-11T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_21":"task_21"}},"successors":{"FS":{"task_23":"task_23"}}},{"clientId":"task_23","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.10: Evaluate KSV result [P02]","startDate":"2012-01-11T06:30:00.000Z","endDate":"2012-01-12T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_22":"task_22"}},"successors":{"FS":{"task_24":"task_24"}}},{"clientId":"task_24","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.11: Choose person-related additional services [P04]","startDate":"2012-01-12T06:30:00.000Z","endDate":"2012-01-13T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_23":"task_23"}},"successors":{"FS":{"task_25":"task_25"}}},{"clientId":"task_25","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.12: Evaluate warning list entry [P04]","startDate":"2012-01-13T06:30:00.000Z","endDate":"2012-01-16T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_24":"task_24"}},"successors":{"FS":{"task_26":"task_26"}}},{"clientId":"task_26","depthLevel":3,"parent":"task_15","children":[],"collapsed":false,"visible":true,"name":"B24.14: Confirmation question on cancellation [P04]","startDate":"2012-01-16T06:30:00.000Z","endDate":"2012-01-17T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_25":"task_25"}}},{"clientId":"task_27","depthLevel":2,"parent":"task_3","children":["task_28","task_29"],"collapsed":false,"visible":true,"name":"Advisary talk wizard","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-04T06:30:00.000Z","isFixedDuration":false,"work":20},{"clientId":"task_28","depthLevel":3,"parent":"task_27","children":[],"collapsed":false,"visible":true,"name":"Code changes to integrate modified screen","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","successors":{"FS":{"task_29":"task_29"}}},{"clientId":"task_29","depthLevel":3,"parent":"task_27","children":[],"collapsed":false,"visible":true,"name":"A6.7 Tab / Product Selection change","startDate":"2012-01-03T06:30:00.000Z","endDate":"2012-01-04T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":"","predecessors":{"FS":{"task_28":"task_28"}}},{"clientId":"task_30","depthLevel":2,"parent":"task_3","children":["task_31","task_32","task_33","task_34","task_35"],"collapsed":false,"visible":true,"name":"AccountActivation Wizard","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":50},{"clientId":"task_31","depthLevel":3,"parent":"task_30","children":[],"collapsed":false,"visible":true,"name":"Skeleton","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_32","depthLevel":3,"parent":"task_30","children":[],"collapsed":false,"visible":true,"name":"Basic level Integration","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_33","depthLevel":3,"parent":"task_30","children":[],"collapsed":false,"visible":true,"name":"Clarification Required","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_34","depthLevel":3,"parent":"task_30","children":[],"collapsed":false,"visible":true,"name":"Wizard Steps Inclusion","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_35","depthLevel":3,"parent":"task_30","children":[],"collapsed":false,"visible":true,"name":"Unit Test Cases","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_36","depthLevel":2,"parent":"task_3","children":["task_37","task_38","task_39","task_40","task_41","task_42","task_43"],"collapsed":false,"visible":true,"name":"Process","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":70},{"clientId":"task_37","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"P00 Change","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_38","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"P02 Process","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_39","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"P04 Process","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_40","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"P01 Process Change","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_41","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"24 hours logic","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_42","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"P04 Cancellation","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_43","depthLevel":3,"parent":"task_36","children":[],"collapsed":false,"visible":true,"name":"P00 Cancellation","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_44","depthLevel":2,"parent":"task_3","children":["task_45","task_49"],"collapsed":false,"visible":true,"name":"Process Model Tasks","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":60},{"clientId":"task_45","depthLevel":3,"parent":"task_44","children":["task_46","task_47","task_48"],"collapsed":false,"visible":true,"name":"Apply Product Task","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":30},{"clientId":"task_46","depthLevel":4,"parent":"task_45","children":[],"collapsed":false,"visible":true,"name":"Task Creation","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_47","depthLevel":4,"parent":"task_45","children":[],"collapsed":false,"visible":true,"name":"Form flow from P01 to P02","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_48","depthLevel":4,"parent":"task_45","children":[],"collapsed":false,"visible":true,"name":"ApplyProduct Wizard Save Restore","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_49","depthLevel":3,"parent":"task_44","children":["task_50","task_51","task_52"],"collapsed":false,"visible":true,"name":"Account Activation Task","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":30},{"clientId":"task_50","depthLevel":4,"parent":"task_49","children":[],"collapsed":false,"visible":true,"name":"Task Creation","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_51","depthLevel":4,"parent":"task_49","children":[],"collapsed":false,"visible":true,"name":"Form flow from P02 to P04","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_52","depthLevel":4,"parent":"task_49","children":[],"collapsed":false,"visible":true,"name":"AccountActivation Wizard Save Restore","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_53","depthLevel":2,"parent":"task_3","children":["task_54","task_55","task_56","task_57","task_58","task_59","task_60","task_61"],"collapsed":false,"visible":true,"name":"B24.2: Enter saved task, check product configuration [P01]","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":80},{"clientId":"task_54","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"PROD Rule Sync Logic","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_55","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"Logic Implementation","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_56","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"UI to Can Mapping","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_57","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"Precedence Logic ","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_58","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"Clarification Required","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_59","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"CDM Refresh","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_60","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"Testing","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_61","depthLevel":3,"parent":"task_53","children":[],"collapsed":false,"visible":true,"name":"Unit Test Cases","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_62","depthLevel":2,"parent":"task_3","children":["task_63","task_64","task_65","task_66","task_67"],"collapsed":false,"visible":true,"name":"PROD Blaze to CDM Mapping Change","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":50},{"clientId":"task_63","depthLevel":3,"parent":"task_62","children":[],"collapsed":false,"visible":true,"name":"Canonical Document redefinition","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_64","depthLevel":3,"parent":"task_62","children":[],"collapsed":false,"visible":true,"name":"blaze to CDM mapping","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_65","depthLevel":3,"parent":"task_62","children":[],"collapsed":false,"visible":true,"name":"Sync Logic change","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_66","depthLevel":3,"parent":"task_62","children":[],"collapsed":false,"visible":true,"name":"CDM to UI mapping","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_67","depthLevel":3,"parent":"task_62","children":[],"collapsed":false,"visible":true,"name":"UI to CDM mapping","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_68","depthLevel":2,"parent":"task_3","children":["task_69","task_70","task_71","task_72"],"collapsed":false,"visible":true,"name":"A6.5: Enter customer data [P01]","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":40},{"clientId":"task_69","depthLevel":3,"parent":"task_68","children":[],"collapsed":false,"visible":true,"name":"UI Doc","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_70","depthLevel":3,"parent":"task_68","children":[],"collapsed":false,"visible":true,"name":"getService","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_71","depthLevel":3,"parent":"task_68","children":[],"collapsed":false,"visible":true,"name":"saveService","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_72","depthLevel":3,"parent":"task_68","children":[],"collapsed":false,"visible":true,"name":"View modification (Frau and Herr) ","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_73","depthLevel":2,"parent":"task_3","children":["task_74","task_75","task_76","task_77","task_78","task_79","task_80","task_81","task_82","task_83","task_84"],"collapsed":false,"visible":true,"name":"B24.3: Enter customer data [P02]","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":110},{"clientId":"task_74","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"UI Document change","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_75","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"New Customer Allegro View","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_76","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"new domain provider","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_77","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"View updation","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_78","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"Demo 1 cosmetic changes","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_79","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"Bug fixes + error handling","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_80","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"Error handling fix in A6.4","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_81","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"getAllegroCustomer UI Service  (read temp customer from caching)","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_82","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"Telephone number issue","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_83","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"saveAllegroCustomer Business Service (calling mocks of allegro services)","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""},{"clientId":"task_84","depthLevel":3,"parent":"task_73","children":[],"collapsed":false,"visible":true,"name":"saveAllegroCustomer UI Service","startDate":"2012-01-02T06:30:00.000Z","endDate":"2012-01-03T06:30:00.000Z","isFixedDuration":false,"work":10,"duration":""}],"lastCount":86,"projectCalendar":{"20120102":{"task_2":8,"task_5":8,"task_16":8,"task_28":8,"task_31":8,"task_32":8,"task_33":8,"task_34":8,"task_35":8,"task_37":8,"task_38":8,"task_39":8,"task_40":8,"task_41":8,"task_42":8,"task_43":8,"task_46":8,"task_47":8,"task_48":8,"task_50":8,"task_51":8,"task_52":8,"task_54":8,"task_55":8,"task_56":8,"task_57":8,"task_58":8,"task_59":8,"task_60":8,"task_61":8,"task_63":8,"task_64":8,"task_65":8,"task_66":8,"task_67":8,"task_69":8,"task_70":8,"task_71":8,"task_72":8,"task_74":8,"task_75":8,"task_76":8,"task_77":8,"task_78":8,"task_79":8,"task_80":8,"task_81":8,"task_82":8,"task_83":8,"task_84":8},"20120103":{"task_2":2,"task_5":2,"task_16":2,"task_28":2,"task_31":2,"task_32":2,"task_33":2,"task_34":2,"task_35":2,"task_37":2,"task_38":2,"task_39":2,"task_40":2,"task_41":2,"task_42":2,"task_43":2,"task_46":2,"task_47":2,"task_48":2,"task_50":2,"task_51":2,"task_52":2,"task_54":2,"task_55":2,"task_56":2,"task_57":2,"task_58":2,"task_59":2,"task_60":2,"task_61":2,"task_63":2,"task_64":2,"task_65":2,"task_66":2,"task_67":2,"task_69":2,"task_70":2,"task_71":2,"task_72":2,"task_74":2,"task_75":2,"task_76":2,"task_77":2,"task_78":2,"task_79":2,"task_80":2,"task_81":2,"task_82":2,"task_83":2,"task_84":2,"task_6":8,"task_17":8,"task_29":8},"20120104":{"task_6":2,"task_7":8,"task_17":2,"task_18":8,"task_29":2},"20120105":{"task_7":2,"task_8":8,"task_18":2,"task_19":8},"20120106":{"task_8":2,"task_9":8,"task_19":2,"task_20":8},"20120109":{"task_9":2,"task_10":8,"task_20":2,"task_21":8},"20120110":{"task_10":2,"task_11":8,"task_21":2,"task_22":8},"20120111":{"task_11":2,"task_12":8,"task_22":2,"task_23":8},"20120112":{"task_12":2,"task_13":8,"task_23":2,"task_24":8},"20120113":{"task_13":2,"task_14":8,"task_24":2,"task_25":8},"20120116":{"task_14":2,"task_25":2,"task_26":8},"20120117":{"task_26":2},"20120201":{},"20120202":{},"20120203":{}}}
+{
+	"tasks": [
+		{
+			"clientId": "task_1",
+			"depthLevel": 0,
+			"children": ["task_2", "task_3"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Sprint3",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-17T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 700
+		}, {
+			"clientId": "task_2",
+			"depthLevel": 1,
+			"parent": "task_1",
+			"children": [],
+			"collapsed": true,
+			"visible": true,
+			"name": "A6 Canonical Document from Product Suggestion",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10
+		}, {
+			"clientId": "task_3",
+			"depthLevel": 1,
+			"parent": "task_1",
+			"children": ["task_4", "task_15", "task_27", "task_30", "task_36", "task_44", "task_53", "task_62", "task_68", "task_73"],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24 Scenario",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-17T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 690
+		}, {
+			"clientId": "task_4",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_5", "task_6", "task_7", "task_8", "task_9", "task_10", "task_11", "task_12", "task_13", "task_14"],
+			"collapsed": false,
+			"visible": true,
+			"name": "ApplyProduct Wizard",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-16T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 100
+		}, {
+			"clientId": "task_5",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Skeleton",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"successors": {
+				"FS": {
+					"task_6": "task_6"
+				}
+			}
+		}, {
+			"clientId": "task_6",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Basic level Integration",
+			"startDate": "2012-01-03T06:30:00.000Z",
+			"endDate": "2012-01-04T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_5": "task_5"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_7": "task_7"
+				}
+			}
+		}, {
+			"clientId": "task_7",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Clarification Required on dynamic wizard steps (no dynamic steps in W1)",
+			"startDate": "2012-01-04T06:30:00.000Z",
+			"endDate": "2012-01-05T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_6": "task_6"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_8": "task_8"
+				}
+			}
+		}, {
+			"clientId": "task_8",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Wizard Steps Inclusion",
+			"startDate": "2012-01-05T06:30:00.000Z",
+			"endDate": "2012-01-06T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_7": "task_7"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_9": "task_9"
+				}
+			}
+		}, {
+			"clientId": "task_9",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Wizard Step update pending",
+			"startDate": "2012-01-06T06:30:00.000Z",
+			"endDate": "2012-01-09T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_8": "task_8"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_10": "task_10"
+				}
+			}
+		}, {
+			"clientId": "task_10",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Wizard step updation",
+			"startDate": "2012-01-09T06:30:00.000Z",
+			"endDate": "2012-01-10T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_9": "task_9"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_11": "task_11"
+				}
+			}
+		}, {
+			"clientId": "task_11",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "24 hour logic ",
+			"startDate": "2012-01-10T06:30:00.000Z",
+			"endDate": "2012-01-11T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_10": "task_10"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_12": "task_12"
+				}
+			}
+		}, {
+			"clientId": "task_12",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Task page changes to implement error message display",
+			"startDate": "2012-01-11T06:30:00.000Z",
+			"endDate": "2012-01-12T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_11": "task_11"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_13": "task_13"
+				}
+			}
+		}, {
+			"clientId": "task_13",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "CSS classes for Error display",
+			"startDate": "2012-01-12T06:30:00.000Z",
+			"endDate": "2012-01-13T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_12": "task_12"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_14": "task_14"
+				}
+			}
+		}, {
+			"clientId": "task_14",
+			"depthLevel": 3,
+			"parent": "task_4",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Unit Test Cases",
+			"startDate": "2012-01-13T06:30:00.000Z",
+			"endDate": "2012-01-16T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_13": "task_13"
+				}
+			}
+		}, {
+			"clientId": "task_15",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_16", "task_17", "task_18", "task_19", "task_20", "task_21", "task_22", "task_23", "task_24", "task_25", "task_26"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Data flow analysis across screens",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-17T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 110
+		}, {
+			"clientId": "task_16",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.3: Enter customer data [P02]",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"successors": {
+				"FS": {
+					"task_17": "task_17"
+				}
+			}
+		}, {
+			"clientId": "task_17",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.4: Evaluate warning list entry [P02]",
+			"startDate": "2012-01-03T06:30:00.000Z",
+			"endDate": "2012-01-04T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_16": "task_16"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_18": "task_18"
+				}
+			}
+		}, {
+			"clientId": "task_18",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.5: Choose product selection [P02]",
+			"startDate": "2012-01-04T06:30:00.000Z",
+			"endDate": "2012-01-05T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_17": "task_17"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_19": "task_19"
+				}
+			}
+		}, {
+			"clientId": "task_19",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.6: Person-related configuration [P02]",
+			"startDate": "2012-01-05T06:30:00.000Z",
+			"endDate": "2012-01-06T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_18": "task_18"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_20": "task_20"
+				}
+			}
+		}, {
+			"clientId": "task_20",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.7: Product-related configuration [P02]",
+			"startDate": "2012-01-06T06:30:00.000Z",
+			"endDate": "2012-01-09T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_19": "task_19"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_21": "task_21"
+				}
+			}
+		}, {
+			"clientId": "task_21",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.8: Answer question on health [P02]",
+			"startDate": "2012-01-09T06:30:00.000Z",
+			"endDate": "2012-01-10T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_20": "task_20"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_22": "task_22"
+				}
+			}
+		}, {
+			"clientId": "task_22",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.9: Confirmation page on account status [P02]",
+			"startDate": "2012-01-10T06:30:00.000Z",
+			"endDate": "2012-01-11T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_21": "task_21"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_23": "task_23"
+				}
+			}
+		}, {
+			"clientId": "task_23",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.10: Evaluate KSV result [P02]",
+			"startDate": "2012-01-11T06:30:00.000Z",
+			"endDate": "2012-01-12T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_22": "task_22"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_24": "task_24"
+				}
+			}
+		}, {
+			"clientId": "task_24",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.11: Choose person-related additional services [P04]",
+			"startDate": "2012-01-12T06:30:00.000Z",
+			"endDate": "2012-01-13T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_23": "task_23"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_25": "task_25"
+				}
+			}
+		}, {
+			"clientId": "task_25",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.12: Evaluate warning list entry [P04]",
+			"startDate": "2012-01-13T06:30:00.000Z",
+			"endDate": "2012-01-16T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_24": "task_24"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_26": "task_26"
+				}
+			}
+		}, {
+			"clientId": "task_26",
+			"depthLevel": 3,
+			"parent": "task_15",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.14: Confirmation question on cancellation [P04]",
+			"startDate": "2012-01-16T06:30:00.000Z",
+			"endDate": "2012-01-17T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_25": "task_25"
+				}
+			}
+		}, {
+			"clientId": "task_27",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_28", "task_29"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Advisary talk wizard",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-04T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 20
+		}, {
+			"clientId": "task_28",
+			"depthLevel": 3,
+			"parent": "task_27",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Code changes to integrate modified screen",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"successors": {
+				"FS": {
+					"task_29": "task_29"
+				}
+			}
+		}, {
+			"clientId": "task_29",
+			"depthLevel": 3,
+			"parent": "task_27",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "A6.7 Tab / Product Selection change",
+			"startDate": "2012-01-03T06:30:00.000Z",
+			"endDate": "2012-01-04T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_28": "task_28"
+				}
+			}
+		}, {
+			"clientId": "task_30",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_31", "task_32", "task_33", "task_34", "task_35"],
+			"collapsed": false,
+			"visible": true,
+			"name": "AccountActivation Wizard",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 50
+		}, {
+			"clientId": "task_31",
+			"depthLevel": 3,
+			"parent": "task_30",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Skeleton",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_32",
+			"depthLevel": 3,
+			"parent": "task_30",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Basic level Integration",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_33",
+			"depthLevel": 3,
+			"parent": "task_30",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Clarification Required",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_34",
+			"depthLevel": 3,
+			"parent": "task_30",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Wizard Steps Inclusion",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_35",
+			"depthLevel": 3,
+			"parent": "task_30",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Unit Test Cases",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_36",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_37", "task_38", "task_39", "task_40", "task_41", "task_42", "task_43"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Process",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 70
+		}, {
+			"clientId": "task_37",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "P00 Change",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_38",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "P02 Process",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_39",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "P04 Process",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_40",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "P01 Process Change",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_41",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "24 hours logic",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_42",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "P04 Cancellation",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_43",
+			"depthLevel": 3,
+			"parent": "task_36",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "P00 Cancellation",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_44",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_45", "task_49"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Process Model Tasks",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 60
+		}, {
+			"clientId": "task_45",
+			"depthLevel": 3,
+			"parent": "task_44",
+			"children": ["task_46", "task_47", "task_48"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Apply Product Task",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 30
+		}, {
+			"clientId": "task_46",
+			"depthLevel": 4,
+			"parent": "task_45",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Task Creation",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_47",
+			"depthLevel": 4,
+			"parent": "task_45",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Form flow from P01 to P02",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_48",
+			"depthLevel": 4,
+			"parent": "task_45",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "ApplyProduct Wizard Save Restore",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_49",
+			"depthLevel": 3,
+			"parent": "task_44",
+			"children": ["task_50", "task_51", "task_52"],
+			"collapsed": false,
+			"visible": true,
+			"name": "Account Activation Task",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 30
+		}, {
+			"clientId": "task_50",
+			"depthLevel": 4,
+			"parent": "task_49",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Task Creation",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_51",
+			"depthLevel": 4,
+			"parent": "task_49",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Form flow from P02 to P04",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_52",
+			"depthLevel": 4,
+			"parent": "task_49",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "AccountActivation Wizard Save Restore",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_53",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_54", "task_55", "task_56", "task_57", "task_58", "task_59", "task_60", "task_61"],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.2: Enter saved task, check product configuration [P01]",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 80
+		}, {
+			"clientId": "task_54",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "PROD Rule Sync Logic",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_55",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Logic Implementation",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_56",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "UI to Can Mapping",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_57",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Precedence Logic ",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_58",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Clarification Required",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_59",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "CDM Refresh",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_60",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Testing",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_61",
+			"depthLevel": 3,
+			"parent": "task_53",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Unit Test Cases",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_62",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_63", "task_64", "task_65", "task_66", "task_67"],
+			"collapsed": false,
+			"visible": true,
+			"name": "PROD Blaze to CDM Mapping Change",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 50
+		}, {
+			"clientId": "task_63",
+			"depthLevel": 3,
+			"parent": "task_62",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Canonical Document redefinition",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_64",
+			"depthLevel": 3,
+			"parent": "task_62",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "blaze to CDM mapping",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_65",
+			"depthLevel": 3,
+			"parent": "task_62",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Sync Logic change",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_66",
+			"depthLevel": 3,
+			"parent": "task_62",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "CDM to UI mapping",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_67",
+			"depthLevel": 3,
+			"parent": "task_62",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "UI to CDM mapping",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_68",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_69", "task_70", "task_71", "task_72"],
+			"collapsed": false,
+			"visible": true,
+			"name": "A6.5: Enter customer data [P01]",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 40
+		}, {
+			"clientId": "task_69",
+			"depthLevel": 3,
+			"parent": "task_68",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "UI Doc",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_70",
+			"depthLevel": 3,
+			"parent": "task_68",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "getService",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_71",
+			"depthLevel": 3,
+			"parent": "task_68",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "saveService",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_72",
+			"depthLevel": 3,
+			"parent": "task_68",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "View modification (Frau and Herr) ",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": ""
+		}, {
+			"clientId": "task_73",
+			"depthLevel": 2,
+			"parent": "task_3",
+			"children": ["task_74", "task_75", "task_76", "task_77", "task_78", "task_79", "task_80", "task_81", "task_82", "task_83", "task_84"],
+			"collapsed": false,
+			"visible": true,
+			"name": "B24.3: Enter customer data [P02]",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-17T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 110
+		}, {
+			"clientId": "task_74",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "UI Document change",
+			"startDate": "2012-01-02T06:30:00.000Z",
+			"endDate": "2012-01-03T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"successors": {
+				"FS": {
+					"task_75": "task_75"
+				}
+			}
+		}, {
+			"clientId": "task_75",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "New Customer Allegro View",
+			"startDate": "2012-01-03T06:30:00.000Z",
+			"endDate": "2012-01-04T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_74": "task_74"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_76": "task_76"
+				}
+			}
+		}, {
+			"clientId": "task_76",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "new domain provider",
+			"startDate": "2012-01-04T06:30:00.000Z",
+			"endDate": "2012-01-05T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_75": "task_75"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_77": "task_77"
+				}
+			}
+		}, {
+			"clientId": "task_77",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "View updation",
+			"startDate": "2012-01-05T06:30:00.000Z",
+			"endDate": "2012-01-06T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_76": "task_76"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_78": "task_78"
+				}
+			}
+		}, {
+			"clientId": "task_78",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Demo 1 cosmetic changes",
+			"startDate": "2012-01-06T06:30:00.000Z",
+			"endDate": "2012-01-09T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_77": "task_77"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_79": "task_79"
+				}
+			}
+		}, {
+			"clientId": "task_79",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Bug fixes + error handling",
+			"startDate": "2012-01-09T06:30:00.000Z",
+			"endDate": "2012-01-10T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_78": "task_78"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_80": "task_80"
+				}
+			}
+		}, {
+			"clientId": "task_80",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Error handling fix in A6.4",
+			"startDate": "2012-01-10T06:30:00.000Z",
+			"endDate": "2012-01-11T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_79": "task_79"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_81": "task_81"
+				}
+			}
+		}, {
+			"clientId": "task_81",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "getAllegroCustomer UI Service  (read temp customer from caching)",
+			"startDate": "2012-01-11T06:30:00.000Z",
+			"endDate": "2012-01-12T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_80": "task_80"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_82": "task_82"
+				}
+			}
+		}, {
+			"clientId": "task_82",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "Telephone number issue",
+			"startDate": "2012-01-12T06:30:00.000Z",
+			"endDate": "2012-01-13T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_81": "task_81"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_83": "task_83"
+				}
+			}
+		}, {
+			"clientId": "task_83",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "saveAllegroCustomer Business Service (calling mocks of allegro services)",
+			"startDate": "2012-01-13T06:30:00.000Z",
+			"endDate": "2012-01-16T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_82": "task_82"
+				}
+			},
+			"successors": {
+				"FS": {
+					"task_84": "task_84"
+				}
+			}
+		}, {
+			"clientId": "task_84",
+			"depthLevel": 3,
+			"parent": "task_73",
+			"children": [],
+			"collapsed": false,
+			"visible": true,
+			"name": "saveAllegroCustomer UI Service",
+			"startDate": "2012-01-16T06:30:00.000Z",
+			"endDate": "2012-01-17T06:30:00.000Z",
+			"isFixedDuration": false,
+			"work": 10,
+			"duration": "",
+			"predecessors": {
+				"FS": {
+					"task_83": "task_83"
+				}
+			}
+		}
+	],
+	"taskLastCount": 86,
+	"projectCalendar": {
+		"20120102": {
+			"task_2": 8,
+			"task_5": 8,
+			"task_16": 8,
+			"task_28": 8,
+			"task_31": 8,
+			"task_32": 8,
+			"task_33": 8,
+			"task_34": 8,
+			"task_35": 8,
+			"task_37": 8,
+			"task_38": 8,
+			"task_39": 8,
+			"task_40": 8,
+			"task_41": 8,
+			"task_42": 8,
+			"task_43": 8,
+			"task_46": 8,
+			"task_47": 8,
+			"task_48": 8,
+			"task_50": 8,
+			"task_51": 8,
+			"task_52": 8,
+			"task_54": 8,
+			"task_55": 8,
+			"task_56": 8,
+			"task_57": 8,
+			"task_58": 8,
+			"task_59": 8,
+			"task_60": 8,
+			"task_61": 8,
+			"task_63": 8,
+			"task_64": 8,
+			"task_65": 8,
+			"task_66": 8,
+			"task_67": 8,
+			"task_69": 8,
+			"task_70": 8,
+			"task_71": 8,
+			"task_72": 8,
+			"task_74": 8
+		},
+		"20120103": {
+			"task_2": 2,
+			"task_5": 2,
+			"task_16": 2,
+			"task_28": 2,
+			"task_31": 2,
+			"task_32": 2,
+			"task_33": 2,
+			"task_34": 2,
+			"task_35": 2,
+			"task_37": 2,
+			"task_38": 2,
+			"task_39": 2,
+			"task_40": 2,
+			"task_41": 2,
+			"task_42": 2,
+			"task_43": 2,
+			"task_46": 2,
+			"task_47": 2,
+			"task_48": 2,
+			"task_50": 2,
+			"task_51": 2,
+			"task_52": 2,
+			"task_54": 2,
+			"task_55": 2,
+			"task_56": 2,
+			"task_57": 2,
+			"task_58": 2,
+			"task_59": 2,
+			"task_60": 2,
+			"task_61": 2,
+			"task_63": 2,
+			"task_64": 2,
+			"task_65": 2,
+			"task_66": 2,
+			"task_67": 2,
+			"task_69": 2,
+			"task_70": 2,
+			"task_71": 2,
+			"task_72": 2,
+			"task_74": 2,
+			"task_6": 8,
+			"task_17": 8,
+			"task_29": 8,
+			"task_75": 8
+		},
+		"20120104": {
+			"task_6": 2,
+			"task_7": 8,
+			"task_17": 2,
+			"task_18": 8,
+			"task_29": 2,
+			"task_75": 2,
+			"task_76": 8
+		},
+		"20120105": {
+			"task_7": 2,
+			"task_8": 8,
+			"task_18": 2,
+			"task_19": 8,
+			"task_76": 2,
+			"task_77": 8
+		},
+		"20120106": {
+			"task_8": 2,
+			"task_9": 8,
+			"task_19": 2,
+			"task_20": 8,
+			"task_77": 2,
+			"task_78": 8
+		},
+		"20120109": {
+			"task_9": 2,
+			"task_10": 8,
+			"task_20": 2,
+			"task_21": 8,
+			"task_78": 2,
+			"task_79": 8
+		},
+		"20120110": {
+			"task_10": 2,
+			"task_11": 8,
+			"task_21": 2,
+			"task_22": 8,
+			"task_79": 2,
+			"task_80": 8
+		},
+		"20120111": {
+			"task_11": 2,
+			"task_12": 8,
+			"task_22": 2,
+			"task_23": 8,
+			"task_80": 2,
+			"task_81": 8
+		},
+		"20120112": {
+			"task_12": 2,
+			"task_13": 8,
+			"task_23": 2,
+			"task_24": 8,
+			"task_81": 2,
+			"task_82": 8
+		},
+		"20120113": {
+			"task_13": 2,
+			"task_14": 8,
+			"task_24": 2,
+			"task_25": 8,
+			"task_82": 2,
+			"task_83": 8
+		},
+		"20120116": {
+			"task_14": 2,
+			"task_25": 2,
+			"task_26": 8,
+			"task_83": 2,
+			"task_84": 8
+		},
+		"20120117": {
+			"task_26": 2,
+			"task_84": 2
+		},
+		"20120201": {},
+		"20120202": {},
+		"20120203": {}
+	}
+}

@@ -4,7 +4,7 @@ YUI.add('logout-view', function(Y){
 		template: Y.Handlebars.compile(Y.one('#t-logout').getContent()),
 		
 		render: function(){
-			Y.log('rendering logout view');
+			Y.log('rendering newproject view');
 			var content = this.template();
 			this.get('container').setContent(content);
 			return this;

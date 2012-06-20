@@ -139,6 +139,10 @@ YUI.add('task', function(Y) {
 			
 			resources: {
 				
+			},
+			
+			idAttribute: {
+				value: '_id'
 			}
 		}	
 	});

@@ -258,7 +258,7 @@ YUI.add('task-list', function(Y) {
 				    },
 					data: Y.JSON.stringify({
 							tasks: this.toJSON(),
-							lastCount: Y.Task.lastCount,
+							taskLastCount: Y.Task.lastCount,
 							projectCalendar: Y.ProjectCalendar.data
 						}),
 					on: {
@@ -309,7 +309,7 @@ YUI.add('task-list', function(Y) {
 						
 						success: function(transactionId, response, arguments){
 							var res = Y.JSON.parse(response.responseText);
-							Y.Task.lastCount = res.lastCount;
+							Y.Task.lastCount = res.taskLastCount;
 							arguments.modellist.reset(res.tasks);
 							Y.ProjectCalendar.data = res.projectCalendar;
 							successFn();

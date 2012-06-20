@@ -8,9 +8,12 @@ YUI.add('app-project-management', function(Y){
 		views: {
 			login:		{type: Y.PMApp.LoginView},
 			logout:		{type: Y.PMApp.LogoutView},
+			project:	{type: Y.PMApp.ProjectView, preserve: true},
 			schedule:	{type: Y.PMApp.ScheduleView, preserve: true, parent: 'login'},
 			resource:	{type: Y.PMApp.ResourceView, preserve: true, parent: 'schedule'},
-			gantt:		{type: Y.PMApp.GanttView, preserve: false, parent: 'schedule'}
+			gantt:		{type: Y.PMApp.GanttView, preserve: false, parent: 'schedule'},
+			newproject: {type: Y.PMApp.NewProjectView, preserve: false},
+			dashboard: 	{type: Y.PMApp.DashboardView, preserve: false},
 		},
 		
 		initializer: function(){
@@ -142,6 +145,18 @@ YUI.add('app-project-management', function(Y){
 		showLogoutView: function(req, res){
 			this.showView('logout');
 			this.get('activeView').doLogout();
+		},
+		
+		showNewProjectView: function(req, res){
+			this.showView('newproject');
+		},
+		
+		showDashboardView: function(req, res){
+			this.showView('dashboard');
+		},
+		
+		showProjectView: function(req, res){
+			this.showView('project');
 		}
 		
 	}, {
@@ -154,7 +169,10 @@ YUI.add('app-project-management', function(Y){
 					{path: '/resource', callback: 'showResourceView'},
 					{path: '/gantt', callback: 'showGanttView'},
 					{path: '/login', callback: 'showLoginView'},
-					{path: '/logout', callback: 'showLogoutView'}
+					{path: '/logout', callback: 'showLogoutView'},
+					{path: '/newproject', callback: 'showNewProjectView'},
+					{path: '/dashboard', callback: 'showDashboardView'},
+					{path: '/project', callback: 'showProjectView'}
 				]
 			},
 			
