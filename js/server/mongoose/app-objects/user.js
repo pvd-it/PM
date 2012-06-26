@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 	
 	userSchema = new Schema({
 		name: String,
-		userId: String,
+		userName: String,
 		password: String,
 		organization: {type: ObjectId, ref: 'Organization'},
 		pastProjects: [{type: ObjectId, ref: 'Project'}],

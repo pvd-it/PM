@@ -4,7 +4,8 @@ YUI.add('dashboard-view', function(Y){
 			
 		render: function(){
 			Y.log('rendering dashboard view');
-			var content = this.template();
+			var data = this.get('model'),
+				content = this.template(data);
 			this.get('container').setContent(content);
 			return this;
 		},

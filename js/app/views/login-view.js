@@ -48,13 +48,15 @@ YUI.add('login-view', function(Y){
 			} else if (res.status === 400){
 				Y.fire('alert', {
 					type: 'warning',
-					message: 'Looks like your session is messed up. Try logging out and then back in'
+					message: 'Looks like your session is messed up. Try <strong><a href="/logout">logging out</a></strong> and then back in'
 				})
 			}
 		},
 		
 		_loginSuccess: function(tid, res) {
-			this.fire('loginSuccess');
+			var user = Y.JSON.parse(res.responseText);
+			Y.log(user);
+			this.fire('loginSuccess', {user: user});
 		},
 	});	
 });

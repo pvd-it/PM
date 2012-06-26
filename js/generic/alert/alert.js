@@ -62,7 +62,16 @@ YUI.add('alert', function(Y){
 		},
 		
 		_closeClickHandler: function(e){
+			this.close();
+		},
+		
+		close: function(noEffect){
 			var self = this;
+			if (noEffect){
+				self.hide();
+				return;
+			}
+			
 			this.get('contentBox').hide('fadeOut', null, function() {
 				self.hide();
 				self.fire('closed');

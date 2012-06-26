@@ -86,7 +86,7 @@ app.error(function(err, req, res, next){
 	}
 });
 
-var userProvider = new UserProvider('localhost', 27017, 'pmapp', '', '');
+//var userProvider = new UserProvider('localhost', 27017, 'pmapp', '', '');
 
 mongoose.connect('mongodb://localhost/pmapp');
 
@@ -104,6 +104,27 @@ app.get('/images/*', function(req, res, next){
 		path: path
 	};
 	express['static'].send(req, res, next, options);
+});
+
+app.post('/data/project/create', function(req, res, next) {
+	var proj = new Project(req.body);
+	proj.save(function(err, result){
+		if (!err){
+			res.send(result);
+		} else {
+			res.send(500);
+		}
+	});
+});
+
+app.get('/data/project/:id', function(req, res, next){
+	Project.findById(req.params.id, function(err, doc){
+		if (err){
+			res.send(500);
+		} else {
+			res.send(doc);
+		}
+	});
 });
 
 app.get('/data/:type', function(req, res, next){
@@ -157,20 +178,24 @@ app.post('/login', function(req, res, next){
 	if (req.session.authentication === 'done'){
 		connectUtils.badRequest(res);
 	} else {
-		userProvider.getUser(req.body.userId, req.body.password, function(error, result){
-			if (error){
-				res.send(500);
-			} else {
-				console.log(result);
-				if (result) {
-					req.session.authentication = 'done';
-					req.session.save();
-					res.send();
-					console.log('authenticated...');
+		User.findOne({
+			userName: req.body.userId, 
+			password: req.body.password
+		}).populate('organization').populate('currentProjects', ['name']).exec(function(error, result){
+				if (error){
+					res.send(500);
 				} else {
-					connectUtils.unauthorized(res);
+					console.log(result);
+					if (result) {
+						req.session.authentication = 'done';
+						req.session.save();
+						result.password = undefined;
+						res.send(result);
+						console.log('authenticated...');
+					} else {
+						connectUtils.unauthorized(res);
+					}
 				}
-			}
 		});
 		/*
 		req.session.authentication = 'done';
