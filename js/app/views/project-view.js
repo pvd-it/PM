@@ -4,10 +4,22 @@ YUI.add('project-view', function(Y){
 			
 		render: function(){
 			Y.log('rendering project view');
-			var content = this.template();
-			this.get('container').setContent(content);
+			var data = this.get('model').toJSON(),
+				content = this.template(data),
+				container = this.get('container');
+				
+			container.setContent(content);
 			return this;
 		},
+		
+		events: {
+			'.yui3-button-primary': {
+				'click': function(e){
+					e.halt();
+					this.fire('editProjectOverview');
+				}
+			}
+		}
 	}, {
 		
 	});

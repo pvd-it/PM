@@ -109,10 +109,38 @@ app.get('/images/*', function(req, res, next){
 app.post('/data/project/create', function(req, res, next) {
 	var proj = new Project(req.body);
 	proj.save(function(err, result){
-		if (!err){
-			res.send(result);
-		} else {
+		if (err){
 			res.send(500);
+		} else {
+			User.findOne({_id: req.session.userId}, function(e, user){
+				if (e){
+					res.send(500);
+				}
+				user.currentProjects.push(proj);
+				user.save(function(er, r){
+					if (er){
+						res.send(500);
+					} else {
+						res.send(proj);
+					}
+				});
+			});
+		}
+	});
+});
+
+app.post('/data/project/update', function(req, res, next){
+	var proj = req.body,
+		id = proj._id;
+	
+	delete proj._id;
+	delete proj.tasks;
+	
+	Project.update({_id: id}, proj, null, function(err, result){
+		if (err){
+			res.send(500);
+		} else {
+			res.send();
 		}
 	});
 });
@@ -187,9 +215,12 @@ app.post('/login', function(req, res, next){
 				} else {
 					console.log(result);
 					if (result) {
-						req.session.authentication = 'done';
-						req.session.save();
 						result.password = undefined;
+						
+						req.session.authentication = 'done';
+						req.session.userId = result._id;
+						req.session.save();
+						
 						res.send(result);
 						console.log('authenticated...');
 					} else {
@@ -197,11 +228,6 @@ app.post('/login', function(req, res, next){
 					}
 				}
 		});
-		/*
-		req.session.authentication = 'done';
-		req.session.save();
-		res.send();
-		*/
 	}
 });
 
@@ -217,7 +243,6 @@ app.all('/logout', function(req, res, next){
 		};
 		express['static'].send(req, res, next, options);
 	}
-	console.log('logout');
 });
 
 

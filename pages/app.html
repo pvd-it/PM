@@ -84,11 +84,11 @@
 			</ul>
 		</div>
 
+		<div class="yui3-app-alert-board"></div>
+
 		<div class="yui3-app-page-header">
 		</div>
 
-		<div class="yui3-app-alert-board"></div>
-		
 		<script id="t-login" type="text/x-handlebars-template">
 			<form>
 				<p>
@@ -114,7 +114,7 @@
 					<div class="control-group">
 						<label for="project-name" class="control-label">Name of Project</label>
 						<div class="controls">
-							<input type="text" id="project-name" class="input-xlarge">
+							<input type="text" id="project-name" class="input-xxlarge">
 							<p class="help-block">
 								In addition to freeform text, any HTML5 text-based input appears like so.
 							</p>
@@ -123,7 +123,7 @@
 					<div class="control-group">
 						<label for="business-need" class="control-label">Business Need</label>
 						<div class="controls">
-							<textarea rows="3" id="business-need" class="input-xlarge"></textarea>
+							<textarea rows="3" id="business-need" class="input-xxlarge"></textarea>
 							<p class="help-block">
 								The business-related reason for initiating the system.
 							</p>
@@ -132,7 +132,7 @@
 					<div class="control-group">
 						<label for="business-requirement" class="control-label">Business Requirement</label>
 						<div class="controls">
-							<textarea rows="3" id="business-requirement" class="input-xlarge"></textarea>
+							<textarea rows="3" id="business-requirement" class="input-xxlarge"></textarea>
 							<p class="help-block">
 								The business capabilities that the system will provide.
 							</p>
@@ -141,7 +141,7 @@
 					<div class="control-group">
 						<label for="business-value" class="control-label">Business Value</label>
 						<div class="controls">
-							<textarea rows="3" id="business-value" class="input-xlarge"></textarea>
+							<textarea rows="3" id="business-value" class="input-xxlarge"></textarea>
 							<p class="help-block">
 								The benefits that the system will create for the organization.
 							</p>
@@ -150,7 +150,7 @@
 					<div class="control-group">
 						<label for="business-value" class="control-label">Constraints</label>
 						<div class="controls">
-							<textarea rows="3" id="constraints" class="input-xlarge"></textarea>
+							<textarea rows="3" id="constraints" class="input-xxlarge"></textarea>
 							<p class="help-block">
 								Issues that are relevant to the implementation of the system and decisions made by the committee about the project. 
 							</p>
@@ -177,7 +177,26 @@
 		</script>
 		
 		<script id="t-project" type="text/x-handlebars-template">
-				<h1>This is project overview. Under construction!!!</h1>
+			<dl>
+				<dt>Business Need</dt>
+				<dd>{{md businessNeed}}</dd>
+				
+				<dt>Business Requirement</dt>
+				<dd>{{md businessRequirement}}</dd>
+				
+				<dt>Business Value</dt>
+				<dd>{{md businessValue}}</dd>
+				
+				<dt>Constraints</dt>
+				<dd>{{md constraints}}</dd>
+			</dl>
+
+			<div class="form-actions">
+				<button class="yui3-button yui3-button-primary" type="submit">
+					Edit
+				</button>
+			</div>
+
 		</script>
 		<!--
 			Uncomment for local development --> 
@@ -211,7 +230,29 @@
 							'gallery-event-pasted': {
 								path: 'gallery-event-pasted/gallery-event-pasted.js',
 								requires: ['event-synthetic']
+							},
+							
+							'gallery-textarea-autoheight': {
+								path: 'gallery-textarea-autoheight/gallery-textarea-autoheight.js',
+								requires: ['plugin', 'base-build', 'node']
+							},
+							
+							'gallery-markdown': {
+								path: 'gallery-markdown/gallery-markdown.js',
 							}
+						}
+					},
+					
+					fix: {
+						root: '/fix/',
+						combine: true,
+						comboBase: '/customjs?',
+						filter: 'RAW',
+						modules: {
+							'model-fix': {
+								path: 'model/model.js',
+								requires: ['model']
+							},
 						}
 					},
 					
@@ -316,7 +357,7 @@
 							
 							'newproject-view': {
 								path: 'views/newproject-view.js',
-								requires: ['view', 'project']
+								requires: ['view', 'project', 'gallery-textarea-autoheight']
 							},
 							
 							'dashboard-view': {
@@ -366,7 +407,7 @@
 							
 							'project': {
 								path: 'project/project.js',
-								requires: ['model']
+								requires: ['model-fix', 'task-list', 'resource-list']
 							},
 							
 							'datatable-schedule': {
@@ -397,7 +438,12 @@
 						}
 					}
 				}
-			}).use('app-project-management', function(Y){
+			}).use('app-project-management', 'gallery-markdown', function(Y){
+				
+				Y.Handlebars.registerHelper('md', function(text){
+					var op = Y.Markdown.toHTML(text);
+					return new Y.Handlebars.SafeString(op);
+				});
 
 				var pmApp = new Y.ProjectManagement.App();
 				pmApp.render();

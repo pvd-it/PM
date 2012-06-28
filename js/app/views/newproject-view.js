@@ -5,23 +5,47 @@ YUI.add('newproject-view', function(Y){
 		template: Y.Handlebars.compile(Y.one('#t-newproject').getContent()),
 			
 		render: function(){
-			Y.log('rendering newproject view');
-			var content = this.template();
-			this.get('container').setContent(content);
+			var content = this.template(),
+				project = this.get('model'),
+				container = this.get('container');
+			
+			container.setContent(content);
+			container.all('textarea').each(function(ta){
+				ta.plug(Y.TextareaAutoheight);
+			});
+			
+			if (project){
+				container.one('#project-name').set('value', project.get('name'));
+				container.one('#business-need').set('value', project.get('businessNeed'));
+				container.one('#business-requirement').set('value', project.get('businessRequirement'));
+				container.one('#business-value').set('value', project.get('businessValue'));
+				container.one('#constraints').set('value', project.get('constraints'));
+			}
 			return this;
 		},
 		
 		events: {
 			'.yui3-button-primary': {
+				
 				'click': function(e){
 					e.halt();
-					
-					var container = this.get('container'),
+					var self = this,
+						container = self.get('container'),
 						projectName = container.one('#project-name').get('value'),
 						businessNeed = container.one('#business-need').get('value'),
 						businessRequirement = container.one('#business-requirement').get('value'),
 						businessValue = container.one('#business-value').get('value'),
-						constraints = container.one('#constraints').get('value');
+						constraints = container.one('#constraints').get('value'),
+						newValues = {
+							name: projectName,
+							businessNeed: businessNeed,
+							businessRequirement: businessRequirement,
+							businessValue: businessValue,
+							constraints: constraints
+						},
+						existingProject = false,
+						errorMessage,
+						successMessage;
 					
 					if (!projectName || projectName.length <= 0) {
 						Y.fire('alert', {
@@ -29,26 +53,40 @@ YUI.add('newproject-view', function(Y){
 							message: 'Project name is required to create new project'
 						});
 					} else {
-						var newProj = new Y.Project({
-							name: projectName,
-							businessNeed: businessNeed,
-							businessRequirement: businessRequirement,
-							businessValue: businessValue,
-							constraints: constraints
-						});
+						var newProj = this.get('model');
+						
+						if (newProj){
+							existingProject = true;
+							newProj.setAttrs(newValues);
+						} else {
+							newProj = new Y.Project(newValues);
+						}
+						
+						if(existingProject){
+							errorMessage = 'Some error occured while saving the project. Server returned: ';
+						} else {
+							errorMessage = 'Some error occured while creating the project. Server returned: ';
+						}
 						
 						newProj.save(function(err, response){
 							if (err){
 								Y.fire('alert', {
 									type: 'error',
-									message: 'Some error occured while creating the project. Server returned: ' + err
+									message: errorMessage + err
 								});
 							}
 							else {
-								Y.fire('alert', {
-									type: 'success',
-									message: 'Project created successfully'
-								});
+								if (existingProject){
+									self.fire('projectUpdated', {
+										_id: newProj.get('_id'),
+										name: projectName
+									});
+								} else {
+									self.fire('projectCreated', {
+										_id: newProj.get('_id'),
+										name: projectName
+									});
+								}
 							}
 						});
 					}

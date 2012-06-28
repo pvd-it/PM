@@ -28,6 +28,22 @@ h1 small {
 	font-size: 18px;
 }
 
+dl {
+	margin-bottom: 18px;
+}
+dt, dd {
+	line-height: 18px;
+	font-size: 14px;
+}
+dt {
+	font-weight: bold;
+	line-height: 17px;
+}
+dd {
+	margin-left: 9px;
+	margin-bottom: 18px;
+}
+
 a:focus {
 	outline: none;
 }

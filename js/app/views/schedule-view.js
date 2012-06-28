@@ -5,6 +5,7 @@ YUI.add('schedule-view', function(Y){
 		table: null,
 		
 		initializer: function(){
+			
 			this.table = new Y.DataTableSchedule({
 				columns: [
 					//1
@@ -95,14 +96,27 @@ YUI.add('schedule-view', function(Y){
 				],
 				caption: 'Project Schedule',
 				recordType: Y.Task,
-				data: this.get('modelList')
+				data: this.get('model').get('tasks')
 			});
 		},
 		
 		events: {
 			'.save': {
 				click: function(e){
-					this.get('modelList').persistList();	
+					this.get('model').save(function(err, response){
+							if (err){
+								Y.fire('alert', {
+									type: 'error',
+									message: 'Some error occured while saving the project. Server returned: ' + err
+								});
+							}
+							else {
+								Y.fire('alert', {
+									type: 'success',
+									message: 'Project saved successfullly'
+								});
+							}
+					});
 				}
 			},
 			

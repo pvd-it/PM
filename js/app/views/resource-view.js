@@ -16,14 +16,27 @@ YUI.add('resource-view', function(Y){
 				],
 				caption: 'Resources',
 				recordType: Y.Resource,
-				data: this.get('modelList')
+				data: this.get('model').get('team')
 			});
 		},
 		
 		events: {
 			'.save': {
 				click: function(e){
-					this.get('modelList').persistList();
+					this.get('model').save(function(err, response){
+							if (err){
+								Y.fire('alert', {
+									type: 'error',
+									message: 'Some error occured while saving the project. Server returned: ' + err
+								});
+							}
+							else {
+								Y.fire('alert', {
+									type: 'success',
+									message: 'Project saved successfullly'
+								});
+							}
+					});
 				}
 			},
 			
