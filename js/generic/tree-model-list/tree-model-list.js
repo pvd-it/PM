@@ -2,9 +2,9 @@ YUI.add('tree-model-list', function(Y) {
 	var YArray = Y.Array;
 	
 	Y.TreeModelList = Y.Base.create('treeModelList', Y.ModelList, [], {
-		model: Y.TreeModel,
 		
 		initializer: function(){
+			this.model =  Y.TreeModel;
 			this.on('add', this._addInterceptor);
 			this.on('remove', this._removeInterceptor);
 			this.on('*:depthLevelChange', this._childDepthChanging);

@@ -199,21 +199,19 @@
 
 		</script>
 		<!--
-			Uncomment for local development --> 
+			Uncomment for local development
+		-->  
 		<script src="http://127.0.0.1:8020/YUI/3.5.1/build/yui/yui.js"></script>
-		
 		<!--
 		<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
 		-->
-		
 		<script>
 			YUI({
 				/*
 				 * Uncomment for local development
-				*/
+				 */
 				filter: 'RAW',
-				
-				
+								
 				/*
 				combine: true,
 				comboBase: 'http://yui.yahooapis.com/combo?',
@@ -249,10 +247,9 @@
 						comboBase: '/customjs?',
 						filter: 'RAW',
 						modules: {
-							'model-fix': {
-								path: 'model/model.js',
-								requires: ['model']
-							},
+							'array-extras-fix': {
+								path: 'array-extras/array-extras.js'
+							}
 						}
 					},
 					
@@ -271,7 +268,7 @@
 							
 							'list-builder': {
 								path: 'list-builder/list-builder.js',
-								requires: ['widget', 'substitute', 'array-extras', 'autocomplete', 'autocomplete-filters', 'autocomplete-highlighters'],
+								requires: ['widget', 'substitute', 'array-extras', 'array-extras-fix', 'autocomplete', 'autocomplete-filters', 'autocomplete-highlighters'],
 								skinnable: true
 							},
 							
@@ -407,7 +404,7 @@
 							
 							'project': {
 								path: 'project/project.js',
-								requires: ['model-fix', 'task-list', 'resource-list']
+								requires: ['task-list', 'resource-list']
 							},
 							
 							'datatable-schedule': {
@@ -449,33 +446,6 @@
 				pmApp.render();
 				pmApp.reset();
 				pmApp.dispatch();
-				
-				/*
-				var lb = new Y.ListBuilder({
-					width: '400px',
-					height: 'auto',
-					listToEdit: ['hello', 'hi', 'how', 'are', 'you'],
-					id: 'myListBuilder',
-					acConfig: {
-						resultFilters: ['startsWith'],
-						resultHighlighter: 'startsWith',
-						source: ['we', 'are', 'fine', 'what', 'about', 'you']
-					}
-				});
-				lb.render();
-				
-				var button = new Y.Button({
-					label: 'Get Details',
-					on: {
-						click: function(){
-							Y.log('Removed Items: ' + lb.get('itemsRemoved'));
-							Y.log('Added Items: ' + lb.get('itemsAdded'));
-							Y.log('Current Items: ' + lb.get('listToEdit'));
-						}
-					}
-				});
-				button.render();
-				*/
 			});
 		</script>
 	</body>

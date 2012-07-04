@@ -122,7 +122,7 @@ YUI.add('schedule-view', function(Y){
 			
 			'.print': {
 				click: function(e){
-					Y.log(this.get('modelList')._clientIdMap);
+					Y.log(Y.JSON.stringify(this.get('model').get('tasks').toJSON()));
 				}
 			}
 		},
@@ -133,7 +133,7 @@ YUI.add('schedule-view', function(Y){
 		
 		render: function(){
 			this.table.render(this.get('container'));
-			this.get('container').append('<div>' +
+			this.get('container').prepend('<div>' +
 											'<button class="save">Save</button>' + 
 											'<button class="print">Print</button>' +
 										'</div>');

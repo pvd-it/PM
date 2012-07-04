@@ -1,28 +1,102 @@
-var mongoose = require('mongoose'),
-	User = require('./app-objects/user'),
-	Organization = require('./app-objects/organization'),
-	Project = require('./app-objects/project');
-	
-//mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
+var mongoose = require('mongoose'), 
+	Project = require('./app-objects/project'), 
+	ProjectTask = require('./app-objects/project-task'); //, Schema = mongoose.Schema, ObjectId = Schema.ObjectId;
+
 mongoose.connect('mongodb://localhost/pmapp');
 
-console.time('100-elements');
+var tasks = [{
+	"projectId" : "4ff117b9fe9a52e93c000030",
+	"clientId" : "task_1",
+	"depthLevel" : 0,
+	"children" : [],
+	"collapsed" : false,
+	"visible" : true,
+	"name" : "aa",
+	"startDate" : "2012-07-01T06:30:00.000Z",
+	"endDate" : "2012-07-02T06:30:00.000Z",
+	"isFixedDuration" : false,
+	"work" : 12,
+	"duration" : "",
+	"predecessors" : {},
+	"successors" : {
+		"FS" : {
+			"task_2" : "task_2"
+		}
+	},
+	"resources" : "",
+	"position" : 0,
+	"_id" : "4ff11805fe9a52e93c000037"
+}, {
+	"projectId" : "4ff117b9fe9a52e93c000030",
+	"clientId" : "task_2",
+	"depthLevel" : 0,
+	"children" : [],
+	"collapsed" : false,
+	"visible" : true,
+	"name" : "bb",
+	"startDate" : "2012-07-02T06:30:00.000Z",
+	"endDate" : "2012-07-04T06:30:00.000Z",
+	"isFixedDuration" : false,
+	"work" : 24,
+	"duration" : "",
+	"predecessors" : {
+		"FS" : {
+			"task_1" : "task_1"
+		}
+	},
+	"successors" : {
+		"FS" : {
+			"task_3" : "task_3"
+		}
+	},
+	"resources" : "",
+	"position" : 1,
+	"_id" : "4ff11805fe9a52e93c000038"
+}, {
+	"projectId" : "4ff117b9fe9a52e93c000030",
+	"clientId" : "task_3",
+	"depthLevel" : 0,
+	"children" : [],
+	"collapsed" : false,
+	"visible" : true,
+	"name" : "dd",
+	"startDate" : "2012-07-04T06:30:00.000Z",
+	"endDate" : "2012-07-10T06:30:00.000Z",
+	"isFixedDuration" : false,
+	"work" : 36,
+	"duration" : "",
+	"predecessors" : {
+		"FS" : {
+			"task_2" : "task_2"
+		}
+	},
+	"resources" : "",
+	"position" : 2,
+	"_id" : "4ff11805fe9a52e93c000039"
+}, {
+	"projectId" : "4ff117b9fe9a52e93c000030",
+	"clientId" : "task_4",
+	"depthLevel" : 0,
+	"children" : [],
+	"collapsed" : false,
+	"visible" : true,
+	"name" : "pqr",
+	"startDate" : "2012-07-10T06:30:00.000Z",
+	"endDate" : "2012-07-17T06:30:00.000Z",
+	"isFixedDuration" : false,
+	"work" : 48,
+	"duration" : "",
+	"predecessors" : {
+		"FS" : {
+			"task_3" : "task_3"
+		}
+	},
+	"resources" : "",
+	"position" : 3,
+	"_id" : "4ff11805fe9a52e93c00003a"
+}];
 
-//User.update({_id: '4fe6aa770abf9d3f0e00000c'}, {$addToSet: {currentProjects: '4feab198bdde50cd1000001d'}});
-Project.findOne({_id: '4feab198bdde50cd1000001d'}, function(err,result){
-
-	User.findOne({_id: '4fe6aa770abf9d3f0e00000c'}, function(err, res){
-		res.currentProjects.push(result);
-		res.save();
-	});
-
-
-});
-
-
-/*
-Organization.find(function(err, orgs){
+ProjectTask.updateTasks(tasks, function(err, updateCount){
 	console.log(err);
-	console.log(orgs);
+	console.log(updateCount);
 });
-*/

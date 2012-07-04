@@ -1,7 +1,7 @@
 YUI.add('project', function(Y){
 	var EVT_LOAD = 'load';
 	
-	Y.Project = Y.Base.create('project', Y.ModelFix, [], {
+	Y.Project = Y.Base.create('project', Y.Model, [], {
 		
 		initializer: function(config){
 			this.idAttribute = '_id';

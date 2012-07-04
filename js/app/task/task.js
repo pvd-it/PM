@@ -4,6 +4,8 @@ YUI.add('task', function(Y) {
 		YObject = Y.Object;
 		
 	Y.Task = Y.Base.create('task', Y.TreeModel, [], {
+		idAttribute: '_id',
+		
 		initializer: function(config){
 			if (config && config.clientId){
 				this._set('clientId', config.clientId);	
@@ -18,7 +20,7 @@ YUI.add('task', function(Y) {
 				return val;
 			} else {
 				var d = Y.DataType.Date.parse(val);
-				return d;	
+				return d;
 			}
 		},
 		
@@ -29,9 +31,8 @@ YUI.add('task', function(Y) {
 			delete attrs.initialized;
 			
 			if (this.idAttribute !== 'id') {
-				delete attrs.id;
-			}
-			
+            	delete attrs.id;
+        	}
 			return attrs;
 		},
 	}, {
@@ -141,8 +142,11 @@ YUI.add('task', function(Y) {
 				
 			},
 			
-			idAttribute: {
-				value: '_id'
+			position: {
+				value: -1
+			},
+			
+			'_id': {
 			}
 		}	
 	});

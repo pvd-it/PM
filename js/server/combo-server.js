@@ -1,6 +1,6 @@
 var combo = require('combohandler'),
 	express = require('express'),
-	connectUtils = require('express/node_modules/connect/lib/utils'),
+	connectUtils = require('connect').utils,
 	path = require('path'),
 	util = require('util'),
 	fs = require('fs'),
@@ -14,8 +14,9 @@ var combo = require('combohandler'),
 	mongoose = require('mongoose'),
 	User = require('./mongoose/app-objects/user'),
 	Organization = require('./mongoose/app-objects/organization'),
-	Project = require('./mongoose/app-objects/project'),
-	ProjectTask = require('./mongoose/app-objects/project-task'),
+	ProjectSchema = require('./mongoose/app-objects/project'),
+	Project = require('./mongoose/app-objects/project').model,
+	ProjectTask = require('./mongoose/app-objects/project-task').model,
 
 	
 	app = express.createServer();
@@ -77,20 +78,9 @@ app.configure(function() {
 	});
 });
 
-app.error(function(err, req, res, next){
-	if (err instanceof combo.BadRequest) {
-		res.send('Bad request.', {'Content-Type': 'text/plain'}, 400);
-	} else {
-		console.log(err);
-		next();
-	}
-});
-
-//var userProvider = new UserProvider('localhost', 27017, 'pmapp', '', '');
+//mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
 
 mongoose.connect('mongodb://localhost/pmapp');
-
-//var userProvider = new UserProvider('staff.mongohq.com', 10040, 'nodejitsudb650685699003', 'nodejitsu', '7473599b0969b76144917a93936805f0');
 
 app.get('/customjs', combo.combine({rootPath: jsRoot}), function(req, res){
 	res.send(res.body, 200);
@@ -107,6 +97,8 @@ app.get('/images/*', function(req, res, next){
 });
 
 app.post('/data/project/create', function(req, res, next) {
+	req.body.tasks = undefined;
+	
 	var proj = new Project(req.body);
 	proj.save(function(err, result){
 		if (err){
@@ -130,28 +122,29 @@ app.post('/data/project/create', function(req, res, next) {
 });
 
 app.post('/data/project/update', function(req, res, next){
-	var proj = req.body,
-		id = proj._id;
-	
-	delete proj._id;
-	delete proj.tasks;
-	
-	Project.update({_id: id}, proj, null, function(err, result){
+	var id = req.body._id;
+	ProjectSchema.updateProject(req.body, function(err, result){
 		if (err){
 			res.send(500);
-		} else {
-			res.send();
+			return;
 		}
+		ProjectSchema.retreiveProjectById(id, function(e, prj){
+			if (e){
+				res.send(500);
+				return;
+			}
+			res.send(prj);
+		});
 	});
 });
 
 app.get('/data/project/:id', function(req, res, next){
-	Project.findById(req.params.id, function(err, doc){
+	ProjectSchema.retreiveProjectById(req.params.id, function(err, prj){
 		if (err){
 			res.send(500);
-		} else {
-			res.send(doc);
+			return;
 		}
+		res.send(prj);
 	});
 });
 
@@ -204,6 +197,7 @@ app.post('/data/:type', function(req, res, next){
 
 app.post('/login', function(req, res, next){
 	if (req.session.authentication === 'done'){
+		console.log(connectUtils);
 		connectUtils.badRequest(res);
 	} else {
 		User.findOne({
@@ -213,14 +207,12 @@ app.post('/login', function(req, res, next){
 				if (error){
 					res.send(500);
 				} else {
-					console.log(result);
 					if (result) {
 						result.password = undefined;
 						
 						req.session.authentication = 'done';
 						req.session.userId = result._id;
 						req.session.save();
-						
 						res.send(result);
 						console.log('authenticated...');
 					} else {
@@ -232,8 +224,13 @@ app.post('/login', function(req, res, next){
 });
 
 app.all('/logout', function(req, res, next){
-	if (req.isXMLHttpRequest){
+	
+	if (req.session){
 		req.session.destroy();
+		console.log('Session destroyed');
+	}
+	
+	if (req.isXMLHttpRequest){
 		res.send();
 	} else {
 		var options = {
@@ -245,7 +242,6 @@ app.all('/logout', function(req, res, next){
 	}
 });
 
-
 app.get('*', function(req, res, next) {
 	var options = {
 		root: pageRoot,
@@ -254,6 +250,5 @@ app.get('*', function(req, res, next) {
 	};
 	express['static'].send(req, res, next, options);
 });
-
 
 app.listen(process.env.PORT || 3000);
