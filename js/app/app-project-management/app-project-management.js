@@ -7,11 +7,11 @@ YUI.add('app-project-management', function(Y){
 	
 	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [], {
 		views: {
-			login:		{type: Y.PMApp.LoginView, pageHeader: 'Login', pageHeaderTeaser: 'to access your projects'},
-			logout:		{type: Y.PMApp.LogoutView, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
-			project:	{type: Y.PMApp.ProjectView, pageHeader: 'Overview', pageHeaderTeaser: '', subNav: true},
-			schedule:	{type: Y.PMApp.ScheduleView, preserve: true, parent: 'login', pageHeader: 'Schedule', pageHeaderTeaser: '', subNav: true},
-			resource:	{type: Y.PMApp.ResourceView, preserve: true, parent: 'schedule', pageHeader: 'Team', pageHeaderTeaser: '', subNav: true},
+			login:		{type: Y.PMApp.LoginView, preserve: false, pageHeader: 'Login', pageHeaderTeaser: 'to access your projects'},
+			logout:		{type: Y.PMApp.LogoutView, preserve: false, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
+			project:	{type: Y.PMApp.ProjectView, preserve: false, pageHeader: 'Overview', pageHeaderTeaser: '', subNav: true},
+			schedule:	{type: Y.PMApp.ScheduleView, preserve: false, parent: 'login', pageHeader: 'Schedule', pageHeaderTeaser: '', subNav: true},
+			resource:	{type: Y.PMApp.ResourceView, preserve: false, parent: 'schedule', pageHeader: 'Team', pageHeaderTeaser: '', subNav: true},
 			gantt:		{type: Y.PMApp.GanttView, preserve: false, parent: 'schedule', pageHeader: 'Gantt', pageHeaderTeaser: '', subNav: true},
 			newproject: {type: Y.PMApp.NewProjectView, preserve: false, pageHeader: 'Create a Project', pageHeaderTeaser: 'to manage it better'},
 			dashboard: 	{type: Y.PMApp.DashboardView, preserve: false, pageHeader: 'Dashboard', pageHeaderTeaser: 'is where you see all your projects, tasks and notifications'},
@@ -294,10 +294,10 @@ YUI.add('app-project-management', function(Y){
 						type: 'error',
 						message: 'Unable to load project. Please try again.'
 					});
-				} else {
-					self.set('currentProject', proj);
-					next();
-				}
+					return;
+				} 
+				self.set('currentProject', proj);
+				next();
 			});
 		},
 		

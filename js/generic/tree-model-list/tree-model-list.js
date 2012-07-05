@@ -3,12 +3,15 @@ YUI.add('tree-model-list', function(Y) {
 	
 	Y.TreeModelList = Y.Base.create('treeModelList', Y.ModelList, [], {
 		
+		deletedItems: [],
+		
 		initializer: function(){
 			this.model =  Y.TreeModel;
 			this.on('add', this._addInterceptor);
 			this.on('remove', this._removeInterceptor);
 			this.on('*:depthLevelChange', this._childDepthChanging);
 			this.after('*:collapsedChange', this._childCollapsedChanged);
+			this.after('reset', this._afterReset);
 		},
 		
 		indent: function(item){
@@ -164,6 +167,13 @@ YUI.add('tree-model-list', function(Y) {
 			
 			this._findDescendants(e.model, descendants);
 			this.remove(descendants, {silent: true});
+			
+			descendants.push(e.model);
+			YArray.each(descendants, function(model){
+				if (!model.isNew()){
+					this.deletedItems.push(model);
+				}
+			}, this);
 		},
 		
 		_findDescendants: function(model, arr){
@@ -173,6 +183,10 @@ YUI.add('tree-model-list', function(Y) {
 				arr.push(modelItem);
 				this._findDescendants(modelItem, arr);
 			},this);
+		},
+		
+		_afterReset: function(e){
+			this.deletedItems.length = 0;
 		}
 
 	});

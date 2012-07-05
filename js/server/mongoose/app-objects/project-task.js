@@ -73,3 +73,15 @@ module.exports.createTasks = function(tasks, projectId, callback){
 		console.log('create tasks length: ' + length);
 	successNext(0);
 };
+
+module.exports.deleteTasks = function(tasks, callback){
+	if (!tasks || tasks.length <= 0) {
+		callback(null, 0);
+		return;
+	}
+	var _ids = [];
+	tasks.forEach(function(task){
+		_ids.push(task._id);
+	});
+	projectTaskModel.find({}).where('_id')['in'](_ids).remove(callback);
+};

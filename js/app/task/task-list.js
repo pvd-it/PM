@@ -249,106 +249,21 @@ YUI.add('task-list', function(Y) {
 		toJSON: function () {
 	        var newItems = [],
 	        	modifiedItems = [],
+	        	deletedItems = this.deletedItems,
 	        	model;
 	        
 	        YArray.each(this._items, function(item, index){
 	        	model = item.toJSON();
 	        	
 	        	if (item.isNew()) {
-	        		console.log('Model is new');
 	        		newItems.push(model);
 	        	} else if (item.isModified() || model.position !== index) {
-	        		console.log('Model has been modified');
 	        		modifiedItems.push(model);
 	        	}
 	        	model.position = index;
 	        }, this);
 	        
-	        return {newItems: newItems, modifiedItems: modifiedItems};
+	        return {newItems: newItems, modifiedItems: modifiedItems, deletedItems: deletedItems};
     	},
-		
-		persistList: function(){
-			var uri = '/data/tasks',
-				cfg = {
-					method: 'POST',
-					headers: {
-				        'Content-Type': 'application/json',
-				    },
-					data: Y.JSON.stringify({
-							tasks: this.toJSON(),
-							taskLastCount: Y.Task.lastCount,
-							projectCalendar: Y.ProjectCalendar.data
-						}),
-					on: {
-						start: function(transactionId, arguments){
-							Y.log('Saving....');
-						},
-						
-						complete: function(transactionId, response, arguments){
-							Y.log('Done....');
-						},
-						
-						success: function(transactionId, response, arguments){
-							Y.fire('alert', {
-								type: 'success',
-								message: 'Schedule saved successfully.'
-							})
-						},
-						
-						failure: function(transactionId, response, arguments){
-							Y.fire('alert', {
-								type: 'error',
-								message: 'Some problem occured in saving schedule details.'
-							})
-						},
-						
-						end: function(transactionId, arguments){
-							
-						}
-					}/*,
-					
-					xdr: {use: 'native', dataType: 'text'}*/
-				};
-			Y.io(uri, cfg);
-		},
-		
-		loadFromServer: function(successFn){
-			var uri = '/data/tasks',
-				cfg = {
-					method: 'GET',
-					on: {
-						start: function(transactionId, arguments){
-							Y.log('Loading....');
-						},
-						
-						complete: function(transactionId, response, arguments){
-							Y.log('Done....');
-						},
-						
-						success: function(transactionId, response, arguments){
-							var res = Y.JSON.parse(response.responseText);
-							Y.Task.lastCount = res.taskLastCount;
-							arguments.modellist.reset(res.tasks);
-							Y.ProjectCalendar.data = res.projectCalendar;
-							successFn();
-						},
-						
-						failure: function(transactionId, response, arguments){
-							Y.log('Failure: ' + response.statusText);
-							Y.log('Failure: ' + response.status);
-							Y.log('Error loading data...');
-						},
-						
-						end: function(transactionId, arguments){
-							
-						}
-					},
-					/*
-					xdr: {use: 'native', dataType: 'text'} ,
-					*/
-					arguments: {modellist: this}
-				};
-			Y.io(uri, cfg, this);
-		}
 	});
 });

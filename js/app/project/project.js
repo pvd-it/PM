@@ -1,5 +1,6 @@
 YUI.add('project', function(Y){
-	var EVT_LOAD = 'load';
+	var EVT_LOAD = 'load',
+		EVT_SAVE = 'save';
 	
 	Y.Project = Y.Base.create('project', Y.Model, [], {
 		
@@ -44,7 +45,8 @@ YUI.add('project', function(Y){
 	                parsed = facade.parsed = self.parse(response);
 	                
 	                self.get('tasks').reset(parsed.tasks);
-	                Y.Task.lastCount = 0;
+	                Y.Task.lastCount = parsed.lastTaskCount;
+	                
 	                self.get('team').reset(parsed.team);
 	                Y.Resource.lastCount = 0;
 	                
@@ -62,6 +64,71 @@ YUI.add('project', function(Y){
 	
 	        return self;
 	    },
+
+		save: function (options, callback) {
+	        var self = this;
+	
+	        // Allow callback as only arg.
+	        if (typeof options === 'function') {
+	            callback = options;
+	            options  = {};
+	        }
+	
+	        options || (options = {});
+	
+	        self._validate(self.toJSON(), function (err) {
+	            if (err) {
+	                callback && callback.call(null, err);
+	                return;
+	            }
+	
+	            self.sync(self.isNew() ? 'create' : 'update', options, function (err, response) {
+	                var facade = {
+	                        options : options,
+	                        response: response
+	                    },
+	
+	                    parsed;
+	
+	                if (err) {
+	                    facade.error = err;
+	                    facade.src   = 'save';
+	
+	                    self.fire(EVT_ERROR, facade);
+	                } else {
+	                    // Lazy publish.
+	                    if (!self._saveEvent) {
+	                        self._saveEvent = self.publish(EVT_SAVE, {
+	                            preventable: false
+	                        });
+	                    }
+	
+	                    if (response) {
+	                        parsed = facade.parsed = self.parse(response);
+	                
+			                self.get('tasks').reset(parsed.tasks);
+			                Y.Task.lastCount = parsed.lastTaskCount;
+			                
+			                self.get('team').reset(parsed.team);
+			                Y.Resource.lastCount = 0;
+			                
+			                delete parsed.tasks;
+			                delete parsed.team;
+
+			                self.setAttrs(parsed, options);
+			                self.changed = {};
+		                    self.fire(EVT_SAVE, facade);
+	                    }
+	
+	    
+	                }
+	
+	                callback && callback.apply(null, arguments);
+	            });
+	        });
+	
+	        return self;
+    	},
 
 		
 		sync: function(action, options, callback){
@@ -85,7 +152,11 @@ YUI.add('project', function(Y){
 			iocfg.headers = {
 				'Content-Type': 'application/json',
 			};
-			iocfg.data = Y.JSON.stringify(this.toJSON());
+			
+			var data = this.toJSON();
+			data.lastTaskCount = 0;
+			
+			iocfg.data = Y.JSON.stringify(data);
 			
 			Y.io('/data/project/create', iocfg);
 		},
@@ -100,7 +171,11 @@ YUI.add('project', function(Y){
 			iocfg.headers = {
 				'Content-Type': 'application/json',
 			};
-			iocfg.data = Y.JSON.stringify(this.toJSON()),
+			
+			var data = this.toJSON();
+			data.lastTaskCount = Y.Task.lastCount;
+			
+			iocfg.data = Y.JSON.stringify(data);
 			
 			Y.io('/data/project/update', iocfg);
 		},
@@ -119,5 +194,6 @@ YUI.add('project', function(Y){
 		businessRequirement: {},
 		businessValue: {},
 		constraints: {},
+		lastTaskCount: {},
 	});
 });

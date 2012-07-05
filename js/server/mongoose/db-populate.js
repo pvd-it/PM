@@ -2,8 +2,8 @@ var mongoose = require('mongoose'),
 	User = require('./app-objects/user'),
 	Organization = require('./app-objects/organization');
 
-mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
-//mongoose.connect('mongodb://localhost/pmapp');
+//mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
+mongoose.connect('mongodb://localhost/pmapp');
 
 var monsterIncUsers = [
   { name: 'James Sullivan',				userName: 'james.sullivan@monster.inc',					password: 'james.sullivan@monster.inc',			},				

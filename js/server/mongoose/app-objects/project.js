@@ -9,7 +9,8 @@ var mongoose = require('mongoose'),
 		businessNeed: String,
 		businessRequirement: String,
 		businessValue: String,
-		constraints: String
+		constraints: String,
+		lastTaskCount: Number,
 	}),
 	
 	projectModel = mongoose.model('Project', projectSchema);
@@ -22,7 +23,7 @@ module.exports.retreiveProjectById = function(projectId, callback) {
 			callback(projectErr);
 			return;
 		}
-		ProjectTask.model.find({projectId: project._id}, function(tasksErr, tasks) {
+		ProjectTask.model.find({projectId: project._id}).sort('position', 1).exec(function(tasksErr, tasks) {
 			if (tasksErr) {
 				callback(tasksErr);
 				return;
@@ -56,18 +57,19 @@ module.exports.updateProject = function(jsonProject, callback) {
 				callback(findProjErr);
 				return;
 			}
-			if (tasks.newItems.length > 0){
-				console.log('creating new tasks');
-				ProjectTask.createTasks(tasks.newItems, proj._id, callback);
-			}
-			if (tasks.modifiedItems.length > 0){
-				console.log('saving modified tasks');
-				ProjectTask.updateTasks(tasks.modifiedItems, callback);
-			}
-			/*
-			if (tasks.deletedItmes.length > 0){
-				//remove tasks
-			}*/
+			ProjectTask.createTasks(tasks.newItems, proj._id, function(createErr, createResult){
+				if (createErr){
+					callback(createErr);
+					return;
+				}
+				ProjectTask.updateTasks(tasks.modifiedItems, function(modifyErr, modifyResult){
+					if (modifyErr){
+						callback(modifyErr);
+						return;
+					}
+					ProjectTask.deleteTasks(tasks.deletedItems, callback);
+				});
+			});
 		});
 	});
 };
