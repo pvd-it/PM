@@ -11,34 +11,23 @@
 				padding: 0;
 			}
 			
-			.yui3-app-sub-navbar {
-				display: none;
-			}
-
 			.yui3-datatable-table {
 				background-color: #5C7B91;
 				width: 100%
 			}
 			
-			.yui3-datatable-caption {
-				font-size: 14px;
-				font-style: normal;
-				font-weight: bold;
+			.yui3-app-sub-navbar {
+				display: none;
 			}
 			
 			.yui3-datatable {
 				position: relative;
 			}
-			
-			#myListBuilder {
-				margin: 10px;
-			}
-			
 		</style>
 	</head>
 	<body class="yui3-skin-sam">
 		
-		<div class="yui3-app-navbar navbar">
+		<div class="yui3-app-navbar navbar yui3-app-navbar-fixed">
 			<div class="navbar-inner" style="border-radius: 0">
 				<div class="container">
 					<a class="brand" href="#">Let's Manage</a>
@@ -53,7 +42,7 @@
 						</ul>
 						<ul class="nav pull-right yui3-app-loginbar">
 							<li>
-								<a href="/user"></a>
+								<a href="/usersettings"></a>
 							</li>
 							<li>
 								<a href="/login">Login</a>
@@ -66,28 +55,35 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="yui3-app-sub-navbar">
-			<ul class="yui3-app-sub-navpills">
-				<li>
-					<a href="/project">Overview</a>
-				</li>
-				<li>
-					<a href="/schedule">Schedule</a>
-				</li>
-				<li>
-					<a href="/gantt">Gantt</a>
-				</li>
-				<li>
-					<a href="/resource">Team</a>
-				</li>
-			</ul>
-		</div>
-
-		<div class="yui3-app-alert-board"></div>
 
 		<div class="yui3-app-page-header">
 		</div>
+
+		<div class="yui3-app-sub-navbar navbar">
+			<div class="container">
+				<ul class="yui3-app-sub-navpills">
+					<li>
+						<a href="/project">Overview</a>
+					</li>
+					<li>
+						<a href="/schedule">Schedule</a>
+					</li>
+					<li>
+						<a href="/gantt">Gantt</a>
+					</li>
+					<li>
+						<a href="/resource">Team</a>
+					</li>
+				</ul>
+				<ul class="yui3-app-sub-navpills nav pull-right">
+					<li>
+						<a href="#">Project Name</a>
+					</li>
+				</ul>				
+			</div>
+		</div>
+
+		<div class="yui3-app-alert-board"></div>
 
 		<script id="t-login" type="text/x-handlebars-template">
 			<form>
@@ -200,7 +196,7 @@
 		</script>
 		<!--
 			Uncomment for local development
-		-->  
+		-->
 		<script src="http://127.0.0.1:8020/YUI/3.5.1/build/yui/yui.js"></script>
 		<!--
 		<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
@@ -209,10 +205,10 @@
 			YUI({
 				/*
 				 * Uncomment for local development
-				 */
+				*/ 
 				filter: 'RAW',
-								
-				/*
+				
+				/*				
 				combine: true,
 				comboBase: 'http://yui.yahooapis.com/combo?',
 				root: '3.5.1/build/',
@@ -342,6 +338,11 @@
 						comboBase: '/customjs?',
 						filter: 'RAW',
 						modules: {
+							'scroll-snap': {
+								path: 'scroll-snap/scroll-snap.js',
+								requires: ['plugin', 'node-screen']
+							},
+							
 							'login-view': {
 								path: 'views/login-view.js',
 								requires: ['view']
@@ -424,7 +425,7 @@
 							
 							'app-project-management': {
 								path: 'app-project-management/app-project-management.js',
-								requires: ['datatable-tree-body', 'app', 'alert', 'handlebars', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view'],
+								requires: ['datatable-tree-body', 'app', 'alert', 'handlebars', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'scroll-snap'],
 								skinnable: true
 							},
 							

@@ -94,7 +94,6 @@ YUI.add('schedule-view', function(Y){
 					
 
 				],
-				caption: 'Project Schedule',
 				recordType: Y.Task,
 				data: this.get('model').get('tasks')
 			});

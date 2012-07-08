@@ -2,7 +2,7 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	margin: 0;
-	padding: 0;
+	padding: 40px 0 0 0;
 	line-height: 18px;
 	background-color: white;
 	background-image: url('/images/app/app-project-management/assets/skins/sam/grid-18px-masked.png');
@@ -56,6 +56,15 @@ a:focus {
 .yui3-app-alert-board {
 	width: 75%;
 	margin: auto;
+}
+
+.yui3-app-navbar-fixed {
+	left: 0;
+    margin-bottom: 0;
+    position: fixed;
+    right: 0;
+    z-index: 1030;
+    top: 0;
 }
 
 .yui3-app-sub-navbar {
@@ -125,10 +134,40 @@ a:focus {
 	box-shadow: inset 0 3px 5px rgba(0,0,0,.05);
 }
 
+.yui3-scroll-snap {
+    border-color: #D5D5D5;
+    border-radius: 0 0 0 0;
+    border-width: 0 0 1px;
+    box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 40px;
+    z-index: 1020;
+    width: 100%;
+}
+
+.yui3-app-sub-navbar.yui3-scroll-snap .container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.yui3-app-sub-navbar .yui3-app-sub-navpills.pull-right > li > a,
+.yui3-app-sub-navbar .yui3-app-sub-navpills.pull-right > li > a:hover {
+	color: #0088CC;
+	text-shadow: none;
+	font-weight: bold;
+	font-size: 120%;
+	border-right: none;
+}
+
+.yui3-app-sub-navbar .yui3-app-sub-navpills.pull-right > li > a:hover {
+	color: #005580;
+}
+
 .yui3-app-page-header {
 	padding-bottom: 17px;
 	margin: 18px auto;
-	border-bottom: 1px solid #EEE;
 	width: 90%;
 }
 
@@ -912,7 +951,6 @@ legend + .control-group {
   *position: relative;
   *z-index: 2;
   overflow: visible;
-  margin-bottom: 18px;
 }
 .navbar-inner {
   min-height: 40px;
@@ -944,7 +982,7 @@ legend + .control-group {
   color: #BBBBBB;
 }
 .navbar .brand:hover {
-  text-decoration: underline;
+  color: #ffffff;
 }
 .navbar .brand {
   float: left;
@@ -952,7 +990,7 @@ legend + .control-group {
   padding: 8px 20px 12px;
   margin-left: -20px;
   font-size: 20px;
-  font-weight: 200;
+  font-weight: bold;
   line-height: 1;
   color: #BBBBBB;
   text-decoration: none;

@@ -4,7 +4,6 @@ var combo = require('combohandler'),
 	path = require('path'),
 	util = require('util'),
 	fs = require('fs'),
-	UserProvider = require('./user-provider').UserProvider,
 		
 	jsRoot = path.join(__dirname, '..'),
 	pageRoot = path.join(__dirname, '../../pages'),

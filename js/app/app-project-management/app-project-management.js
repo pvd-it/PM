@@ -28,19 +28,18 @@ YUI.add('app-project-management', function(Y){
 			this.after('currentUserChange', this._afterCurrentUserChange);
 			this.after('currentProjectChange', this._afterCurrentProjectChange);
 			
-			this.after('navigate', this._afterPjaxNavigate);
-			
 			this.on('*:editProjectOverview', this._onEditProjectOverview);
 			this.on('*:projectCreated', this._onProjectCreateUpdate);
 			this.on('*:projectUpdated', this._onProjectCreateUpdate);
 			
 			this.alertArray = [];
 		},
-		
+
 		showView: function(view){
 			var self = this,
 				pageHeaderText = self.views[view] && self.views[view].pageHeader,
-				pageHeaderTeaserText = self.views[view] && self.views[view].pageHeaderTeaser;
+				pageHeaderTeaserText = self.views[view] && self.views[view].pageHeaderTeaser,
+				navAnchor;
 			
 			if (pageHeaderText){
 				var str = '<h1>' + pageHeaderText + ' ';
@@ -52,10 +51,20 @@ YUI.add('app-project-management', function(Y){
 			}
 			
 			if (self.views[view].subNav) {
-				this.subNavbar.setStyle('display', 'block');
+				this._showSubNav();
 			} else {
-				this.subNavbar.setStyle('display', 'none');
+				this._hideSubNav();
 			}
+			
+			if (self.lastActiveNav) {
+				self.lastActiveNav.removeClass('active');
+			}
+			navAnchor = Y.one('a[href="/' + view + '"]');
+			if (navAnchor){
+				self.lastActiveNav = navAnchor.get('parentNode');
+				self.lastActiveNav.addClass('active');
+			}
+			
 			
 			App.superclass.showView.apply(this, arguments);
 		},
@@ -86,8 +95,9 @@ YUI.add('app-project-management', function(Y){
 		
 		_renderSubNavbar: function(){
 			var subNavbar = Y.one('.' + getClassName('app', 'sub', 'navbar'));
-			subNavbar.setStyle('display', 'none');
+			subNavbar.rightText = subNavbar.one('.pull-right a');
 			this.subNavbar = subNavbar;
+			this._hideSubNav();
 		},
 		
 		_renderPageHeader: function(){
@@ -95,6 +105,34 @@ YUI.add('app-project-management', function(Y){
 			this.pageHeader = pageHeader;
 		},
 		
+		/**
+		 * Sub nav bar show and hide
+		 */
+		_showSubNav: function(){
+			this.subNavbar.setStyle('display', 'block');
+			this.subNavbar.plug(Y.ScrollSnapPlugin, {
+				scrollOffset: 40 //pixels
+			});
+			this.subNavbar.ssp.on('scrollSnapped', Y.bind(this._subNavSnapped, this));
+			this.subNavbar.ssp.on('scrollUnsnapped', Y.bind(this._subNavUnsnapped, this));
+			this.get('viewContainer').setStyle('padding', '60px');
+		},
+		
+		_hideSubNav: function(){
+			this.subNavbar.unplug('ssp');
+			this.subNavbar.setStyle('display', 'none');
+			this.subNavbar.rightText.setContent('');
+			this.get('viewContainer').setStyle('padding', '0');
+		},
+		
+		_subNavSnapped: function(e){
+			var prjName = this.get('currentProject').get('name');
+			this.subNavbar.rightText.setContent(prjName);
+		},
+		
+		_subNavUnsnapped: function(e){
+			this.subNavbar.rightText.setContent('');
+		},
 		
 		/**
 		 * whenever a new view comes up remove all alert messages...
@@ -173,16 +211,6 @@ YUI.add('app-project-management', function(Y){
 					views.schedule.pageHeaderTeaser = 
 						views.resource.pageHeaderTeaser = 
 							views.gantt.pageHeaderTeaser = str;			
-		},
-		
-		_afterPjaxNavigate: function(e){
-			var self = this;
-			
-			if (self.lastActiveNav){
-				self.lastActiveNav.removeClass('active');
-			}
-			self.lastActiveNav = e.originEvent.target.get('parentNode');
-			self.lastActiveNav.addClass('active');
 		},
 		
 		_onEditProjectOverview: function(e){
