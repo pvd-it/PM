@@ -1,6 +1,7 @@
 YUI.add('project', function(Y){
 	var EVT_LOAD = 'load',
-		EVT_SAVE = 'save';
+		EVT_SAVE = 'save',
+		EVT_ERROR = 'error';
 	
 	Y.Project = Y.Base.create('project', Y.Model, [], {
 		
@@ -8,6 +9,8 @@ YUI.add('project', function(Y){
 			this.idAttribute = '_id';
 			this.set('tasks', new Y.TaskList(), {silent: true});
 			this.set('team', new Y.ResourceList(), {silent: true});
+			Y.ProjectCalendar.data = {};
+			this.set('calendar', Y.ProjectCalendar.data);
 		},
 		
 		load: function (options, callback) {
@@ -48,13 +51,15 @@ YUI.add('project', function(Y){
 	                Y.Task.lastCount = parsed.lastTaskCount;
 	                
 	                self.get('team').reset(parsed.team);
-	                Y.Resource.lastCount = 0;
+	                Y.Resource.lastCount = parsed.lastResourceCount;
 	                
 	                delete parsed.tasks;
 	                delete parsed.team;
 	
 	                self.setAttrs(parsed, options);
 	                self.changed = {};
+	
+					Y.ProjectCalendar.data = self.get('calendar');
 	
 	                self.fire(EVT_LOAD, facade);
 	            }
@@ -110,12 +115,15 @@ YUI.add('project', function(Y){
 			                Y.Task.lastCount = parsed.lastTaskCount;
 			                
 			                self.get('team').reset(parsed.team);
-			                Y.Resource.lastCount = 0;
+			                Y.Resource.lastCount = parsed.lastResourceCount;
 			                
 			                delete parsed.tasks;
 			                delete parsed.team;
 
 			                self.setAttrs(parsed, options);
+			        
+							Y.ProjectCalendar.data = self.get('calendar');
+			        
 			                self.changed = {};
 		                    self.fire(EVT_SAVE, facade);
 	                    }
@@ -155,6 +163,7 @@ YUI.add('project', function(Y){
 			
 			var data = this.toJSON();
 			data.lastTaskCount = 0;
+			data.lastResourceCount = 0;
 			
 			iocfg.data = Y.JSON.stringify(data);
 			
@@ -174,6 +183,7 @@ YUI.add('project', function(Y){
 			
 			var data = this.toJSON();
 			data.lastTaskCount = Y.Task.lastCount;
+			data.lastResourceCount = Y.Resource.lastCount;
 			
 			iocfg.data = Y.JSON.stringify(data);
 			
@@ -195,5 +205,8 @@ YUI.add('project', function(Y){
 		businessValue: {},
 		constraints: {},
 		lastTaskCount: {},
+		calendar: {
+			value: {}
+		},
 	});
 });

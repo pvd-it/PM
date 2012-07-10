@@ -1,5 +1,6 @@
 var combo = require('combohandler'),
 	express = require('express'),
+	connect = require('connect'),
 	connectUtils = require('connect').utils,
 	path = require('path'),
 	util = require('util'),
@@ -25,6 +26,7 @@ app.configure(function() {
 	app.use(express.errorHandler());
 	app.use(express.cookieParser());
 	app.use(express.session({secret: 'wonderla cookie'}));
+	app.use(connect.compress());
 	
 	/*
 	 * The workflow implemented is as follows:

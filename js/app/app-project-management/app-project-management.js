@@ -279,7 +279,7 @@ YUI.add('app-project-management', function(Y){
 		
 		showGanttView: function(req, res){
 			this.showView('gantt', {
-				modelList: this.get('tasks')
+				model: this.get('currentProject')
 			});
 		},
 		
@@ -363,7 +363,7 @@ YUI.add('app-project-management', function(Y){
 					{path: '/project/edit', callback: 'showEditProjectView'},
 					{path: '/project/:id', callback: 'handleProject'},
 					{path: '/project/:id', callback: 'showProjectView'},
-					{path: '/user', callback: 'showUserView'}
+					{path: '/usersettings', callback: 'showUserView'}
 				]
 			},
 			

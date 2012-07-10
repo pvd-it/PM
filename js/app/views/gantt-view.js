@@ -13,7 +13,7 @@ YUI.add('gantt-view', function(Y){
 				markUp = [],
 				dateRow = [],
 				monthRow = [],
-				tasks = this.get('modelList'),
+				tasks = this.get('model').get('tasks'),
 				prevMonth,
 				month,
 				datesInMonth;

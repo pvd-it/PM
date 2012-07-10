@@ -121,7 +121,7 @@ YUI.add('schedule-view', function(Y){
 			
 			'.print': {
 				click: function(e){
-					Y.log(Y.JSON.stringify(this.get('model').get('tasks').toJSON()));
+					Y.log(Y.JSON.stringify(this.get('model').toJSON()));
 				}
 			}
 		},

@@ -5,7 +5,6 @@ YUI.add('project-calendar', function(Y){
 	
 	ProjectCalendar = function() {
 		this.data = {
-			dummy: 'dummy'
 		};
 	};
 	
@@ -119,6 +118,6 @@ YUI.add('project-calendar', function(Y){
 				'ResA': 4
 			}
 		}
-	}
+	s}
 */
 });
