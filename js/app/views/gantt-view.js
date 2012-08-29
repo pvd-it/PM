@@ -1,86 +1,113 @@
 YUI.add('gantt-view', function(Y){
 	var YObject = Y.Object,
-		YArray = Y.Array;
+		YArray = Y.Array,
+		YLang = Y.Lang;
 	
 	Y.namespace('PMApp').GanttView = Y.Base.create('ganttView', Y.View, [], {
+		
+		template: Y.Handlebars.compile(Y.one('#t-gantt').getContent()),
+		
 		initializer: function(){
 		
 		},
 		
 		render: function(){
-			var data = Y.ProjectCalendar.data,
-				dates = YObject.keys(data),
-				markUp = [],
-				dateRow = [],
-				monthRow = [],
-				tasks = this.get('model').get('tasks'),
+			var tasksList = this.get('model').get('tasks'),
+				tasks = [],
+				templateData,
+				months = [],
+				days,
+				calData = Y.ProjectCalendar.data,
+				dates = YObject.keys(calData),
 				prevMonth,
 				month,
-				datesInMonth;
-		
-			dates.sort();
-		
-			markUp.push('<table>');
-			monthRow.push('<tr><th>&nbsp;</th>');
-			dateRow.push('<tr><th>&nbsp;</th>');
-			YArray.each(dates, function(d){
-				var day;
-				month = d.substring(4, 6);
-				day = d.substring(6);
+				datesInMonth,
+				content,
+				monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+				startDate = tasksList.item(0).get('startDate'),
+				endDate = tasksList.item(0).get('endDate');
+				
+				
+				// = this.template(templateData);
+			
+			tasksList.each(function(task){
+				var taskJson = task.toJSON(),
+					dayWidth = 19,
+					difference = 0,
+					elapsedDays = 0,
+					currentTaskStartDate = task.get('startDate'),
+					currentTaskEndDate = task.get('endDate');
+				
+				difference = Y.DataType.Date.difference(startDate, currentTaskStartDate);
+				taskJson.startShift = (difference * 15);
+				
+				difference = Y.DataType.Date.difference(currentTaskStartDate, currentTaskEndDate);
+				taskJson.barWidth = ((difference + 1) * 15) + 1;
+				
+				taskJson.isParent = taskJson.children.size() > 0;
+				
+				tasks.push(taskJson);
+			});
+			
+			var d = startDate;
+			while (Y.DataType.Date.isGreaterOrEqual(endDate, d)){
+				var dayInMonth,
+					isWeekend = false,
+					isHoliday = false,
+					cssClass = ['day'],
+					vaar;
+					
+				month = d.getMonth();
+				dayInMonth = d.getDate();
+				vaar = d.getDay();
+				
+				if (dayInMonth < 10){
+					dayInMonth = '0'+dayInMonth;
+				}
+				
+				if (vaar === 0 || vaar === 6){
+					isWeekend = true;
+					cssClass.push('weekend');
+				}
+				
 				if (prevMonth !== month){
-					if (prevMonth){
-						monthRow.push(datesInMonth);
-						monthRow.push('">');
-						monthRow.push(prevMonth);
-						monthRow.push('</th>');
+					if (!YLang.isUndefined(prevMonth)){
+						var colMonth = {
+							name: monthNames[prevMonth],
+							days: days
+						};
+						months.push(colMonth);
 					}
 					prevMonth = month;
-					monthRow.push('<th colspan="');
-					datesInMonth = 0;
+					days = [];
 				}
-				dateRow.push('<th>');
-				dateRow.push(day);
-				dateRow.push('</th>');
-				datesInMonth++;
-			});
-			
-			if (datesInMonth){
-				monthRow.push(datesInMonth);
-						monthRow.push('">');
-						monthRow.push(prevMonth);
-						monthRow.push('</th>');
+				days.push({
+					dayInMonth: dayInMonth,
+					isWeekend: isWeekend,
+					isHoliday: isHoliday,
+					dayName: dayNames[vaar],
+					cssClass: cssClass.join(' ')
+				});
+				
+				d = Y.DataType.Date.addDays(d, 1);
 			}
 			
-			dateRow.push('</tr>');
-			monthRow.push('</tr>');
-			
-			markUp.push(monthRow.join(''));
-			markUp.push(dateRow.join(''));
-			
-			tasks.each(function(task){
-				var taskId = task.get('clientId');
-				
-				markUp.push('<tr><td>');
-				markUp.push(task.get('name'));
-				markUp.push('</td>');
-				
-				YArray.each(dates, function(d){
-					
-					var work = data[d][taskId];
-					if (work){
-						markUp.push('<td style="background:#00FFFF; border-left:1px solid #CBCBCB">');
-						markUp.push(work);
-					} else {
-						markUp.push('<td style="border-left:1px solid #CBCBCB">');
-					}
-					markUp.push('</td>');
-				});
-				markUp.push('</tr>')
+			months.push({
+				name: monthNames[prevMonth],
+				days: days
 			});
 			
-			markUp.push('</table>');
+			templateData = {
+				tasks: tasks,
+				months: months
+			};
 			
-			this.get('container').append(markUp.join(''));
+			content = this.template(templateData);
+			
+			this.get('container').setContent(content);
+			
+			return this;
 		}
 	});
 });

@@ -23,6 +23,148 @@
 			.yui3-datatable {
 				position: relative;
 			}
+			
+			.timeline {
+				white-space: nowrap;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 100%;
+				padding-right: 30px;
+			}
+			
+			.month {
+				display: inline-block;
+				border-bottom: 1px solid #DDDDDD;
+				border-top: 1px solid #DDDDDD;
+				border-left: 1px solid #DDDDDD;
+				height: 100%;
+				position: relative;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+			}
+			
+			.month:last-child {
+				border-right: 1px solid #DDDDDD;
+			}
+			
+			.month h4  {
+				text-align: center;
+				margin: 0 auto;
+				position: relative;
+				padding-bottom: 30px;
+				border-bottom: 1px solid #DDDDDD;
+			}
+			
+			.days {
+				height: 100%;
+				padding-top: 30px;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				position: relative;
+				top: -49px;
+			}
+			
+			.day {
+				border-right: 1px solid #DDDDDD;
+				border-top: 1px solid #DDDDDD;
+				text-align: center;
+				display: inline-block;
+				height: 100%;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+			}
+			
+			.day:last-child {
+				border-right: none;
+			}
+			
+			.even {
+				background-color: #FFFFEF;
+			}
+			
+			.odd {
+				background-color: #EEEEFF;
+			}
+			
+			.task-list {
+				background-color: #CCAABB;
+				width: 15%;
+				position: relative;
+				padding-top: 70px;
+			}
+			
+			.task {
+				position: relative;
+				border-bottom: 1px solid #FFFFFF;
+			}
+			
+			.task:first-child {
+				border-top: 1px solid #FFFFFF;
+			}
+			
+			.task-name {
+				line-height: 16px;
+				margin: 0;
+				padding:5px;
+			}
+			
+			.task-bar {
+				position: absolute;
+				left: 100%;
+				top: 8px;
+				z-index: 10;
+				background-color: #149BDF;
+				height: 10px;
+				width: 250px;
+			}
+			
+			.parent-bar {
+				background-color: #5C7B91;
+			}
+			
+			.startCorner {
+				position: absolute;
+				border-left: 5px solid transparent;
+			    border-right: 5px solid transparent;
+			    border-top: 5px solid #5C7B91;
+			    bottom: -5px;
+			    position: absolute;
+				left: 0;
+			}
+			
+			.endCorner {
+			    border-left: 5px solid transparent;
+			    border-right: 5px solid transparent;
+			    border-top: 5px solid #5C7B91;
+			    bottom: -5px;
+			    position: absolute;
+			    right: 0;
+			}
+			
+			.task:hover .task-bar {
+				background-color: #FAA732;
+			}
+			
+			.task:hover .startCorner, .task:hover .endCorner {
+				border-top-color: #FAA732;
+			}
+			
+			.task:hover .task-name {
+				color: #FFFFFF;
+			}
+			
+			.dayName {
+				border-bottom: 1px solid #DDDDDD;
+			}
+			
+			.dayInMonth {
+				border-bottom: 1px solid #DDDDDD;
+			}
+			
+			.weekend {
+				background-color: #BFBFBF;
+			}
 		</style>
 	</head>
 	<body class="yui3-skin-sam">
@@ -172,6 +314,35 @@
 			</ul>
 		</script>
 		
+		<script id="t-gantt" type="text/x-handlebars-template">
+			<div class="task-list">
+				{{#tasks}}
+					<div class="task yui3-datatable-tree-row-depth-{{depthLevel}}">
+						<p class="task-name yui3-datatable-tree-col">{{name}}</p>
+						{{#if isParent}}
+							<div class="task-bar parent-bar" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
+								<div class="startCorner"></div>
+								<div class="endCorner"></div>
+							</div>
+						{{else}}
+							<div class="task-bar" style="margin-left: {{startShift}}px; width: {{barWidth}}px;"></div>
+						{{/if}}
+					</div>
+				{{/tasks}}
+
+				<div class="timeline">
+					{{#stripeRows months}}<div class="month {{rowClass}}">
+						<h4>{{name}}</h4>
+						<div class="days">
+							{{#days}}<div class="{{cssClass}}">
+								<div class="dayInMonth">{{dayInMonth}}</div>
+								<div class="dayName">{{dayName}}</div></div>{{/days}}
+						</div>
+					</div>{{/stripeRows}}
+				</div>
+			</div>
+		</script>
+		
 		<script id="t-project" type="text/x-handlebars-template">
 			<dl>
 				<dt>Business Need</dt>
@@ -246,6 +417,10 @@
 						modules: {
 							'array-extras-fix': {
 								path: 'array-extras/array-extras.js'
+							},
+							
+							'datatype-date-math-fix': {
+								path: 'datatype-date-math/datatype-date-math.js'
 							}
 						}
 					},
@@ -381,7 +556,7 @@
 							
 							'gantt-view': {
 								path: 'views/gantt-view.js',
-								requires: ['view', 'project-calendar']
+								requires: ['view', 'project-calendar', 'datatype-date-math-fix']
 							},
 							
 							resource: {
@@ -443,6 +618,22 @@
 					var op = Y.Markdown.toHTML(text);
 					return new Y.Handlebars.SafeString(op);
 				});
+
+				// Register a custom block helper that we'll use to perform the striping.
+			    Y.Handlebars.registerHelper('stripeRows', function (rows, fn) {
+			        var buffer = [],
+			            i, len;
+			        
+			        for (i = 0, len = rows.length; i < len; ++i) {
+			            var row = rows[i];
+			            row.rowClass = (i + 1) % 2 === 0 ? 'even' : 'odd';
+			
+			            // Render the block once for each row.
+			            buffer.push(fn(row));
+		        	}
+        
+			        return buffer.join('');
+			    });
 
 				var pmApp = new Y.ProjectManagement.App();
 				pmApp.render();
