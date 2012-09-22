@@ -28,9 +28,6 @@ YUI.add('gantt-view', function(Y){
 				startDate = tasksList.item(0).get('startDate'),
 				endDate = tasksList.item(0).get('endDate');
 				
-				
-				// = this.template(templateData);
-			
 			tasksList.each(function(task){
 				var taskJson = task.toJSON(),
 					dayWidth = 19,

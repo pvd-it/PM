@@ -10,6 +10,7 @@ var combo = require('combohandler'),
 	pageRoot = path.join(__dirname, '../../pages'),
 	dataRoot = path.join(__dirname, '../../data'),
 	imageRoot = path.join(__dirname, '../../js'),
+	cssRoot = path.join(__dirname, '../../bootstrap'),
 	
 	mongoose = require('mongoose'),
 	User = require('./mongoose/app-objects/user'),
@@ -44,7 +45,7 @@ app.configure(function() {
 		// if authentication in progress
 		else if (req.session.authentication === 'inprogress'){
 			// Server static file without requiring authentication
-			if (req.url.indexOf('/customjs') === 0 || req.url.indexOf('/images') === 0){
+			if (req.url.indexOf('/customjs') === 0 || req.url.indexOf('/images') === 0 || req.url.indexOf('/bootstrap') === 0){
 				next();
 			// Allow 'login' url 
 			} else if (req.url.indexOf('/login') === 0){
@@ -94,6 +95,16 @@ app.get('/images/*', function(req, res, next){
 		getOnly: true,
 		path: path
 	};
+	express['static'].send(req, res, next, options);
+});
+
+app.get('/bootstrap/*', function(req, res, next){
+	var path = req.url.substring(10),
+		options = {
+			root: cssRoot,
+			getOnly: true,
+			path: path
+		};
 	express['static'].send(req, res, next, options);
 });
 
@@ -244,6 +255,7 @@ app.all('/logout', function(req, res, next){
 });
 
 app.get('*', function(req, res, next) {
+	
 	var options = {
 		root: pageRoot,
 		path: 'app.html',

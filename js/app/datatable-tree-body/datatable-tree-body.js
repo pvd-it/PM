@@ -7,12 +7,11 @@ YUI.add('datatable-tree-body', function(Y) {
 	
 	TreeBodyView.prototype = {
 		_afterDataChange: function (e) {
-			
 	        if(e.type.indexOf(':change') > 0 ){
 	        	var data = this.get('modelList'),
 	        		task = e.target,
 	        		rowIndex = data.indexOf(task),
-	        		columns = this.columns;
+	        		columns = this.get('columns');
 	        	
 	        	YObject.some(e.changed, function(v, k){
 	        		var colIndex = this._findColByKey(columns,k),

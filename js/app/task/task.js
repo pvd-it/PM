@@ -24,6 +24,18 @@ YUI.add('task', function(Y) {
 			}
 		},
 		
+		serialize: function(){
+			var obj = this.toJSON(),
+				res = obj.resources;
+			
+			obj.resources = [];
+			YArray.each(res, function(r){
+				obj.resources.push(r.get('clientId'));
+			});
+			
+			return obj;
+		},
+		
 		toJSON: function () {
 			var attrs = this.getAttrs();
 			
@@ -139,7 +151,17 @@ YUI.add('task', function(Y) {
 			},
 			
 			resources: {
-				
+				setter: function(val){
+					if (!val){
+						return;
+					}
+					if (YLang.isString(val[0])) {
+						return YArray.map(val, function(v){
+							return Y.Task.resources.getByClientId(v);
+						});
+					}
+					return val;
+				}
 			},
 			
 			position: {

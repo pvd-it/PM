@@ -24,7 +24,7 @@ YUI.add('datatable-schedule', function(Y) {
 			if (isParent){
 				if (key === 'name' || key === 'startDate' || key === 'parent' || key === 'predecessors'){
 					Y.DataTableTreeEdit.prototype.doEdit.call(this, arguments);
-				}	
+				}
 			} else {
 				Y.DataTableTreeEdit.prototype.doEdit.call(this, arguments);
 			}

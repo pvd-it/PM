@@ -5,6 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Let's Manage</title>
 		<meta name="author" content="pvd" />
+		<link href="/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 		<style type="text/css">
 			html {
 				margin: 0;
@@ -367,20 +368,21 @@
 		</script>
 		<!--
 			Uncomment for local development
-		-->		
-		<script src="http://127.0.0.1:8020/YUI/3.5.1/build/yui/yui.js"></script>
-		
+		-->				
+		<script src="http://127.0.0.1:8020/YUI/3.7.1/build/yui/yui.js"></script>
+
 <!--
 		<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
--->	
+-->
 		<script>
 			YUI({
 				/*
 				 * Uncomment for local development
 				*/
+
 				filter: 'RAW',
 
-/*
+/*	
 				combine: true,
 				comboBase: 'http://yui.yahooapis.com/combo?',
 				root: '3.5.1/build/',
@@ -440,8 +442,12 @@
 							
 							'list-builder': {
 								path: 'list-builder/list-builder.js',
-								requires: ['widget', 'substitute', 'array-extras', 'array-extras-fix', 'autocomplete', 'autocomplete-filters', 'autocomplete-highlighters'],
+								requires : ['autocomplete-list', 'substitute', 'array-extras-fix', 'list-builder-keys', 'autocomplete-filters', 'autocomplete-highlighters'],
 								skinnable: true
+							},
+							
+							'list-builder-keys': {
+								path: 'list-builder/list-builder-keys.js'
 							},
 							
 							'tree-model': {
@@ -468,7 +474,7 @@
 							
 							'inline-resource-editor': {
 								path: 'inline-editor/inline-resource-editor.js',
-								requires: ['panel', 'list-builder'],
+								requires : ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'list-builder', 'resource'],
 								skinnable: false
 							},
 							
@@ -485,7 +491,7 @@
 							
 							'datatable-edit': {
 								path: 'datatable-edit/datatable-edit.js',
-								requires: ['inline-editor', 'datatable-navigate', 'datatable-mutable', 'inline-date-editor'],
+								requires: ['datatable-navigate', 'datatable-mutable'],
 								skinnable: true
 							},
 							
@@ -504,6 +510,10 @@
 							'datatable-selection': {
 								path: 'datatable-selection/datatable-selection.js',
 								skinnable: true
+							},
+							
+							'model-list-variance': {
+								path: 'model-list-variance/model-list-variance.js'
 							}
 						}
 					},
@@ -551,7 +561,7 @@
 							
 							'schedule-view': {
 								path: 'views/schedule-view.js',
-								requires: ['view', 'datatable-schedule', 'task-list', 'datatype-date-format', 'inline-resource-editor']
+								requires: ['view', 'datatable-schedule', 'task-list', 'datatype-date-format', 'inline-resource-editor', 'inline-editor', 'inline-date-editor']
 							},
 							
 							'gantt-view': {
@@ -566,7 +576,7 @@
 							
 							'resource-list': {
 								path: 'resource/resource-list.js',
-								requires: ['model-list', 'resource', 'io-base']
+								requires: ['model-list', 'resource', 'io-base', 'model-list-variance']
 							},
 							
 							task: {
@@ -576,7 +586,7 @@
 							
 							'task-list': {
 								path: 'task/task-list.js',
-								requires: ['tree-model-list','task', 'io-base']
+								requires: ['tree-model-list','task', 'io-base', 'model-list-variance']
 							},
 							
 							'project': {
@@ -591,7 +601,7 @@
 							
 							'project-calendar': {
 								path: 'project-calendar/project-calendar.js',
-								requires: ['datatype-date-format', 'datatype-date-math']
+								requires: ['datatype-date-format', 'datatype-date-math', 'task', 'resource']
 							},
 							
 							'datatable-tree-body': {
@@ -620,7 +630,7 @@
 				});
 
 				// Register a custom block helper that we'll use to perform the striping.
-			    Y.Handlebars.registerHelper('stripeRows', function (rows, fn) {
+			    Y.Handlebars.registerHelper('stripeRows', function (rows, obj) {
 			        var buffer = [],
 			            i, len;
 			        
@@ -629,7 +639,7 @@
 			            row.rowClass = (i + 1) % 2 === 0 ? 'even' : 'odd';
 			
 			            // Render the block once for each row.
-			            buffer.push(fn(row));
+			            buffer.push(obj.fn(row));
 		        	}
         
 			        return buffer.join('');

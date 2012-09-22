@@ -8,7 +8,7 @@ YUI.add('project', function(Y){
 		initializer: function(config){
 			this.idAttribute = '_id';
 			this.set('tasks', new Y.TaskList(), {silent: true});
-			this.set('team', new Y.ResourceList(), {silent: true});
+			this.set('resources', new Y.ResourceList(), {silent: true});
 			Y.ProjectCalendar.data = {};
 			this.set('calendar', Y.ProjectCalendar.data);
 		},
@@ -47,14 +47,16 @@ YUI.add('project', function(Y){
 	
 	                parsed = facade.parsed = self.parse(response);
 	                
-	                self.get('tasks').reset(parsed.tasks);
-	                Y.Task.lastCount = parsed.lastTaskCount;
-	                
-	                self.get('team').reset(parsed.team);
+	                self.get('resources').reset(parsed.resources);
 	                Y.Resource.lastCount = parsed.lastResourceCount;
 	                
+	                Y.Task.lastCount = parsed.lastTaskCount;
+	                Y.Task.resources = self.get('resources');
+	                self.get('tasks').reset(parsed.tasks);
+	                
+	                
 	                delete parsed.tasks;
-	                delete parsed.team;
+	                delete parsed.resources;
 	
 	                self.setAttrs(parsed, options);
 	                self.changed = {};
@@ -81,7 +83,7 @@ YUI.add('project', function(Y){
 	
 	        options || (options = {});
 	
-	        self._validate(self.toJSON(), function (err) {
+	        self._validate(self.serialize(), function (err) {
 	            if (err) {
 	                callback && callback.call(null, err);
 	                return;
@@ -92,7 +94,6 @@ YUI.add('project', function(Y){
 	                        options : options,
 	                        response: response
 	                    },
-	
 	                    parsed;
 	
 	                if (err) {
@@ -111,14 +112,14 @@ YUI.add('project', function(Y){
 	                    if (response) {
 	                        parsed = facade.parsed = self.parse(response);
 	                
+			                self.get('resources').reset(parsed.resources);
+			                Y.Resource.lastCount = parsed.lastResourceCount;
+			                
 			                self.get('tasks').reset(parsed.tasks);
 			                Y.Task.lastCount = parsed.lastTaskCount;
 			                
-			                self.get('team').reset(parsed.team);
-			                Y.Resource.lastCount = parsed.lastResourceCount;
-			                
 			                delete parsed.tasks;
-			                delete parsed.team;
+			                delete parsed.resources;
 
 			                self.setAttrs(parsed, options);
 			        
@@ -127,14 +128,10 @@ YUI.add('project', function(Y){
 			                self.changed = {};
 		                    self.fire(EVT_SAVE, facade);
 	                    }
-	
-	    
 	                }
-	
 	                callback && callback.apply(null, arguments);
 	            });
 	        });
-	
 	        return self;
     	},
 
@@ -161,7 +158,7 @@ YUI.add('project', function(Y){
 				'Content-Type': 'application/json',
 			};
 			
-			var data = this.toJSON();
+			var data = this.serialize();
 			data.lastTaskCount = 0;
 			data.lastResourceCount = 0;
 			
@@ -181,7 +178,7 @@ YUI.add('project', function(Y){
 				'Content-Type': 'application/json',
 			};
 			
-			var data = this.toJSON();
+			var data = this.serialize();
 			data.lastTaskCount = Y.Task.lastCount;
 			data.lastResourceCount = Y.Resource.lastCount;
 			
@@ -193,13 +190,24 @@ YUI.add('project', function(Y){
 		'delete': function(iocfg){
 			iocfg.method = 'DELETE';
 			Y.io('/data/project/' + this.get('_id'), iocfg);
+		},
+		
+		serialize: function(){
+			var obj = this.toJSON(),
+				tasks = obj.tasks,
+				resources = obj.resources;
+			
+			obj.tasks = tasks.serialize();
+			obj.resources = resources.serialize();
+			
+			return obj;
 		}
 		
 	}, {
 		name: {},
 		organization: {},
 		tasks: {},
-		team: {},
+		resources: {},
 		businessNeed: {},
 		businessRequirement: {},
 		businessValue: {},

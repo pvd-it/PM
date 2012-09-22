@@ -6,7 +6,7 @@ YUI.add('task-list', function(Y) {
 		EVT_PARENT_CHANGE 	= 	'parentChange';
 
 	
-	Y.TaskList = Y.Base.create('taskList', Y.TreeModelList, [], {
+	Y.TaskList = Y.Base.create('taskList', Y.TreeModelList, [Y.ModelListVariance], {
 		initializer: function(){
 			this.model = Y.Task;
 			this.after('task:change', this._taskChangeInterceptor);
@@ -245,25 +245,5 @@ YUI.add('task-list', function(Y) {
 				newParent.set('work', newParentWork);
 			}
 		},
-		
-		toJSON: function () {
-	        var newItems = [],
-	        	modifiedItems = [],
-	        	deletedItems = this.deletedItems,
-	        	model;
-	        
-	        YArray.each(this._items, function(item, index){
-	        	model = item.toJSON();
-	        	
-	        	if (item.isNew()) {
-	        		newItems.push(model);
-	        	} else if (item.isModified() || model.position !== index) {
-	        		modifiedItems.push(model);
-	        	}
-	        	model.position = index;
-	        }, this);
-	        
-	        return {newItems: newItems, modifiedItems: modifiedItems, deletedItems: deletedItems};
-    	},
 	});
 });

@@ -1,12 +1,31 @@
 YUI.add('schedule-view', function(Y){
-	var YObject = Y.Object;
+	var YObject = Y.Object,
+		YArray = Y.Array;
 	
 	Y.namespace('PMApp').ScheduleView = Y.Base.create('scheduleView', Y.View, [], {
 		table: null,
 		
 		initializer: function(){
 			
-			this.table = new Y.DataTableSchedule({
+			var me = this,
+				resources = me.get('model').get('resources'),		
+				inlineEditors = {
+					'inlineTextEditor': new Y.InlineEditor({
+		        		zIndex: 1,
+		        		visible: false,
+					}),
+					'inlineDateEditor': new Y.InlineDateEditor({
+		        		zIndex: 1,
+		        		visible: false,
+					}),
+					'inlineResourceEditor': new Y.InlineResourceEditor({
+		        		zIndex: 1,
+		        		visible: false,
+		        		resources: resources._items
+					})
+				};
+				
+			me.table = new Y.DataTableSchedule({
 				columns: [
 					//1
 					{key: 'parent',				label: '#',				
@@ -22,21 +41,21 @@ YUI.add('schedule-view', function(Y){
 					//3
 					{key: 'name', 				label: 'Task Name',
 						isTreeColumn: true,
-						inlineEditor: 'InlineEditor'						},
+						inlineEditor: 'inlineTextEditor'					},
 					
 					//4
 					{key: 'work', 				label: 'W',					
-						inlineEditor: 'InlineEditor',
+						inlineEditor: 'inlineTextEditor',
 						partialUpdate: true									},
 					
 					//5
 					{key: 'duration', 			label: 'D',					
-					   inlineEditor: 'InlineEditor',
+					   inlineEditor: 'inlineTextEditor',
 					   partialUpdate: true									},
 					
 					//6
 					{key: 'startDate', 			label: 'Start Date',
-					   inlineEditor: 'InlineDateEditor',
+					   inlineEditor: 'inlineDateEditor',
 					   formatter: function(o){
 					   		if (Y.Lang.isDate(o.data.startDate)) {
 						   		o.value = Y.DataType.Date.format(o.data.startDate, {
@@ -83,19 +102,28 @@ YUI.add('schedule-view', function(Y){
 							});
 							o.value = o.value.substring(o, o.value.length-2);
 						},
-						editFromNode: true, inlineEditor: 'InlineEditor', partialUpdate: true },
+						editFromNode: true, inlineEditor: 'inlineTextEditor', partialUpdate: true },
 																	
 					//9
 					{
 						key: 'resources',	label: 'Resources',
-						inlineEditor: 'InlineResourceEditor',
+						inlineEditor: 'inlineResourceEditor',
+						formatter: function(o){
+							o.value = '';
+							YArray.each(o.data.resources, function(res){
+								o.value += res.get('name') + '; ';
+							});
+							o.value = o.value.substring(o, o.value.length-2);
+						},
+						partialUpdate: true
 					},
 					
 					
 
 				],
 				recordType: Y.Task,
-				data: this.get('model').get('tasks')
+				data: this.get('model').get('tasks'),
+				inlineEditors: inlineEditors,
 			});
 		},
 		
@@ -121,7 +149,7 @@ YUI.add('schedule-view', function(Y){
 			
 			'.print': {
 				click: function(e){
-					Y.log(Y.JSON.stringify(this.get('model').toJSON()));
+					Y.log(Y.JSON.stringify(this.get('model').serialize()));
 				}
 			}
 		},
@@ -131,8 +159,13 @@ YUI.add('schedule-view', function(Y){
 		},
 		
 		render: function(){
-			this.table.render(this.get('container'));
-			this.get('container').prepend('<div>' +
+			var me = this,
+				tableBB;
+			
+			me.table.render(this.get('container'));
+			tableBB = me.table.get('boundingBox');
+			
+			me.get('container').prepend('<div>' +
 											'<button class="save">Save</button>' + 
 											'<button class="print">Print</button>' +
 										'</div>');

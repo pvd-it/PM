@@ -11,31 +11,19 @@ YUI.add('datatable-edit', function(Y) {
 	Y.namespace('DataTable').Edit = Edit = function() {}
     
     Edit.prototype = {
-        
-        initializer: function(){
-        	Y.Do.after(this._afterRenderUIEdit, this, 'renderUI');
-        	
-        	// This loop here prepares a hash of InlineEditors to use
-        	this._inlineEditors = {};
-        	YArray.each(this.get('columns'), function(col){
-				if (col.inlineEditor){
-					this._inlineEditors[col.inlineEditor] = false;
-				}
-        	}, this);
+    	
+    	initializer: function(){
+        	Y.Do.after(this._renderInlineEditors, this, 'renderUI');
         },
         
-        _afterRenderUIEdit: function(){
-        	var bb = this.get('boundingBox'),
-        		config = {
-	        		zIndex: 1,
-	        		visible: false,
-	        		constrainNode: bb,
-        		};
+        _renderInlineEditors: function(){
+        	var ies = this.get('inlineEditors'),
+        		bb = this.get('boundingBox');
         	
-        	YObject.each(this._inlineEditors, function(val, key, o){
-        		 o[key] = new Y[key](config);
-        		 o[key].render();
-        	}, this);
+        	YObject.each(ies, function(val, key, o){
+        		 val.set('constrainNode', bb);
+        		 val.render();
+        	});
         },
         
         _bindUIEdit: function(editor){
@@ -77,17 +65,15 @@ YUI.add('datatable-edit', function(Y) {
         		item = data.item(row),
         		currentCol = columns[col],
         		key = columns[col]['key'],
+        		inlineEditors = this.get('inlineEditors'),
         		value,
-        		editorName,
         		editor;
         		
-        	editorName = currentCol.inlineEditor;
+        	editor = inlineEditors[currentCol.inlineEditor];
         	
-        	if (editorName){
-        		editor = this._inlineEditors[editorName];
-        	} else {
-        		return;
-        	}
+        	if (!editor){
+				return;
+			}
         	
         	if (columns[col].editFromNode){
         		value = cellTd.get('text');
@@ -229,6 +215,10 @@ YUI.add('datatable-edit', function(Y) {
         		this._afterSyncUI();	
         	}
         },
+    }
+    
+    Edit.ATTRS = {
+    	inlineEditors: {}
     }
     
     if (YLang.isFunction(Y.DataTable)) {

@@ -1,7 +1,9 @@
 YUI.add('project-calendar', function(Y){
 	var ProjectCalendar,
 		YObject = Y.Object,
-		YLang = Y.Lang;
+		YDate = Y.DataType.Date,
+		YLang = Y.Lang,
+		YObject = Y.Object;
 	
 	ProjectCalendar = function() {
 		this.data = {
@@ -14,7 +16,8 @@ YUI.add('project-calendar', function(Y){
 				endDate,
 				dateKey,
 				dateEntry,
-				duration;
+				duration,
+				me = this;
 				
 			//Y.log('calcTaskEndDate ' + taskId + ' ' + prevStartDate + ' ' + newStartDate + ' ' + prevWorkHours + ' ' + newWorkHours);
 			
@@ -47,9 +50,9 @@ YUI.add('project-calendar', function(Y){
 				newWorkHours = newWorkHours || 0;
 				
 				while (newWorkHours > 0){
-					if (newWorkHours > ProjectCalendar.MAX_HOURS_PER_DAY){
-						this._setTaskHoursOnDate(taskId, ProjectCalendar.MAX_HOURS_PER_DAY, endDate);
-						newWorkHours -= ProjectCalendar.MAX_HOURS_PER_DAY;
+					if (newWorkHours > me.MAX_HOURS_PER_DAY){
+						this._setTaskHoursOnDate(taskId, me.MAX_HOURS_PER_DAY, endDate);
+						newWorkHours -= me.MAX_HOURS_PER_DAY;
 						endDate = this.getNextWorkingDay(endDate);
 					} else {
 						this._setTaskHoursOnDate(taskId, newWorkHours, endDate);
@@ -61,7 +64,7 @@ YUI.add('project-calendar', function(Y){
 		},
 		
 		_getDateAsKey: function(date){
-			return Y.DataType.Date.format(date, {format: '%Y%m%d'});
+			return YDate.format(date, {format: '%Y%m%d'});
 		},
 		
 		_setTaskHoursOnDate: function(taskId, hours, date) {
@@ -79,33 +82,114 @@ YUI.add('project-calendar', function(Y){
 			dateEntry[taskId] = hours;
 		},
 		
-		getNextWorkingDay: function(date){
+		getNextWorkDay: function(date) {
+			var me = this,
+				isWD;
+			
 			do {
-				date = Y.DataType.Date.addDays(date, 1);	
-			} while (!this._isWorkingDay(date));
+				date = YDate.addDays(date, 1);
+				isWD = me.isWorkDay(date); 
+			} while (!isWD);
 			
 			return date;
 		},
 		
-		_isWorkingDay: function(date){
-			var weekDay = date.getDay();
+		isWorkDay: function(date) {
+			var weekDay = date.getDay(),
+				me = this,
+				index;
+				
+			//Check if date falls in weekends
+			index = me.WEEKENDS.indexOf(weekDay);
 			
-			if (weekDay === 0 || weekDay === 6){
+			if (index < 0) { //Date is not weekend
+				var strDate = me._getDateAsKey(date),
+					holidays = me.HOLIDAYS || [];
+				
+				return (holidays.indexOf(strDate) < 0);
+			} else { //Date is weekend, so can't be workday
 				return false;
 			}
-			return true;
-		}
+		},
+		
+		calcTaskEndDateWithResourceFromScratch: function(task, resource){
+			var taskId = task.get('clientId'),
+				taskWork = task.get('work'),
+				taskStartDate = task.get('startDate'),
+				resourceId = resource ? resource.get('clientId'): undefined,
+				me = this,
+				calDate,
+				resourceAlloc,
+				assignedWork,
+				hoursRemainingForDay;
+			
+			
+			/**
+			 *	1. See if there is entry for this task's start date. 
+			 */
+			while (true){
+				
+				startDateKey = me._getDateAsKey(taskStartDate);
+				
+				calDate = me.data[startDateKey]; 					//See if this particular date is already present in ProjectCalendar
+				if (!calDate){
+					me.data[startDateKey] = calDate = {}; 			//Date is not present, make an entry in ProjectCalendar
+				} 
+
+				if(resourceId){										//See if some resource is allocated for the task or not
+					resourceAlloc = calDate[resourceId];			//Check if assigned resource has some work on given date
+					if (!resourceAlloc){
+						resourceAlloc = calDate[resourceId] = {};	//Resource doesn't have work for a given date, so create it
+						hoursRemainingForDay = me.MAX_HOURS_PER_DAY;
+					} else {
+						var totalHours = 0;
+						YObject.each(resourceAlloc, function(v){	//Resource already has work for given date, now check how many hours are remaining for him for a given date
+							totalHours = totalHours + v;
+						});
+						hoursRemainingForDay = me.MAX_HOURS_PER_DAY - totalHours;
+					}
+				} else {
+					hoursRemainingForDay = me.MAX_HOURS_PER_DAY;	//Since no resource, so do maximum amount of work
+					resourceAlloc = {};								//Create dummy obj, so that further code doesn't break
+				}
+				
+				assignedWork = me._calculateWork(taskWork, hoursRemainingForDay);	//Calculate assigned work
+				
+				if (assignedWork > 0){
+					resourceAlloc[taskId] =  assignedWork;			//Book that work for resource under a given task id, only if assigned work is greater than zero
+					taskWork = taskWork - assignedWork;
+				}
+				
+				if (taskWork > 0){
+					taskStartDate = me.getNextWorkDay(taskStartDate);
+				} else {
+					break;
+				}
+			}
+			return taskStartDate;
+		},
+		
+		_calculateWork: function(remainingTaskEffort, availableHoursToResourceForDay){
+			var me = this;
+			if (remainingTaskEffort <= availableHoursToResourceForDay){
+				return remainingTaskEffort;
+			}
+			return availableHoursToResourceForDay;
+		},
+		
+		MAX_HOURS_PER_DAY: 8,
+		
+		WEEKENDS: [0, 6] //0 being Sunday and 6 being Saturday
+	
 	};
 	
-	ProjectCalendar.MAX_HOURS_PER_DAY = 8;
-	
-	Y.ProjectCalendar = new ProjectCalendar();
+	Y.ProjectCalendar = ProjectCalendar;
 
 /**
  *This is how the data property of ProjectCalendar will be maintained, per resource/task and per task/resource basis 
  *
 	{
-		'2012-05-18': { 
+		'2012-05-18': {
 			ResA: {
 				'task_1': 4,
 				'task_2': 4
@@ -118,6 +202,6 @@ YUI.add('project-calendar', function(Y){
 				'ResA': 4
 			}
 		}
-	s}
+	}
 */
 });

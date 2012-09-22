@@ -1,5 +1,8 @@
 YUI.add('resource', function(Y) {
 	Y.Resource = Y.Base.create('resource', Y.Model, [], {
+		
+		idAttribute: '_id',
+		
 		initializer: function(config){
 			if (config && config.clientId){
 				this._set('clientId', config.clientId);	
@@ -45,6 +48,9 @@ YUI.add('resource', function(Y) {
 			
 			type: {
 				
+			},
+			
+			'_id': {
 			}
 		}	
 	});

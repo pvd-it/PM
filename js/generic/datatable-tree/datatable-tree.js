@@ -23,7 +23,7 @@ YUI.add('datatable-tree', function(Y) {
 			CLS_COL_TREE_KNOB = this.getClassName('tree', 'col', 'knob');
 			CLS_COL_TREE = this.getClassName('tree', 'col');
 			
-			Y.Array.each(config.columns, function(item, index){
+			Y.Array.each(this.get('columns'), function(item, index){
 				if(item.isTreeKnob){
 					item.formatter = function(o){
 					 	o.className = o.className + ' ' + CLS_COL_TREE_KNOB;
@@ -56,6 +56,7 @@ YUI.add('datatable-tree', function(Y) {
 			var rowIndex	= this.get(ACTIVE_ROW_INDEX), 
 				model 		= this.get('data').item(rowIndex),
 				collapsed 	= model.get('collapsed');
+			
 			
 			collapsed = !collapsed;
 			model.set('collapsed', collapsed, {src: 'UI'});

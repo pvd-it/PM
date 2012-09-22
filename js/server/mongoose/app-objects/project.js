@@ -2,10 +2,10 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId,
 	ProjectTask = require('./project-task'),
+	ProjectResource = require('./project-resource'),
 
 	projectSchema = new Schema({
 		name: String,
-		team: [{type: ObjectId, ref: 'User'}],
 		businessNeed: String,
 		businessRequirement: String,
 		businessValue: String,
@@ -30,24 +30,41 @@ module.exports.retreiveProjectById = function(projectId, callback) {
 				callback(tasksErr);
 				return;
 			}
-			var jsonProject = JSON.stringify(project);
 			
-			jsonProject = JSON.parse(jsonProject);
-			if (!tasks) {
-				tasks = [];
-			}
-			jsonProject.tasks = tasks;
-			callback(null, jsonProject);
+			ProjectResource.model.find({projectId: project._id}).sort('position', 1).exec(function(resourcesErr, resources){
+				if (resourcesErr){
+					callback(resourcesErr);
+					return;
+				}
+				var jsonProject = JSON.stringify(project);
+				jsonProject = JSON.parse(jsonProject);
+				
+				jsonProject.lastTaskCount = jsonProject.lastTaskCount || 0;
+				jsonProject.lastResourceCount = jsonProject.lastResourceCount || 0;
+				
+				if (!tasks) {
+					tasks = [];
+				}
+				jsonProject.tasks = tasks;
+				
+				if (!resources){
+					resources = [];
+				}
+				jsonProject.resources = resources;
+				callback(null, jsonProject);
+			});
 		});
 	});
 };
 
 module.exports.updateProject = function(jsonProject, callback) {
 	var projId = jsonProject._id,
-		tasks = jsonProject.tasks;
+		tasks = jsonProject.tasks,
+		resources = jsonProject.resources;
 		
 	delete jsonProject.tasks;
 	delete jsonProject._id;
+	delete jsonProject.resources;
 		
 	projectModel.update({_id: projId}, jsonProject, function(prjErr){
 		if (prjErr){
@@ -69,7 +86,25 @@ module.exports.updateProject = function(jsonProject, callback) {
 						callback(modifyErr);
 						return;
 					}
-					ProjectTask.deleteTasks(tasks.deletedItems, callback);
+					ProjectTask.deleteTasks(tasks.deletedItems, function(deleteErr, deleteResult){
+						if (deleteErr){
+							callback(deleteErr);
+							return;
+						}
+						ProjectResource.createResources(resources.newItems, proj._id, function(createResourceErr, createResourceResult){
+							if (createResourceErr){
+								callback(createResourceErr);
+								return;
+							}
+							ProjectResource.updateResources(resources.modifiedItems, function(modifyResourceErr, modifyResourceResult){
+								if (modifyResourceErr){
+									callback(modifyResourceErr);
+									return;
+								}
+								ProjectResource.deleteResources(resources.deletedItems, callback);
+							});
+						});
+					});
 				});
 			});
 		});

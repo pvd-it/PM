@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Inline Resource Editor Manual Test</title>
+	</head>
+	<body class="yui3-skin-sam">
+
+		<h1>ListBuilder manual test</h1>
+
+		<script src="http://127.0.0.1:8020/YUI/3.7.0pr4/build/yui/yui.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			YUI({
+				filter : 'raw',
+
+				groups : {
+					generic : {
+						base : '../../../',
+						modules : {
+							'list-builder' : {
+								path : 'list-builder/list-builder.js',
+								requires : ['autocomplete-list', 'substitute', 'array-extras-fix', 'list-builder-keys', 'autocomplete-filters', 'autocomplete-highlighters'],
+								skinnable : true
+							},
+
+							'list-builder-keys' : {
+								path : 'list-builder/list-builder-keys.js'
+							},
+
+							'inline-editor' : {
+								path : 'inline-editor/inline-editor.js',
+								requires : ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align'],
+								skinnable : true
+							},
+
+							'inline-resource-editor' : {
+								path : 'inline-editor/inline-resource-editor.js',
+								requires : ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align', 'list-builder', 'resource'],							}
+						},
+					},
+
+					fix : {
+						base : '../../../../fix/',
+						modules : {
+							'array-extras-fix' : {
+								path : 'array-extras/array-extras.js',
+							}
+						}
+					},
+
+					app : {
+						base : '../../../../app/',
+						modules : {
+							'resource' : {
+								path : 'resource/resource.js',
+								requires : ['model']
+							},
+
+							'resource-list' : {
+								path : 'resource/resource-list.js',
+								requires : ['model-list']
+							}
+						}
+					}
+				},
+			}).use('inline-resource-editor', function(Y) {
+				var r1 = new Y.Resource({
+						"projectId" : "503af31d3efe47d00b000055",
+						"clientId" : "resource_1",
+						"name" : "Huey Duck",
+						"startDate" : "2012-09-03T06:30:00.000Z",
+						"endDate" : "2012-09-28T06:30:00.000Z",
+						"email" : "Huey.Duck@duck.tales",
+						"position" : 0,
+						"_id" : "5052f269cdc7124c1600003b"
+					}),
+					r2 = new Y.Resource({
+						"projectId" : "503af31d3efe47d00b000055",
+						"clientId" : "resource_2",
+						"name" : "Dewey Duck",
+						"startDate" : "Fri Sep 28 2012 12:00:00 GMT+0530 (India Standard Time)",
+						"endDate" : "",
+						"email" : "Dewey.Duck@duck.tales",
+						"position" : 1,
+						"_id" : "5052f269cdc7124c1600003c"
+					}),
+					r3 = new Y.Resource({
+						"projectId" : "503af31d3efe47d00b000055",
+						"clientId" : "resource_3",
+						"name" : "Louie Duck",
+						"startDate" : "",
+						"email" : "Louie.Duck@duck.tales",
+						"position" : 2,
+						"_id" : "5052f269cdc7124c1600003d"
+					});
+					
+				var ire = new Y.InlineResourceEditor({
+					resources : [r1, r2, r3],
+					listToEdit : []
+				});
+				ire.render();
+			});
+		</script>
+	</body>
+</html>

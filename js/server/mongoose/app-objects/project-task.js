@@ -18,6 +18,7 @@ var mongoose = require('mongoose'),
 		"predecessors": {},
 		"successors": {},
 		'position': Number,
+		'resources': [String],
 		'projectId': {type: ObjectId, ref: 'Project'}
 	}),
 	

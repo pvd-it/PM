@@ -3,6 +3,17 @@ YUI.add('resource-view', function(Y){
 		table: null,
 		
 		initializer: function(){
+			var inlineEditors = {
+				'inlineTextEditor': new Y.InlineEditor({
+	        		zIndex: 1,
+	        		visible: false,
+				}),
+				'inlineDateEditor': new Y.InlineDateEditor({
+	        		zIndex: 1,
+	        		visible: false,
+				}),
+			};
+			
 			this.table = new Y.DataTable({
 				columns: [
 					{key: 'name',				label: 'Index',				
@@ -10,13 +21,13 @@ YUI.add('resource-view', function(Y){
 							o.value = o.rowIndex+1;
 						}													},
 					{key: 'name', 				label: 'Resource Name',
-							inlineEditor: 'InlineEditor',
+							inlineEditor: 'inlineTextEditor',
 							partialUpdate: true								},
 					{key: 'email', 				label: 'Email Address',
-							inlineEditor: 'InlineEditor',
+							inlineEditor: 'inlineTextEditor',
 							partialUpdate: true								},
 					{key: 'startDate', 			label: 'Start Date',
-							inlineEditor: 'InlineDateEditor',
+							inlineEditor: 'inlineDateEditor',
 							formatter: function(o){
 						   		if (Y.Lang.isDate(o.data.startDate)) {
 							   		o.value = Y.DataType.Date.format(o.data.startDate, {
@@ -28,7 +39,7 @@ YUI.add('resource-view', function(Y){
 					   		},
 							partialUpdate: true								},
 					{key: 'endDate', 			label: 'End Date',
-							inlineEditor: 'InlineDateEditor',
+							inlineEditor: 'inlineDateEditor',
 							formatter: function(o){
 						   		if (Y.Lang.isDate(o.data.endDate)) {
 							   		o.value = Y.DataType.Date.format(o.data.endDate, {
@@ -42,7 +53,8 @@ YUI.add('resource-view', function(Y){
 				],
 				caption: 'Resources',
 				recordType: Y.Resource,
-				data: this.get('model').get('team')
+				data: this.get('model').get('resources'),
+				inlineEditors: inlineEditors,
 			});
 		},
 		
@@ -68,7 +80,7 @@ YUI.add('resource-view', function(Y){
 			
 			'.print': {
 				click: function(e){
-					Y.log(this.get('model').get('team').toJSON());
+					Y.log(this.get('model').get('resources').toJSON());
 				}
 			}
 		},
