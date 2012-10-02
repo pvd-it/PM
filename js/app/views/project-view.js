@@ -1,6 +1,6 @@
 YUI.add('project-view', function(Y){
 	Y.namespace('PMApp').ProjectView = Y.Base.create('projectView', Y.View, [], {
-		template: Y.Handlebars.compile(Y.one('#t-project').getContent()),
+		template: Y.Handlebars.template(Y.HandlebarsTemplates['t-project']),
 			
 		render: function(){
 			Y.log('rendering project view');

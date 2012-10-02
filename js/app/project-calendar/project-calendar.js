@@ -82,7 +82,7 @@ YUI.add('project-calendar', function(Y){
 			dateEntry[taskId] = hours;
 		},
 		
-		getNextWorkDay: function(date) {
+		getNextWorkDay: function(date, resource) {
 			var me = this,
 				isWD;
 			
@@ -112,10 +112,16 @@ YUI.add('project-calendar', function(Y){
 			}
 		},
 		
-		calcTaskEndDateWithResourceFromScratch: function(task, resource){
+		calProjectSchedule: function(){
+			
+		},
+		
+		calcTaskEndDateWithResourceFromScratch: function(task){
 			var taskId = task.get('clientId'),
 				taskWork = task.get('work'),
 				taskStartDate = task.get('startDate'),
+				resources = task.get('resources'),
+				resource = resources && resources[0],
 				resourceId = resource ? resource.get('clientId'): undefined,
 				me = this,
 				calDate,
@@ -140,7 +146,7 @@ YUI.add('project-calendar', function(Y){
 					resourceAlloc = calDate[resourceId];			//Check if assigned resource has some work on given date
 					if (!resourceAlloc){
 						resourceAlloc = calDate[resourceId] = {};	//Resource doesn't have work for a given date, so create it
-						hoursRemainingForDay = me.MAX_HOURS_PER_DAY;
+						hoursRemainingForDay = me.MAX_HOURS_PER_DAY;//and assign full capacity
 					} else {
 						var totalHours = 0;
 						YObject.each(resourceAlloc, function(v){	//Resource already has work for given date, now check how many hours are remaining for him for a given date

@@ -1,9 +1,11 @@
 YUI.add('newproject-view', function(Y){
 	
 	Y.namespace('PMApp').NewProjectView = Y.Base.create('newProjectView', Y.View, [], {
+
+		initializer: function(){
+			this.template = Y.Handlebars.template(Y.HandlebarsTemplates['t-newproject']);
+		},
 	
-		template: Y.Handlebars.compile(Y.one('#t-newproject').getContent()),
-			
 		render: function(){
 			var content = this.template(),
 				project = this.get('model'),

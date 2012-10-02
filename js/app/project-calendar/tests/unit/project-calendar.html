@@ -9,45 +9,67 @@
 
 		<div id="log"></div>
 		
-		<script src="http://127.0.0.1:8020/YUI/3.7.0pr4/build/yui/yui.js" type="text/javascript"></script>
+		<script src="http://127.0.0.1:8020/YUI/3.7.1/build/yui/yui.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			YUI({
 				coverage : ['project-calendar'],
 				filter : (window.location.search.match(/[?&]filter=([^&]+)/) || [])[1] || 'raw',
+				
+				groups: {
+					generic: {
+						base: '../../../../generic/',
+						modules: {
+							'tree-model': {
+								path: 'tree-model/tree-model.js',
+								requires: ['model', 'arraylist', 'arraylist-add']
+							},
+							
+							'tree-model-list': {
+								path: 'tree-model-list/tree-model-list.js',
+								requires: ['model-list', 'tree-model']
+							},
+							
+							'model-list-variance': {
+								path: 'model-list-variance/model-list-variance.js',
+							}
+						}
+					},
+					
+					fix: {
+						base: '../../../../fix/',
+					},
+					
+					app: {
+						base: '../../../../app/',
+						modules: {
+							'project-calendar': {
+								path: 'project-calendar/project-calendar.js',
+								requires: ['datatype-date-format', 'datatype-date-math', 'task', 'resource']
+							},
+							
+							task: {
+								path: 'task/task.js',
+								requires: ['tree-model', 'datatype-date-parse', 'project-calendar']
+							},
+							
+							'task-list': {
+								path: 'task/task-list.js',
+								requires: ['tree-model-list','task', 'io-base', 'model-list-variance']
+							},
+							
+							resource: {
+								path: 'resource/resource.js',
+								requires: ['model']
+							},
+						}
+					}
+
+				},
+				
 				modules : {
 					'project-calendar-tests' : {
 						fullpath : './assets/project-calendar-tests.js',
 						requires : ['project-calendar', 'task', 'resource', 'task-list']
-					},
-					
-					'project-calendar': {
-						fullpath: '../../project-calendar.js',
-						requires: ['datatype-date-format', 'datatype-date-math']
-					},
-					
-					task: {
-						fullpath: '../../../task/task.js',
-						requires: ['tree-model', 'datatype-date-parse', 'project-calendar']
-					},
-					
-					resource: {
-						fullpath: '../../../resource/resource.js',
-						requires: ['model']
-					},
-					
-					'tree-model': {
-						fullpath: '../../../../generic/tree-model/tree-model.js',
-						requires: ['model', 'arraylist', 'arraylist-add']
-					},
-					
-					'tree-model-list': {
-						path: '../../../../generic/tree-model-list/tree-model-list.js',
-						requires: ['model-list', 'tree-model']
-					},
-					
-					'task-list': {
-						path: '../../../task/task-list.js',
-						requires: ['tree-model-list','task', 'io-base']
 					},
 				}
 			}).use("test-console", "project-calendar-tests", 'json-stringify', function(Y) {

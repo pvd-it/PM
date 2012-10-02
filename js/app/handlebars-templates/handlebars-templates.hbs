@@ -1,0 +1,30 @@
+YUI.add('handlebars-templates', function(Y){
+	
+	Y.Handlebars.registerHelper('md', function(text){
+		var op = Y.Markdown.toHTML(text);
+		return new Y.Handlebars.SafeString(op);
+	});
+
+	// Register a custom block helper that we'll use to perform the striping.
+    Y.Handlebars.registerHelper('stripeRows', function (rows, obj) {
+        var buffer = [],
+            i, len;
+        
+        for (i = 0, len = rows.length; i < len; ++i) {
+            var row = rows[i];
+            row.rowClass = (i + 1) % 2 === 0 ? 'even' : 'odd';
+
+            // Render the block once for each row.
+            buffer.push(obj.fn(row));
+    	}
+
+        return buffer.join('');
+    });
+
+	
+	Y.namespace('HandlebarsTemplates');
+	
+	{{#each compiledTemplates}}
+		Y.HandlebarsTemplates['{{name}}'] = {{{func}}};
+	{{/each}}
+});

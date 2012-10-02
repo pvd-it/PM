@@ -5,15 +5,19 @@ var combo = require('combohandler'),
 	path = require('path'),
 	util = require('util'),
 	fs = require('fs'),
+	hbs = require('hbs'),
 		
 	jsRoot = path.join(__dirname, '..'),
 	pageRoot = path.join(__dirname, '../../pages'),
 	dataRoot = path.join(__dirname, '../../data'),
 	imageRoot = path.join(__dirname, '../../js'),
 	cssRoot = path.join(__dirname, '../../bootstrap'),
+	hbsRoot = path.join(__dirname, '../../pages'),
+	blocks = {},
 	
 	mongoose = require('mongoose'),
-	User = require('./mongoose/app-objects/user'),
+	UserSchema = require('./mongoose/app-objects/user'),
+	User = require('./mongoose/app-objects/user').model,
 	Organization = require('./mongoose/app-objects/organization'),
 	ProjectSchema = require('./mongoose/app-objects/project'),
 	Project = require('./mongoose/app-objects/project').model,
@@ -74,11 +78,20 @@ app.configure(function() {
 					connectUtils.unauthorized(res);
 				}
 			} else {
-				res.redirect('/login');				
+				next();
+				//res.redirect('/login');				
 			}
 		}
 	});
 });
+
+app.set('view engine', 'hbs');
+app.set('views', hbsRoot);
+
+hbs.registerHelper('toJson', function(context, block) {
+    return JSON.stringify(context);
+});
+
 
 //mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
 
@@ -247,7 +260,7 @@ app.all('/logout', function(req, res, next){
 	} else {
 		var options = {
 			root: pageRoot,
-			path: 'app.html',
+			path: 'hero.html',
 			getOnly: true
 		};
 		express['static'].send(req, res, next, options);
@@ -255,13 +268,27 @@ app.all('/logout', function(req, res, next){
 });
 
 app.get('*', function(req, res, next) {
-	
-	var options = {
-		root: pageRoot,
-		path: 'app.html',
-		getOnly: true
-	};
-	express['static'].send(req, res, next, options);
+	var env = {};
+	env.useCDN = process.env.CDN === 'YES' ? true : false;
+	env.type = 'dev';
+	 
+	if (req.session && req.session.authentication === 'done'){
+		UserSchema.retrieveUserById(req.session.userId, function(err, result){
+			res.render('hero', {
+				layout: false,
+				appConfig: {
+					isAuthenticated: true,
+					user: result
+				},
+				env: env
+			});
+		});
+	} else {
+		res.render('hero', {
+			layout: false,
+			env: env
+		});
+	}
 });
 
 app.listen(process.env.PORT || 3000);

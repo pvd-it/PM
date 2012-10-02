@@ -10,7 +10,7 @@ YUI.add('alert', function(Y){
 	
 	Alert.NAME = 'alert';
 
-	Alert.CLOSE_BUTTON_CLASS = getClassName(Alert.NAME, 'close', 'button');
+	Alert.CLOSE_BUTTON_CLASS = 'close'; //Prefer bootstrap class names over yui3 style class names
 	Alert.CLOSE_BUTTON_TEMPLATE = '<button class="' + Alert.CLOSE_BUTTON_CLASS + '" type="button">×</button>';
 	
 	Alert.HEADING_CLASS = getClassName(Alert.NAME, 'heading');
@@ -36,7 +36,12 @@ YUI.add('alert', function(Y){
 	
 	Y.Alert = Alert = Y.extend(Alert, Y.Widget, {
 		renderUI: function(){
-			var cb = this.get('contentBox');
+			var cb = this.get('contentBox'),
+				bb = this.get('boundingBox');
+			
+			bb.addClass('container');
+			cb.addClass('alert alert-block');
+			
 			this._renderCloseButton(cb);
 			this._renderHeading(cb);
 			this._renderMessage(cb);
@@ -93,7 +98,7 @@ YUI.add('alert', function(Y){
 		},
 		
 		_uiSetAlertType: function(type){
-			var typeClass = this.getClassName(type),
+			var typeClass = 'alert-' + type,
 				heading;
 			
 			switch(type){
@@ -117,7 +122,7 @@ YUI.add('alert', function(Y){
 		},
 		
 		_uiUnSetAlertType: function(type){
-			var typeClass = this.getClassName(type);
+			var typeClass = 'alert-' + type;
 			this.get('contentBox').removeClass(typeClass);
 		},
 		

@@ -7,7 +7,7 @@ YUI.add('app-project-management', function(Y){
 	
 	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [], {
 		views: {
-			login:		{type: Y.PMApp.LoginView, preserve: false, pageHeader: 'Login', pageHeaderTeaser: 'to access your projects'},
+			login:		{type: Y.PMApp.LoginView, preserve: false},
 			logout:		{type: Y.PMApp.LogoutView, preserve: false, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
 			project:	{type: Y.PMApp.ProjectView, preserve: false, pageHeader: 'Overview', pageHeaderTeaser: '', subNav: true},
 			schedule:	{type: Y.PMApp.ScheduleView, preserve: false, parent: 'login', pageHeader: 'Schedule', pageHeaderTeaser: '', subNav: true},
@@ -19,8 +19,8 @@ YUI.add('app-project-management', function(Y){
 		},
 		
 		initializer: function(){
-			this.after('*:loginSuccess', this._afterLoginSuccess);
-			this.after('*:logoutSuccess', this._afterLogoutSuccess);
+			Y.after('loginSuccess', Y.bind(this._afterLoginSuccess, this));
+			Y.after('*:logoutSuccess', this._afterLogoutSuccess);
 			
 			this.after('alert:closed', this._afterAlertClosed);
 			Y.on('alert', Y.bind(this._afterAlertReceived, this));
@@ -47,35 +47,30 @@ YUI.add('app-project-management', function(Y){
 					str = str + '<small>' + pageHeaderTeaserText + '</small>';
 				}
 				str = str + '</h1>';
-				this.pageHeader.set('innerHTML', str);
+				//this.pageHeader.set('innerHTML', str);
 			}
 			
 			if (self.views[view].subNav) {
-				this._showSubNav();
+				//this._showSubNav();
 			} else {
-				this._hideSubNav();
+				//this._hideSubNav();
 			}
-			
-			if (self.lastActiveNav) {
-				self.lastActiveNav.removeClass('active');
-			}
-			navAnchor = Y.one('a[href="/' + view + '"]');
-			if (navAnchor){
-				self.lastActiveNav = navAnchor.get('parentNode');
-				self.lastActiveNav.addClass('active');
-			}
-			
-			
 			App.superclass.showView.apply(this, arguments);
 		},
 		
 		render: function(){
+			
 			App.superclass.render.apply(this, arguments);
 			
-			this._renderLoginbar();
+			Y.log('App render');
+			this.appNav = new Y.PMApp.NavView({
+				container: '#primaryNav'
+			}).render();
+			
+			//this._renderLoginbar();
 			this._renderAlertBoard();
-			this._renderSubNavbar();
-			this._renderPageHeader();
+			//this._renderSubNavbar();
+			//this._renderPageHeader();
 		},
 		
 		_renderLoginbar: function(){
@@ -176,9 +171,9 @@ YUI.add('app-project-management', function(Y){
 		},
 		
 		_afterLoginSuccess: function(e){
+			Y.log('after login success');
 			this.set('currentUser', e.user);
 			this.replace('/dashboard');
-			//this.subNavbar.setStyle('display', 'block');
 		},
 		
 		_afterLogoutSuccess: function(e){
@@ -186,14 +181,6 @@ YUI.add('app-project-management', function(Y){
 		},
 		
 		_afterCurrentUserChange: function(e){
-			this._uiSetCurrentUser(e.newVal);
-		},
-		
-		_uiSetCurrentUser: function(user){
-			this.loginNode.remove();
-			this.userNode.one('a').set('innerHTML', 'Welcome, ' + user.name);
-			this.loginbar.append(this.userNode);
-			this.loginbar.append(this.logoutNode);
 			this.isAuthenticated = true;			
 		},
 		
@@ -349,14 +336,15 @@ YUI.add('app-project-management', function(Y){
 		ATTRS: {
 			routes: {
 				value: [
-					{path: '/*', callback: '_handleCatchAll'},
+//					{path: '/*', callback: '_handleCatchAll'},
 					{path: '/schedule', callback: 'handleSchedule'},
 					{path: '/schedule', callback: 'showScheduleView'},
 					{path: '/resource', callback: 'handleResource'},
 					{path: '/resource', callback: 'showResourceView'},
 					{path: '/gantt', callback: 'showGanttView'},
 					{path: '/login', callback: 'showLoginView'},
-					{path: '/logout', callback: 'showLogoutView'},
+					{path: '/', callback: 'showLoginView'},
+					{path: '/logout', callback: 'showLoginView'},
 					{path: '/newproject', callback: 'showNewProjectView'},
 					{path: '/dashboard', callback: 'showDashboardView'},
 					{path: '/project', callback: 'showProjectView'},

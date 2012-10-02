@@ -5,10 +5,8 @@ YUI.add('gantt-view', function(Y){
 	
 	Y.namespace('PMApp').GanttView = Y.Base.create('ganttView', Y.View, [], {
 		
-		template: Y.Handlebars.compile(Y.one('#t-gantt').getContent()),
-		
 		initializer: function(){
-		
+			this.template = Y.Handlebars.template(Y.HandlebarsTemplates['t-gantt']);		
 		},
 		
 		render: function(){

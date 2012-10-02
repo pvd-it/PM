@@ -1,7 +1,9 @@
 YUI.add('dashboard-view', function(Y){
 	Y.namespace('PMApp').DashboardView = Y.Base.create('dashboardView', Y.View, [], {
-		template: Y.Handlebars.compile(Y.one('#t-dashboard').getContent()),
-			
+		initializer: function(){
+			this.template = Y.Handlebars.template(Y.HandlebarsTemplates['t-dashboard']);
+		},
+		
 		render: function(){
 			Y.log('rendering dashboard view');
 			var data = this.get('model'),

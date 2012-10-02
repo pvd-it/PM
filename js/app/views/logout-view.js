@@ -1,7 +1,7 @@
 YUI.add('logout-view', function(Y){
 	Y.namespace('PMApp').LogoutView = Y.Base.create('logoutView', Y.View, [], {
 		
-		template: Y.Handlebars.compile(Y.one('#t-logout').getContent()),
+		//template: Y.Handlebars.compile(Y.one('#t-logout').getContent()),
 		
 		render: function(){
 			Y.log('rendering newproject view');

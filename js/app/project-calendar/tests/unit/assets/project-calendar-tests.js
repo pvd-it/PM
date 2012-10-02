@@ -195,7 +195,9 @@ YUI.add('project-calendar-tests', function(Y) {
         		resultDateString,
         		me = this;
         		
-        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task, resource);
+        	task.set('resources', [resource]);
+        		
+        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task);
         	resultDateString = YDate.format(resultDate, {format: '%Y%m%d'});
         	
         	ASSERT.areSame("20120911", resultDateString);
@@ -216,7 +218,9 @@ YUI.add('project-calendar-tests', function(Y) {
         		resultDateString,
         		me = this;
         		
-        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task, resource);
+        	task.set('resources', [resource]);
+        		
+        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task);
         	resultDateString = YDate.format(resultDate, {format: '%Y%m%d'});
         	
         	ASSERT.areSame("20120917", resultDateString);
@@ -226,6 +230,7 @@ YUI.add('project-calendar-tests', function(Y) {
         		work: 12,
         		clientId: 'testTask2',
         	});
+        	task.set('resources', [resource]);
         	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task, resource);
         	resultDateString = YDate.format(resultDate, {format: '%Y%m%d'});
         	
@@ -299,9 +304,10 @@ YUI.add('project-calendar-tests', function(Y) {
         		resultDateString,
         		me = this;
         	
+        	task.set('resources', [resource]);
         	me.projCal.data = {};
         	
-        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task, resource);
+        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task);
         	resultDateString = YDate.format(resultDate, {format: '%Y%m%d'});
         	ASSERT.areSame('20120917', resultDateString);
         	
@@ -310,7 +316,8 @@ YUI.add('project-calendar-tests', function(Y) {
 				work: 28,
 				clientId: 'testTask2',
         	});
-        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task, resource);
+        	task.set('resources', [resource]);
+        	resultDate = me.projCal.calcTaskEndDateWithResourceFromScratch(task);
         	resultDateString = YDate.format(resultDate, {format: '%Y%m%d'});
         	ASSERT.areSame('20120920', resultDateString);
         	

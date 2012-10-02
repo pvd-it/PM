@@ -9,6 +9,41 @@ var mongoose = require('mongoose'),
 		organization: {type: ObjectId, ref: 'Organization'},
 		pastProjects: [{type: ObjectId, ref: 'Project'}],
 		currentProjects: [{type: ObjectId, ref: 'Project'}],
-	});
+	}),
+	
+	userModel = mongoose.model('User', userSchema);
 
-module.exports = mongoose.model('User', userSchema);
+module.exports.model = userModel;
+
+module.exports.retrieveUserById = function(_id, callback){
+	userModel.findById(_id).populate('organization').populate('currentProjects', ['name']).exec(function(error, result){
+		if (error) {
+			callback(error);
+			return;	
+		} else {
+			var jsonUser = JSON.stringify(result);
+			jsonUser = JSON.parse(jsonUser);
+			
+			delete jsonUser.password;
+			callback(null, jsonUser);
+		}
+	});
+};
+
+module.exports.retrieveUserByUserIdAndPassword = function(userId, password, callback){
+	userModel.findOne({
+		userName: userId,
+		password: password
+	}).populate('organization').populate('currentProjects', ['name']).exec(function(error, result){
+		if (error) {
+			callback(error);
+			return;	
+		} else {
+			var jsonUser = JSON.stringify(result);
+			jsonUser = JSON.parse(jsonUser);
+			
+			delete jsonUser.password;
+			callback(null, jsonUser);
+		}
+	});
+};
