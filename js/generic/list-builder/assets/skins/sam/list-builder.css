@@ -1,4 +1,4 @@
-.yui3-skin-sam .yui3-listbuilder-content {
+ .yui3-listbuilder-content {
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -10,21 +10,21 @@
 	border-radius: 5px;
 }
 
-.yui3-skin-sam .yui3-listbuilder-focused .yui3-listbuilder-content {
+ .yui3-listbuilder-focused .yui3-listbuilder-content {
 	border: 1px solid rgba(82, 168, 236, 0.8);
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-item,
-.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-add {
+ .yui3-listbuilder-content .yui3-listbuilder-tag-item,
+ .yui3-listbuilder-content .yui3-listbuilder-tag-add {
 	float: left;
 	margin: 2px 0 2px 2px;
 	color: #333;
 }
 
-.yui3-skin-sam .yui3-listbuilder-content input {
+ .yui3-listbuilder-content input {
 	margin: 0;
 	padding: 0;
 	background: transparent;
@@ -34,11 +34,11 @@
 	padding: 3px;
 }
 
-.yui3-skin-sam .yui3-listbuilder-content input.inactive {
+ .yui3-listbuilder-content input.inactive {
 	color: #FFF;
 }
 
-.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-item {
+ .yui3-listbuilder-content .yui3-listbuilder-tag-item {
 	display: inline-block;
 	position: relative;
 	cursor: default;
@@ -52,7 +52,7 @@
 
 }
 
-.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-key-delete {
+ .yui3-listbuilder-content .yui3-listbuilder-tag-key-delete {
 	background-color: #666;
 	background-image: -moz-linear-gradient(#333,#666);
 	background-image: -webkit-gradient(linear,0 top,0 bottom,from(#333),to(#666));
@@ -75,7 +75,7 @@
     right: 2px;
 }
 
-.yui3-skin-sam .yui3-listbuilder-content .yui3-listbuilder-tag-key-delete yui3-listbuilder-tag-close-button{
+ .yui3-listbuilder-content .yui3-listbuilder-tag-key-delete yui3-listbuilder-tag-close-button{
 	color: #FFFFFF;
 }
 

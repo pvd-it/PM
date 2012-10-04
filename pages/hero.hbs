@@ -19,6 +19,10 @@
 				padding-top: 80px;
 			}
 			
+			a:focus {
+				outline: none;
+			}
+			
 			.features {
 				background-color: #D9EEF2;
 			}
@@ -63,6 +67,14 @@
 				position: relative;
 				top: -20px;
 			}
+			
+			.yui3-app-views {
+				min-height: 500px;
+			}
+			
+			#secondaryNav .page-header {
+				color: #5A5A5A;
+			}
 		</style>
 		{{#with env}}
 			{{#if useCDN}}
@@ -73,7 +85,7 @@
 		{{/with}}
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner" id="primaryNav">
 				<div class="container">
 					<a class="btn btn-navbar"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
@@ -99,16 +111,22 @@
 							<button type="submit" class="btn btn-success">
 								<i class="icon-user icon-white"></i> Sign in
 							</button>
+							<a href="#" class="btn btn-primary">
+								<i class="icon-eye-open icon-white"></i> Sign up
+							</a>
 						</form>
 					</div><!--/.nav-collapse -->
 				</div><!--/.container-->
 			</div><!--/.navbar-inner-->
 		</div><!--/.navbar-->
 		
-		<div class='yui3-app-alert-board'>
+		<div class="yui3-app-alert-board container">
+			<div class="page-header hide">
+	            <h1></h1>
+	        </div>
 		</div>
 		
-		<div class="container hide" id="secondaryNav">
+		<div class="container" id="secondaryNav">
 			<div class="tabbable">
 				<ul class="nav nav-tabs">
 					<li class="active">
@@ -121,10 +139,24 @@
 						<a href="/gantt">Gantt</a>
 					</li>
 					<li>
-						<a href="/team">Team</a>
+						<a href="/resource">Team</a>
 					</li>
-					<li class="pull-right">
-						<a href="#">Project Name</a>
+					<li class="pull-right dropdown">
+						<a href="#" class="dropdown-toggle project-name">
+							Project Name
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#"><i class="icon-check"> </i> Save Changes</a>
+							</li>
+							<li>
+								<a href="#"><i class="icon-ban-circle"> </i> Discard Changes</a>
+							</li>
+							<li>
+								<a href="#"><i class="icon-download-alt"> </i> Export as JSON</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</div><!--/.navbar-inner-->
@@ -370,8 +402,7 @@
 	
 		<script>
 			YUI({
-				fetchCSS: false,
-				
+
 				{{#with env}}
 					{{#if useCDN}}
 						combine: true,
@@ -431,7 +462,6 @@
 							'alert': {
 								path: 'alert/alert.js',
 								requires: ['widget', 'transition'],
-								skinnable: true
 							},
 							
 							'list-builder': {
@@ -457,7 +487,7 @@
 							'inline-editor': {
 								path: 'inline-editor/inline-editor.js',
 								requires: ['event', 'node', 'widget', 'widget-position', 'widget-stack', 'widget-position-align'],
-								skinnable: true
+								skinnable: true,
 							},
 							
 							'inline-date-editor': {
@@ -486,7 +516,6 @@
 							'datatable-edit': {
 								path: 'datatable-edit/datatable-edit.js',
 								requires: ['datatable-navigate', 'datatable-mutable'],
-								skinnable: true
 							},
 							
 							'datatable-tree': {
@@ -498,7 +527,6 @@
 							'datatable-tree-edit': {
 								path: 'datatable-tree-edit/datatable-tree-edit.js',
 								requires: ['datatable-tree'],
-								skinnable: true
 							},
 							
 							'datatable-selection': {
@@ -615,13 +643,18 @@
 							
 							'app-project-management': {
 								path: 'app-project-management/app-project-management.js',
-								requires: ['datatable-tree-body', 'app', 'alert', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'app-nav'],
+								requires: ['app-dropdown', 'datatable-tree-body', 'app', 'alert', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'app-nav'],
 							},
 							
 							'app-nav': {
 								path: 'app-nav/app-nav.js',
 								requires: ['view', 'substitute', 'app-login']
 							},
+							
+							'app-dropdown': {
+								path: 'app-dropdown/app-dropdown.js',
+								requires: ['node', 'event']
+							}
 						}
 					}
 				}
@@ -632,7 +665,12 @@
 				);
 				pmApp.set('viewContainer', 'div.main');
 				pmApp.render();
-				pmApp.dispatch();
+				
+				if (pmApp.get('isAuthenticated')) {
+					pmApp.navigate('/dashboard');
+				} else {
+					pmApp.dispatch();	
+				}
 			});
 		</script>
 	</body>

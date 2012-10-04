@@ -11,7 +11,7 @@ YUI.add('datatable-navigate-key', function(Y) {
 	
 	NavigateKey.prototype = {
 		initializer: function(){
-			Y.Do.after(this._afterBindUI, this, 'bindUI')
+			Y.Do.after(this._afterBindUI, this, 'bindUI');
 		},
 		
 		_afterBindUI: function(){

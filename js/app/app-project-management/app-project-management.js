@@ -5,7 +5,7 @@ YUI.add('app-project-management', function(Y){
 	
 	Y.namespace('ProjectManagement');
 	
-	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [], {
+	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav], {
 		views: {
 			login:		{type: Y.PMApp.LoginView, preserve: false},
 			logout:		{type: Y.PMApp.LogoutView, preserve: false, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
@@ -61,12 +61,7 @@ YUI.add('app-project-management', function(Y){
 		render: function(){
 			
 			App.superclass.render.apply(this, arguments);
-			
 			Y.log('App render');
-			this.appNav = new Y.PMApp.NavView({
-				container: '#primaryNav'
-			}).render();
-			
 			//this._renderLoginbar();
 			this._renderAlertBoard();
 			//this._renderSubNavbar();
@@ -365,6 +360,10 @@ YUI.add('app-project-management', function(Y){
 			
 			currentUser: {
 				
+			},
+			
+			isAuthenticated: {
+				value: false
 			}
 		}
 	});

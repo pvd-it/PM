@@ -13,6 +13,7 @@ YUI.add('datatable-edit', function(Y) {
     Edit.prototype = {
     	
     	initializer: function(){
+    		Y.Do.after(this._applyCss, this, 'render');
         	Y.Do.after(this._renderInlineEditors, this, 'renderUI');
         },
         
@@ -215,6 +216,13 @@ YUI.add('datatable-edit', function(Y) {
         		this._afterSyncUI();	
         	}
         },
+        
+        _applyCss: function(){
+			var bb = this.get('boundingBox'),
+				tableNode = bb.one('table');
+				
+			tableNode.addClass('table table-striped table-bordered table-condensed');
+		}
     }
     
     Edit.ATTRS = {

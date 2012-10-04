@@ -5,16 +5,17 @@ YUI.add('inline-editor', function(Y) {
 		renderUI: function() {
 			var contentBox = this.get('contentBox');
 			
-			contentBox.append(	'<div class="notch-border">' +
-									'<div class="notch"></div>' + 
-								'</div>' +
-								'<div class="callout">' +
-									'<input type="text" />' +
-									'<div class="buttonContainer">' +
-										'<button class="save">Save</button>' +
-										'<button class="cancel">Cancel</button>' +
-									'</div>' +
-								'</div>');
+			contentBox
+				.addClass('popover bottom')
+				.append('<div class="arrow"></div>' +
+						'<h3 class="popover-title">Edit Text</h3>' +
+						'<div class="popover-content">' +
+							'<input type="text" class="input-medium" />' +
+							'<div class="btn-toolbar">' +
+								'<div class="btn-group"><button class="btn btn-small btn-primary save">Save</button></div>' +
+								'<div class="btn-group"><button class="btn btn-small btn-warning cancel">Cancel</button></div>' +
+							'</div>' +
+						'</div>');
 			
 			this._inputNode = contentBox.one('input');
 		},

@@ -24,6 +24,8 @@ YUI.add('schedule-view', function(Y){
 		        		resources: resources._items
 					})
 				};
+			
+			me.inlineEditors = inlineEditors;
 				
 			me.table = new Y.DataTableSchedule({
 				columns: [
@@ -169,6 +171,14 @@ YUI.add('schedule-view', function(Y){
 											'<button class="save">Save</button>' + 
 											'<button class="print">Print</button>' +
 										'</div>');
+		},
+		
+		destructor: function(){
+			YObject.each(this.inlineEditors, function(editor){
+				editor.destroy();
+			});
+			
+			this.table.destroy();
 		}
 	});
 });

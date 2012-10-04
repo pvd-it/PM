@@ -1,6 +1,8 @@
 YUI.add('app-nav', function(Y){
 	
-	Y.namespace('PMApp').NavView = Y.Base.create('navView', Y.View, [], {
+	Y.namespace('PMApp').Nav = Nav = function() {};
+
+	Nav.prototype =	{
 		
 		template: 	'<ul class="nav">' +
 						'<li><a href="/dashboard">Dashboard</a></li>' + 
@@ -15,27 +17,26 @@ YUI.add('app-nav', function(Y){
 		
 		initializer: function(){
 			var self = this;
-			Y.after('*:activeViewChange', Y.bind(self._afterActiveViewChange, self));
-			Y.after('loginSuccess', Y.bind(self._afterLoginSuccess, self));
+			Y.Do.after(self._setupNav, self, 'render');
+			Y.after('loginSuccess', Y.bind(self._afterLoginSuccessNav, self));
+			self.after('currentProjectChange', self._afterCurrentProjectChangeNav);
+			self.after('activeViewChange', self._afterActiveViewChangeNav);
 		},
 		
-		render: function(){
-			var self = this,
-				container = self.get('container');
-			
+		_setupNav: function(){
+			var self = this;
 			self.primaryNav = Y.one('#primaryNav');
 			self.secondaryNav = Y.one('#secondaryNav');
 			
-			return self;
-		},
-		
-		events: {
-			'form': {
-				'submit': 'handleSubmission'
+			if (self.get('isAuthenticated')){
+				self._setUser(self.get('currentUser'));
+				Y.one('.main').all('div').remove();
+			} else {
+				self.primaryNav.one('form').on('submit', self._handleSubmission, self);
 			}
 		},
-
-		handleSubmission: function(e){
+		
+		_handleSubmission: function(e){
 			var form = e.target,
 				username = form.one('input[type="text"]').get('value'),
 				password = form.one('input[type="password"]').get('value');
@@ -45,17 +46,23 @@ YUI.add('app-nav', function(Y){
 			Y.PMApp.Login.doLogin(username, password);
 		},
 		
-		_afterLoginSuccess: function(e){
-			var self = this,
-				user = e.user;
+		_afterLoginSuccessNav: function(e){
+			this._setUser(e.user);
+		},
+		
+		_setUser: function(user){
+			var self = this;
 			
 			Y.one('.main').addClass('container');
 			self.primaryNav.one('form').remove();
-			self.primaryNav.one('.nav-collapse').set('innerHTML', Y.substitute(self.template, user));
+			self.primaryNav.one('.nav-collapse').set('innerHTML', Y.substitute(self.template, user));			
 		},
 		
-		_afterActiveViewChange: function(e){
-			Y.log(e);
-		}
-	});
+		_afterCurrentProjectChangeNav: function(e){
+			this.secondaryNav.one('.project-name').set('innerHTML', e.newVal.get('name') + ' <b class="caret"></b>');
+		},
+		
+		_afterActiveViewChangeNav: function(e){
+		},
+	};
 });

@@ -36,10 +36,8 @@ YUI.add('alert', function(Y){
 	
 	Y.Alert = Alert = Y.extend(Alert, Y.Widget, {
 		renderUI: function(){
-			var cb = this.get('contentBox'),
-				bb = this.get('boundingBox');
+			var cb = this.get('contentBox');
 			
-			bb.addClass('container');
 			cb.addClass('alert alert-block');
 			
 			this._renderCloseButton(cb);

@@ -4,18 +4,22 @@ YUI.add('inline-date-editor', function(Y) {
 				
 		renderUI: function() {
 			var contentBox = this.get('contentBox');
-			contentBox.append(	'<div class="notch-border">' +
-									'<div class="notch"></div>' + 
-								'</div>' +
-								'<div class="callout">' +
-									'<div class="editorContainer"></div>' +
-									'<div class="buttonContainer">' +
-										'<button class="cancel">Cancel</button>' +
-									'</div>' +
-								'</div>');
+			contentBox
+				.addClass('popover bottom yui3-skin-sam')
+				.append('<div class="arrow"></div>' +
+						'<h3 class="popover-title">Choose Date</h3>' +
+						'<div class="popover-content">' +
+							'<div class="editorContainer"></div>' +
+							'<div class="btn-toolbar">' +
+								'<div class="btn-group"><button class="btn btn-small btn-primary save">Save</button></div>' +
+								'<div class="btn-group"><button class="btn btn-small btn-warning cancel">Cancel</button></div>' +
+							'</div>'+
+						'</div>'); 
+						
+
             this._calendar = new Y.Calendar({
                                     contentBox: contentBox.one('.editorContainer'),
-                                    width:'200px',
+                                    width:'auto',
                                     showPrevMonth: true,
                                     showNextMonth: true,
                                     date: new Date()}).render();

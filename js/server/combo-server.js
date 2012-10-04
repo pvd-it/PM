@@ -278,7 +278,7 @@ app.get('*', function(req, res, next) {
 				layout: false,
 				appConfig: {
 					isAuthenticated: true,
-					user: result
+					currentUser: result
 				},
 				env: env
 			});

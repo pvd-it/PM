@@ -16,16 +16,17 @@ YUI.add('inline-resource-editor', function(Y) {
 				source = this.get('resources'),
 				listToEdit = this.get('listToEdit');
 				
-			contentBox.append(	'<div class="notch-border">' +
-									'<div class="notch"></div>' + 
-								'</div>' +
-								'<div class="callout">' +
-									'<div class="editorContainer"></div>' +
-									'<div class="buttonContainer">' +
-										'<button class="save">Save</button>' +
-										'<button class="cancel">Cancel</button>' +
-									'</div>' +
-								'</div>');
+			contentBox
+				.addClass('popover bottom yui3-skin-sam')
+				.append('<div class="arrow"></div>' +
+						'<h3 class="popover-title">Choose Resources</h3>' +
+						'<div class="popover-content">' +
+							'<div class="editorContainer"></div>' +
+							'<div class="btn-toolbar">' +
+								'<div class="btn-group"><button class="btn btn-small btn-primary save">Save</button></div>' +
+								'<div class="btn-group"><button class="btn btn-small btn-warning cancel">Cancel</button></div>' +
+							'</div>'+
+						'</div>'); 
 			
 			this.lb = new Y.ListBuilder({
 				width: '250px',
@@ -103,8 +104,8 @@ YUI.add('inline-resource-editor', function(Y) {
 			}
 			
 			self.lb.set('listToEdit', val);
-			self.align(node, [Y.WidgetPositionAlign.TR, Y.WidgetPositionAlign.BR]);
 			self.set('visible', true);
+			self.align(node, [Y.WidgetPositionAlign.BR, Y.WidgetPositionAlign.BL]);
 			self.lb._inputNode.focus();
 		},
 		

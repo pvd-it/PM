@@ -180,7 +180,7 @@ function program7(depth0,data) {
   stack1 = depth0.constraints;
   foundHelper = helpers.md;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:{}}) : helperMissing.call(depth0, "md", stack1, {hash:{}});
-  buffer += escapeExpression(stack1) + "</dd>\n</dl>\n\n<div class=\"form-actions\">\n	<button class=\"yui3-button yui3-button-primary\" type=\"submit\">\n		Edit\n	</button>\n</div>\n";
+  buffer += escapeExpression(stack1) + "</dd>\n</dl>\n\n<div class=\"form-actions\">\n	<button class=\"btn btn-warning\" type=\"submit\">\n		Edit\n	</button>\n</div>\n";
   return buffer;};
 	
 });

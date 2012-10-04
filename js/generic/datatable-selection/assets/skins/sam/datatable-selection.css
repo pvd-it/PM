@@ -1,32 +1,32 @@
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-even .yui3-datatable-selection-cell {
+ .yui3-datatable-focused .yui3-datatable-even .yui3-datatable-selection-cell {
 	background-color: #ffc19f;
 }
 
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-odd .yui3-datatable-selection-cell {
+ .yui3-datatable-focused .yui3-datatable-odd .yui3-datatable-selection-cell {
 	background-color: #fbdece;
 }
 
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-selection-cell-l {
+ .yui3-datatable-focused .yui3-datatable-selection-cell-l {
 	border-left: 1px solid;
 	border-left-color: #ed671f;
 }
 
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-selection-cell-r {
+ .yui3-datatable-focused .yui3-datatable-selection-cell-r {
 	border-right: 1px solid;
 	border-right-color: #ed671f;
 }
 
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-selection-cell-t {
+ .yui3-datatable-focused .yui3-datatable-selection-cell-t {
 	border-top: 1px solid;
 	border-top-color: #ed671f;
 }
 
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-selection-cell-b {
+ .yui3-datatable-focused .yui3-datatable-selection-cell-b {
 	border-bottom: 1px solid;
 	border-bottom-color: #ed671f;
 }
 
-.yui3-skin-sam .yui3-datatable-focused .yui3-datatable-navigate-activeCell.yui3-datatable-selection-cell {
+ .yui3-datatable-focused .yui3-datatable-navigate-activeCell.yui3-datatable-selection-cell {
 	background-color: #ffffff;
 	border-color: #ed671f;
 }

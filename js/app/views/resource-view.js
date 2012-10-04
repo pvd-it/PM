@@ -1,4 +1,6 @@
 YUI.add('resource-view', function(Y){
+	var YObject = Y.Object;
+	
 	Y.namespace('PMApp').ResourceView = Y.Base.create('resourceView', Y.View, [], {
 		table: null,
 		
@@ -14,6 +16,7 @@ YUI.add('resource-view', function(Y){
 				}),
 			};
 			
+			this.inlineEditors = inlineEditors;
 			this.table = new Y.DataTable({
 				columns: [
 					{key: 'name',				label: 'Index',				
@@ -95,6 +98,13 @@ YUI.add('resource-view', function(Y){
 											'<button class="print">Print</button>' +
 										'</div>');
 			this.table.render(this.get('container'));
+		},
+		
+		destructor: function(){
+			YObject.each(this.inlineEditors, function(editor){
+				editor.destroy();
+			});
+			this.table.destroy();
 		}
 	});
 });
