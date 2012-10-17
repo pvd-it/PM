@@ -8,77 +8,22 @@
 		<meta name="author" content="">
 		{{#with env}}
 			{{#if useCDN}}
-				<line href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">	
+				<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">	
 			{{else}}
 				<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">			
 			{{/if}}
 		{{/with}}
+		
 		<link rel="shortcut icon" href="../bootstrap/img/favicon.ico">
+		
 		<style type="text/css">
-			body {
-				padding-top: 80px;
-			}
-			
-			a:focus {
-				outline: none;
-			}
-			
-			.features {
-				background-color: #D9EEF2;
-			}
-
-			.features .page-header {
-				padding-top: 40px;
-				border-bottom: 1px solid #9FD5DF;
-			}
-			
-			.footer {
-				border-top: 1px solid #D5D5D5;
-			}
-			.footer p {
-				margin-bottom: 0;
-				color: #777;
-			}
-			.footer-links {
-				margin: 10px 0;
-			}
-			.footer-links li {
-				display: inline;
-				margin-right: 10px;
-			}
-			.site-info {
-				background-color: #E4E4E4;
-				padding: 30px 0;
-			}
-			.credits {
-				border-top: 1px solid #3D3D42;
-				background-color: #4D4D52;
-				padding: 30px 0;
-			}
-			.credits p {
-				color: #C0C0C0;
-			}
-			.introduction .hero-unit {
-				background-color: #D9EEF2;
-			}
-			
-			.yui3-app-alert-board {
-				width: 100%;
-				position: relative;
-				top: -20px;
-			}
-			
-			.yui3-app-views {
-				min-height: 500px;
-			}
-			
-			#secondaryNav .page-header {
-				color: #5A5A5A;
-			}
+			{{#appcss}}
+			{{/appcss}}
 		</style>
+		
 		{{#with env}}
 			{{#if useCDN}}
-				<line href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-responsive.min.css" rel="stylesheet">	
+				<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-responsive.min.css" rel="stylesheet">	
 			{{else}}
 				<link href="../bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">			
 			{{/if}}
@@ -120,17 +65,15 @@
 			</div><!--/.navbar-inner-->
 		</div><!--/.navbar-->
 		
-		<div class="yui3-app-alert-board container">
-			<div class="page-header hide">
-	            <h1></h1>
-	        </div>
-		</div>
-		
-		<div class="container" id="secondaryNav">
-			<div class="tabbable">
+		<div class="container secondary">
+			<div class="page-header hide"></div>
+
+	        <div class="yui3-app-alert-board"></div>
+	        
+	        <div class="tabbable hide" id="secondaryNav">
 				<ul class="nav nav-tabs">
 					<li class="active">
-						<a href="#">Overview</a>
+						<a href="/project">Overview</a>
 					</li>
 					<li>
 						<a href="/schedule">Schedule</a>
@@ -141,8 +84,8 @@
 					<li>
 						<a href="/resource">Team</a>
 					</li>
-					<li class="pull-right dropdown">
-						<a href="#" class="dropdown-toggle project-name">
+					<li class="pull-right dropdown project-name">
+						<a href="#" class="dropdown-toggle">
 							Project Name
 							<b class="caret"></b>
 						</a>
@@ -159,9 +102,9 @@
 						</ul>
 					</li>
 				</ul>
-			</div><!--/.navbar-inner-->
+			</div>
 		</div>
-
+		
 		<div class="main">
 			<div>
 				<section class="introduction">
@@ -394,9 +337,9 @@
 		
 		{{#with env}}
 			{{#if useCDN}}
-				<script src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
+				<script src="http://yui.yahooapis.com/3.7.3/build/yui/yui-min.js"></script>
 			{{else}}
-				<script src="http://127.0.0.1:8020/YUI/3.7.2/build/yui/yui.js"></script>
+				<script src="http://127.0.0.1:8020/YUI/3.7.3/build/yui/yui.js"></script>
 			{{/if}}
 		{{/with}}
 	
@@ -448,6 +391,10 @@
 							
 							'datatype-date-math-fix': {
 								path: 'datatype-date-math/datatype-date-math.js'
+							},
+							
+							'app-base-fix': {
+								path: 'app-base/app-base.js'
 							}
 						}
 					},
@@ -593,7 +540,7 @@
 							
 							'gantt-view': {
 								path: 'views/gantt-view.js',
-								requires: ['view', 'project-calendar', 'datatype-date-math-fix', 'handlebars-templates']
+								requires: ['view', 'project-calendar', 'datatype-date-math-fix', 'handlebars-templates', 'scrollview']
 							},
 							
 							resource: {
@@ -643,12 +590,12 @@
 							
 							'app-project-management': {
 								path: 'app-project-management/app-project-management.js',
-								requires: ['app-dropdown', 'datatable-tree-body', 'app', 'alert', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'app-nav'],
+								requires: ['app-base-fix', 'app-dropdown', 'app-login', 'datatable-tree-body', 'app-base', 'alert', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'app-nav'],
 							},
 							
 							'app-nav': {
 								path: 'app-nav/app-nav.js',
-								requires: ['view', 'substitute', 'app-login']
+								requires: ['view', 'substitute']
 							},
 							
 							'app-dropdown': {

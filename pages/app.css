@@ -1,0 +1,125 @@
+body {
+	padding-top: 80px;
+}
+
+a:focus {
+	outline: none;
+}
+
+.features {
+	background-color: #D9EEF2;
+}
+
+.features .page-header {
+	padding-top: 40px;
+	border-bottom: 1px solid #9FD5DF;
+}
+
+.footer {
+	border-top: 1px solid #D5D5D5;
+}
+.footer p {
+	margin-bottom: 0;
+	color: #777;
+}
+.footer-links {
+	margin: 10px 0;
+}
+.footer-links li {
+	display: inline;
+	margin-right: 10px;
+}
+.site-info {
+	background-color: #E4E4E4;
+	padding: 30px 0;
+}
+.credits {
+	border-top: 1px solid #3D3D42;
+	background-color: #4D4D52;
+	padding: 30px 0;
+}
+.credits p {
+	color: #C0C0C0;
+}
+
+.introduction .hero-unit {
+	background-color: #D9EEF2;
+}
+
+.yui3-app-alert-board {
+	width: 100%;
+	position: relative;
+	top: -20px;
+}
+
+.yui3-app-views {
+	min-height: 500px;
+}
+
+.secondary .page-header {
+	color: #5A5A5A;
+}
+
+.no-border {
+	border: 0;
+}
+
+/**
+ * 	CSS for GANTT Chart
+ */
+.task-list {
+	width: 200px;
+}
+
+.gantt-chart {
+	position: relative;
+}
+
+.task-bar, .parent-bar {
+	margin-bottom: 0;
+}
+
+#gantt-scrollview {
+	position: absolute;
+	top: 0;
+	left: 199px;
+	bottom: 0;
+}
+
+#gantt-scrollview-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+
+.timeline {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+
+.table-gantt {
+	height: 100%;
+}
+
+.timeline-grid {
+	height: 100%;
+}
+
+.table th {
+	text-align: center;
+}
+
+.task-bars {
+	position: absolute;
+	top: 87px;
+}
+
+.task-bars .table td {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.yui3-scrollview-loading {
+	visibility: hidden;
+}

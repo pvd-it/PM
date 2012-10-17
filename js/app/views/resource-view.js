@@ -54,7 +54,6 @@ YUI.add('resource-view', function(Y){
 					   		},
 							partialUpdate: true								}
 				],
-				caption: 'Resources',
 				recordType: Y.Resource,
 				data: this.get('model').get('resources'),
 				inlineEditors: inlineEditors,
@@ -93,9 +92,9 @@ YUI.add('resource-view', function(Y){
 		},
 		
 		render: function(){
-			this.get('container').append('<div>' +
-											'<button class="save">Save</button>' + 
-											'<button class="print">Print</button>' +
+			this.get('container').append('<div class="btn-toolbar">' +
+											'<div class="btn-group"><button class="save btn btn-small btn-warning">Save</button></div>' + 
+											'<div class="btn-group"><button class="print btn btn-small btn-info">Print</button></div>' +
 										'</div>');
 			this.table.render(this.get('container'));
 		},

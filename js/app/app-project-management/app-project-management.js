@@ -5,7 +5,7 @@ YUI.add('app-project-management', function(Y){
 	
 	Y.namespace('ProjectManagement');
 	
-	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav], {
+	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav, Y.PMApp.Login, Y.AppBaseFix], {
 		views: {
 			login:		{type: Y.PMApp.LoginView, preserve: false},
 			logout:		{type: Y.PMApp.LogoutView, preserve: false, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
@@ -14,13 +14,13 @@ YUI.add('app-project-management', function(Y){
 			resource:	{type: Y.PMApp.ResourceView, preserve: false, parent: 'schedule', pageHeader: 'Team', pageHeaderTeaser: '', subNav: true},
 			gantt:		{type: Y.PMApp.GanttView, preserve: false, parent: 'schedule', pageHeader: 'Gantt', pageHeaderTeaser: '', subNav: true},
 			newproject: {type: Y.PMApp.NewProjectView, preserve: false, pageHeader: 'Create a Project', pageHeaderTeaser: 'to manage it better'},
-			dashboard: 	{type: Y.PMApp.DashboardView, preserve: false, pageHeader: 'Dashboard', pageHeaderTeaser: 'is where you see all your projects, tasks and notifications'},
+			dashboard: 	{type: Y.PMApp.DashboardView, preserve: false, pageHeader: 'Dashboard', 
+																	pageHeaderTeaser: 'is where you see all your projects, tasks and notifications'},
 			usersettings: {type: Y.PMApp.UserSettingsView, preserve: true, pageHeader: 'Personalize', pageHeaderTeaser: 'to your own preferences'}
 		},
 		
 		initializer: function(){
-			Y.after('loginSuccess', Y.bind(this._afterLoginSuccess, this));
-			Y.after('*:logoutSuccess', this._afterLogoutSuccess);
+			this.after('loginSuccess', this._afterLoginSuccess);
 			
 			this.after('alert:closed', this._afterAlertClosed);
 			Y.on('alert', Y.bind(this._afterAlertReceived, this));
@@ -55,64 +55,18 @@ YUI.add('app-project-management', function(Y){
 			} else {
 				//this._hideSubNav();
 			}
-			App.superclass.showView.apply(this, arguments);
+			Y.AppBaseFix.prototype.showView.apply(this, arguments);
 		},
 		
 		render: function(){
-			
 			App.superclass.render.apply(this, arguments);
 			Y.log('App render');
-			//this._renderLoginbar();
 			this._renderAlertBoard();
-			//this._renderSubNavbar();
-			//this._renderPageHeader();
-		},
-		
-		_renderLoginbar: function(){
-			var loginbar = Y.one('.' + getClassName('app', 'loginbar'));
-			this.loginbar = loginbar;
-			
-			var lis = loginbar.all('li').remove();
-			this.userNode = lis.item(0);
-			this.loginNode = lis.item(1);
-			this.logoutNode = lis.item(2);
 		},
 		
 		_renderAlertBoard: function(){
 			var alertBoard = Y.one('.' + getClassName('app', 'alert', 'board'));
 			this.alertBoard = alertBoard;
-		},
-		
-		_renderSubNavbar: function(){
-			var subNavbar = Y.one('.' + getClassName('app', 'sub', 'navbar'));
-			subNavbar.rightText = subNavbar.one('.pull-right a');
-			this.subNavbar = subNavbar;
-			this._hideSubNav();
-		},
-		
-		_renderPageHeader: function(){
-			var pageHeader = Y.one('.' + getClassName('app', 'page', 'header'));
-			this.pageHeader = pageHeader;
-		},
-		
-		/**
-		 * Sub nav bar show and hide
-		 */
-		_showSubNav: function(){
-			this.subNavbar.setStyle('display', 'block');
-			this.subNavbar.plug(Y.ScrollSnapPlugin, {
-				scrollOffset: 40 //pixels
-			});
-			this.subNavbar.ssp.on('scrollSnapped', Y.bind(this._subNavSnapped, this));
-			this.subNavbar.ssp.on('scrollUnsnapped', Y.bind(this._subNavUnsnapped, this));
-			this.get('viewContainer').setStyle('padding', '60px');
-		},
-		
-		_hideSubNav: function(){
-			this.subNavbar.unplug('ssp');
-			this.subNavbar.setStyle('display', 'none');
-			this.subNavbar.rightText.setContent('');
-			this.get('viewContainer').setStyle('padding', '0');
 		},
 		
 		_subNavSnapped: function(e){
@@ -126,6 +80,7 @@ YUI.add('app-project-management', function(Y){
 		
 		/**
 		 * whenever a new view comes up remove all alert messages...
+		 * TODO: Instead of doing alert message cleanup in catchAll, better to hook to activeViewChange event 
 		 */
 		_handleCatchAll: function(req, res, next){
 			Y.log('handle catch all');
@@ -171,10 +126,6 @@ YUI.add('app-project-management', function(Y){
 			this.replace('/dashboard');
 		},
 		
-		_afterLogoutSuccess: function(e){
-			this.reset();
-		},
-		
 		_afterCurrentUserChange: function(e){
 			this.isAuthenticated = true;			
 		},
@@ -215,15 +166,6 @@ YUI.add('app-project-management', function(Y){
 					preserveOnce: true
 				});
 			}
-		},
-		
-		reset: function(){
-			this.logoutNode.remove();
-			this.userNode.remove();
-			this.loginbar.append(this.loginNode);
-			this.isAuthenticated = false;
-			this.set('tasks', new Y.TaskList());
-			this.set('resources', new Y.ResourceList());
 		},
 		
 		handleSchedule: function(req, res, next){

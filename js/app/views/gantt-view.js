@@ -28,17 +28,17 @@ YUI.add('gantt-view', function(Y){
 				
 			tasksList.each(function(task){
 				var taskJson = task.toJSON(),
-					dayWidth = 19,
+					dayWidth = 27,
 					difference = 0,
 					elapsedDays = 0,
 					currentTaskStartDate = task.get('startDate'),
 					currentTaskEndDate = task.get('endDate');
 				
 				difference = Y.DataType.Date.difference(startDate, currentTaskStartDate);
-				taskJson.startShift = (difference * 15);
+				taskJson.startShift = (difference * dayWidth);
 				
 				difference = Y.DataType.Date.difference(currentTaskStartDate, currentTaskEndDate);
-				taskJson.barWidth = ((difference + 1) * 15) + 1;
+				taskJson.barWidth = ((difference + 1) * dayWidth);
 				
 				taskJson.isParent = taskJson.children.size() > 0;
 				
@@ -70,7 +70,8 @@ YUI.add('gantt-view', function(Y){
 					if (!YLang.isUndefined(prevMonth)){
 						var colMonth = {
 							name: monthNames[prevMonth],
-							days: days
+							days: days,
+							dayCount: days.length
 						};
 						months.push(colMonth);
 					}
@@ -90,7 +91,8 @@ YUI.add('gantt-view', function(Y){
 			
 			months.push({
 				name: monthNames[prevMonth],
-				days: days
+				days: days,
+				dayCount: days.length
 			});
 			
 			templateData = {
@@ -100,7 +102,18 @@ YUI.add('gantt-view', function(Y){
 			
 			content = this.template(templateData);
 			
-			this.get('container').setContent(content);
+			var container = this.get('container')
+				container.setContent(content);
+			
+			var scrollview = new Y.ScrollView({
+				id : "gantt-scrollview",
+				srcNode : container.one('#gantt-scrollview-content'),
+				width : 970,
+				axis: 'x'
+			});
+			
+			var parentNode = container.one('.gantt-chart');
+			scrollview.render(parentNode);
 			
 			return this;
 		}

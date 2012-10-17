@@ -1,6 +1,8 @@
 YUI.add('app-login', function(Y){
 	
-	Y.namespace('PMApp').Login = {
+	Y.namespace('PMApp').Login = Login = function(){};
+	
+	Login.prototype = {
 		doLogin: function(userId, password){
 			var credentials = {userId: userId, password: password},
 				strCredentials = Y.JSON.stringify(credentials),
@@ -38,9 +40,7 @@ YUI.add('app-login', function(Y){
 		
 		_loginSuccess: function(tid, res) {
 			var user = Y.JSON.parse(res.responseText);
-				
-			Y.log(user);
-			Y.fire('loginSuccess', {user: user});
+			this.fire('loginSuccess', {user: user});
 		},
 	};
 });

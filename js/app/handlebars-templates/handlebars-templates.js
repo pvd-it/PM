@@ -54,102 +54,168 @@ function program1(depth0,data) {
 	
 		Y.HandlebarsTemplates['t-gantt'] = function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
-  var buffer = "", stack1, foundHelper, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing, helperMissing=helpers.helperMissing;
+  var buffer = "", stack1, foundHelper, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
 
 function program1(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
-  buffer += "\n		<div class=\"task yui3-datatable-tree-row-depth-";
+  buffer += "\n			<tr class=\"yui3-datatable-tree-row-depth-";
   foundHelper = helpers.depthLevel;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.depthLevel; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n			<p class=\"task-name yui3-datatable-tree-col\">";
+  buffer += escapeExpression(stack1) + "\">\n				<td class=\"yui3-datatable-tree-col\">\n					";
   foundHelper = helpers.name;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</p>\n			";
-  stack1 = depth0.isParent;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(4, program4, data),fn:self.program(2, program2, data)});
+  buffer += escapeExpression(stack1) + "						\n				</td>\n			</tr>\n			";
+  return buffer;}
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n							<th colspan=\"";
+  foundHelper = helpers.dayCount;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.dayCount; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "\">";
+  foundHelper = helpers.name;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</th>\n						";
+  return buffer;}
+
+function program5(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n							";
+  foundHelper = helpers.days;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(6, program6, data)}); }
+  else { stack1 = depth0.days; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.days) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(6, program6, data)}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		</div>\n	";
+  buffer += "\n						";
   return buffer;}
-function program2(depth0,data) {
-  
-  var buffer = "", stack1, foundHelper;
-  buffer += "\n				<div class=\"task-bar parent-bar\" style=\"margin-left: ";
-  foundHelper = helpers.startShift;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.startShift; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "px; width: ";
-  foundHelper = helpers.barWidth;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.barWidth; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "px;\">\n					<div class=\"startCorner\"></div>\n					<div class=\"endCorner\"></div>\n				</div>\n			";
-  return buffer;}
-
-function program4(depth0,data) {
-  
-  var buffer = "", stack1, foundHelper;
-  buffer += "\n				<div class=\"task-bar\" style=\"margin-left: ";
-  foundHelper = helpers.startShift;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.startShift; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "px; width: ";
-  foundHelper = helpers.barWidth;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.barWidth; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "px;\"></div>\n			";
-  return buffer;}
-
 function program6(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
-  buffer += "<div class=\"month ";
-  foundHelper = helpers.rowClass;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.rowClass; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n			<h4>";
-  foundHelper = helpers.name;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</h4>\n			<div class=\"days\">\n				";
-  foundHelper = helpers.days;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(7, program7, data)}); }
-  else { stack1 = depth0.days; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  if (!helpers.days) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(7, program7, data)}); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n			</div>\n		</div>";
-  return buffer;}
-function program7(depth0,data) {
-  
-  var buffer = "", stack1, foundHelper;
-  buffer += "<div class=\"";
-  foundHelper = helpers.cssClass;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.cssClass; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n					<div class=\"dayInMonth\">";
+  buffer += "\n								<th>";
   foundHelper = helpers.dayInMonth;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.dayInMonth; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</div>\n					<div class=\"dayName\">";
+  buffer += escapeExpression(stack1) + "</th>\n							";
+  return buffer;}
+
+function program8(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n							";
+  foundHelper = helpers.days;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(9, program9, data)}); }
+  else { stack1 = depth0.days; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.days) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(9, program9, data)}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n						";
+  return buffer;}
+function program9(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n								<td>";
   foundHelper = helpers.dayName;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.dayName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</div></div>";
+  buffer += escapeExpression(stack1) + "</td>\n							";
   return buffer;}
 
-  buffer += "<div class=\"task-list\">\n	";
+function program11(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n							";
+  foundHelper = helpers.days;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(12, program12, data)}); }
+  else { stack1 = depth0.days; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.days) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(12, program12, data)}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n						";
+  return buffer;}
+function program12(depth0,data) {
+  
+  
+  return "\n								<td></td>\n							";}
+
+function program14(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n					<tr>\n						<td class=\"task-bar\">\n							";
+  stack1 = depth0.isParent;
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(17, program17, data),fn:self.program(15, program15, data)});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "					\n						</td>\n					</tr>\n				";
+  return buffer;}
+function program15(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n								<div class=\"parent-bar progress\" style=\"margin-left: ";
+  foundHelper = helpers.startShift;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.startShift; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "px; width: ";
+  foundHelper = helpers.barWidth;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.barWidth; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "px;\">\n									<div class=\"bar bar-warning\" style=\"width: 100%\"></div>\n									<div class=\"startCorner\"></div>\n									<div class=\"endCorner\"></div>\n								</div>\n							";
+  return buffer;}
+
+function program17(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n								<div class=\"task-bar progress\" style=\"margin-left: ";
+  foundHelper = helpers.startShift;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.startShift; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "px; width: ";
+  foundHelper = helpers.barWidth;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.barWidth; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "px;\">\n									<div class=\"bar\" style=\"width: 100%\"></div>\n								</div>\n							";
+  return buffer;}
+
+  buffer += "<div class=\"gantt-chart yui3-skin-sam\">\n	<div class=\"task-list\">	\n		<table class=\"table table-bordered table-condensed\">\n			<tr>\n				<th>Month</th>\n			</tr>\n			<tr>\n				<th>Date</th>\n			</tr>\n			<tr>\n				<th>Day</th>\n			</tr>\n			";
   foundHelper = helpers.tasks;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data)}); }
   else { stack1 = depth0.tasks; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   if (!helpers.tasks) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(1, program1, data)}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n	<div class=\"timeline\">\n		";
-  stack1 = depth0.months;
-  foundHelper = helpers.stripeRows;
-  stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(6, program6, data)}) : helperMissing.call(depth0, "stripeRows", stack1, {hash:{},inverse:self.noop,fn:self.program(6, program6, data)});
+  buffer += "\n		</table>\n	</div>\n\n	<div class=\"gantt-grid\" id=\"gantt-scrollview-content\">\n		<div class=\"timeline\">\n			<table class=\"table table-bordered table-condensed table-gantt\">\n				<tbody>\n					<tr>\n						";
+  foundHelper = helpers.months;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(3, program3, data)}); }
+  else { stack1 = depth0.months; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.months) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(3, program3, data)}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	</div>\n</div>\n";
+  buffer += "\n					</tr>\n					<tr>\n						";
+  foundHelper = helpers.months;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(5, program5, data)}); }
+  else { stack1 = depth0.months; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.months) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(5, program5, data)}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n					</tr>\n					<tr>\n						";
+  foundHelper = helpers.months;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(8, program8, data)}); }
+  else { stack1 = depth0.months; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.months) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(8, program8, data)}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n					</tr>\n					<tr class=\"timeline-grid\">\n						";
+  foundHelper = helpers.months;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(11, program11, data)}); }
+  else { stack1 = depth0.months; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.months) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(11, program11, data)}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n					</tr>\n				</tbody>\n			</table>\n		</div>\n		\n		<div class=\"task-bars\">\n			<table class=\"table table-bordered table-condensed\">\n				";
+  foundHelper = helpers.tasks;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(14, program14, data)}); }
+  else { stack1 = depth0.tasks; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  if (!helpers.tasks) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(14, program14, data)}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n			</table>\n		</div>\n	</div>\n</div>\n";
   return buffer;};
 	
 		Y.HandlebarsTemplates['t-newproject'] = function (Handlebars,depth0,helpers,partials,data) {

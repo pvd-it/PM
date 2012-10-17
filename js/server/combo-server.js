@@ -23,6 +23,8 @@ var combo = require('combohandler'),
 	Project = require('./mongoose/app-objects/project').model,
 	ProjectTask = require('./mongoose/app-objects/project-task').model,
 
+	appCssLastModifiedMillis = 0,
+	appCssData = '',
 	
 	app = express.createServer();
 
@@ -92,10 +94,24 @@ hbs.registerHelper('toJson', function(context, block) {
     return JSON.stringify(context);
 });
 
+hbs.registerHelper('appcss', function(context, block){
+	var appCssPath = path.join(hbsRoot, 'app.css'),
+		appCssStat = fs.statSync(appCssPath);
+	
+	if(appCssStat.mtime.getTime() > appCssLastModifiedMillis){
+		appCssLastModifiedMillis = appCssStat.mtime.getTime();
+		appCssData = fs.readFileSync(appCssPath, 'utf-8');
+		console.log('read the app.css');
+	}
+	
+	return appCssData;
+});
 
-//mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
-
-mongoose.connect('mongodb://localhost/pmapp');
+if (process.env.CDN === 'YES') {
+	mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');	
+} else {
+	mongoose.connect('mongodb://localhost/pmapp');	
+}
 
 app.get('/customjs', combo.combine({rootPath: jsRoot}), function(req, res){
 	res.send(res.body, 200);
@@ -258,12 +274,7 @@ app.all('/logout', function(req, res, next){
 	if (req.isXMLHttpRequest){
 		res.send();
 	} else {
-		var options = {
-			root: pageRoot,
-			path: 'hero.html',
-			getOnly: true
-		};
-		express['static'].send(req, res, next, options);
+		next();
 	}
 });
 

@@ -1,26 +1,79 @@
-<div class="task-list">
-	{{#tasks}}
-		<div class="task yui3-datatable-tree-row-depth-{{depthLevel}}">
-			<p class="task-name yui3-datatable-tree-col">{{name}}</p>
-			{{#if isParent}}
-				<div class="task-bar parent-bar" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
-					<div class="startCorner"></div>
-					<div class="endCorner"></div>
-				</div>
-			{{else}}
-				<div class="task-bar" style="margin-left: {{startShift}}px; width: {{barWidth}}px;"></div>
-			{{/if}}
-		</div>
-	{{/tasks}}
+<div class="gantt-chart yui3-skin-sam">
+	<div class="task-list">	
+		<table class="table table-bordered table-condensed">
+			<tr>
+				<th>Month</th>
+			</tr>
+			<tr>
+				<th>Date</th>
+			</tr>
+			<tr>
+				<th>Day</th>
+			</tr>
+			{{#tasks}}
+			<tr class="yui3-datatable-tree-row-depth-{{depthLevel}}">
+				<td class="yui3-datatable-tree-col">
+					{{name}}						
+				</td>
+			</tr>
+			{{/tasks}}
+		</table>
+	</div>
 
-	<div class="timeline">
-		{{#stripeRows months}}<div class="month {{rowClass}}">
-			<h4>{{name}}</h4>
-			<div class="days">
-				{{#days}}<div class="{{cssClass}}">
-					<div class="dayInMonth">{{dayInMonth}}</div>
-					<div class="dayName">{{dayName}}</div></div>{{/days}}
-			</div>
-		</div>{{/stripeRows}}
+	<div class="gantt-grid" id="gantt-scrollview-content">
+		<div class="timeline">
+			<table class="table table-bordered table-condensed table-gantt">
+				<tbody>
+					<tr>
+						{{#months}}
+							<th colspan="{{dayCount}}">{{name}}</th>
+						{{/months}}
+					</tr>
+					<tr>
+						{{#months}}
+							{{#days}}
+								<th>{{dayInMonth}}</th>
+							{{/days}}
+						{{/months}}
+					</tr>
+					<tr>
+						{{#months}}
+							{{#days}}
+								<td>{{dayName}}</td>
+							{{/days}}
+						{{/months}}
+					</tr>
+					<tr class="timeline-grid">
+						{{#months}}
+							{{#days}}
+								<td></td>
+							{{/days}}
+						{{/months}}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="task-bars">
+			<table class="table table-bordered table-condensed">
+				{{#tasks}}
+					<tr>
+						<td class="task-bar">
+							{{#if isParent}}
+								<div class="parent-bar progress" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
+									<div class="bar bar-warning" style="width: 100%"></div>
+									<div class="startCorner"></div>
+									<div class="endCorner"></div>
+								</div>
+							{{else}}
+								<div class="task-bar progress" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
+									<div class="bar" style="width: 100%"></div>
+								</div>
+							{{/if}}					
+						</td>
+					</tr>
+				{{/tasks}}
+			</table>
+		</div>
 	</div>
 </div>
