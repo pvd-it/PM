@@ -167,10 +167,11 @@ YUI.add('schedule-view', function(Y){
 			me.table.render(this.get('container'));
 			tableBB = me.table.get('boundingBox');
 			
+			/*
 			me.get('container').prepend('<div class="btn-toolbar">' +
 											'<div class="btn-group"><button class="btn-warning btn btn-small save">Save</button></div>' + 
 											'<div class="btn-group"><button class="btn btn-small btn-info print">Print</button></div>' +
-										'</div>');
+										'</div>');*/
 		},
 		
 		destructor: function(){

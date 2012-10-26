@@ -1,27 +1,21 @@
-<div class="gantt-chart yui3-skin-sam">
-	<div class="task-list">	
-		<table class="table table-bordered table-condensed">
-			<tr>
-				<th>Month</th>
-			</tr>
-			<tr>
-				<th>Date</th>
-			</tr>
-			<tr>
-				<th>Day</th>
-			</tr>
-			{{#tasks}}
-			<tr class="yui3-datatable-tree-row-depth-{{depthLevel}}">
-				<td class="yui3-datatable-tree-col">
-					{{name}}						
-				</td>
-			</tr>
-			{{/tasks}}
-		</table>
-	</div>
-
-	<div class="gantt-grid" id="gantt-scrollview-content">
-		<div class="timeline">
+<div class="spreadsheet-table yui3-skin-sam">
+	<div class="fixable-header">
+		<div class="unmovable-cols">
+			<table class="table table-bordered table-condensed">
+				<tbody>
+					<tr>
+						<th>Month</th>
+					</tr>
+					<tr>
+						<th>Date</th>
+					</tr>
+					<tr>
+						<th>Day</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="header-scrollview-content" class="yui3-scrollview-loading">
 			<table class="table table-bordered table-condensed table-gantt">
 				<tbody>
 					<tr>
@@ -43,37 +37,61 @@
 							{{/days}}
 						{{/months}}
 					</tr>
-					<tr class="timeline-grid">
-						{{#months}}
-							{{#days}}
-								<td></td>
-							{{/days}}
-						{{/months}}
-					</tr>
 				</tbody>
 			</table>
 		</div>
-		
-		<div class="task-bars">
+	</div>
+	<div class="movable-body">
+		<div class="unmovable-cols">
 			<table class="table table-bordered table-condensed">
-				{{#tasks}}
-					<tr>
-						<td class="task-bar">
-							{{#if isParent}}
-								<div class="parent-bar progress" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
-									<div class="bar bar-warning" style="width: 100%"></div>
-									<div class="startCorner"></div>
-									<div class="endCorner"></div>
-								</div>
-							{{else}}
-								<div class="task-bar progress" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
-									<div class="bar" style="width: 100%"></div>
-								</div>
-							{{/if}}					
+				<tbody>
+					{{#tasks}}
+					<tr class="yui3-datatable-tree-row-depth-{{depthLevel}}">
+						<td class="yui3-datatable-tree-col">
+							{{name}}						
 						</td>
 					</tr>
-				{{/tasks}}
+					{{/tasks}}
+				</tbody>
 			</table>
+		</div>
+		<div id="body-scrollview-content" class="yui3-scrollview-loading">
+			<div class="task-bars movable-rows">
+				<table class="table table-bordered table-condensed">
+					<tbody>
+						{{#tasks}}
+						<tr>
+							<td class="task-bar">
+								{{#if isParent}}
+									<div class="parent-bar progress" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
+										<div class="bar bar-warning" style="width: 100%"></div>
+										<div class="startCorner"></div>
+										<div class="endCorner"></div>
+									</div>
+								{{else}}
+									<div class="task-bar progress" style="margin-left: {{startShift}}px; width: {{barWidth}}px;">
+										<div class="bar" style="width: 100%"></div>
+									</div>
+								{{/if}}					
+							</td>
+						</tr>
+						{{/tasks}}
+					</tbody>
+				</table>
+				<div class="gantt-grid">
+					<table class="table table-bordered table-condensed">
+						<tbody>
+							<tr class="timeline-grid">
+							{{#months}}
+								{{#days}}
+									<td></td>
+								{{/days}}
+							{{/months}}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

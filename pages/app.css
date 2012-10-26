@@ -2,6 +2,15 @@ body {
 	padding-top: 80px;
 }
 
+.checker-body {
+	position: relative;
+	background-color: white;
+	background-image: url(../bootstrap/img/connect.png);
+	background-repeat: repeat-x;
+	background-position: 0 -31px;
+	padding-top: 60px;
+}
+
 a:focus {
 	outline: none;
 }
@@ -47,9 +56,6 @@ a:focus {
 }
 
 .yui3-app-alert-board {
-	width: 100%;
-	position: relative;
-	top: -20px;
 }
 
 .yui3-app-views {
@@ -58,61 +64,104 @@ a:focus {
 
 .secondary .page-header {
 	color: #5A5A5A;
+	margin: 0;
+	border: 0;
 }
 
-.no-border {
-	border: 0;
+.secondary .navbar-inner {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.secondary .navbar-fixed-top {
+	top: 40px;
+}
+
+.secondary.scroll-snapped {
+	margin-bottom: 60px;
 }
 
 /**
  * 	CSS for GANTT Chart
  */
-.task-list {
-	width: 200px;
+/*/////////////////Common Part which can be reused. TODO Need more refactoring//////////////////////////*/
+.spreadsheet-table .table {
+	margin-bottom: 0;
 }
 
-.gantt-chart {
+.spreadsheet-table .table th {
+	text-align: center;
+}
+
+.spreadsheet-table .fixable-header {
+	margin-bottom: 0;
 	position: relative;
+}
+
+.spreadsheet-table.scroll-snapped .fixable-header {
+	position: fixed;
+	z-index: 10;
+	background-color: #FFFFFF;
+	top: 80px;
+}
+
+.spreadsheet-table .unmovable-cols {
+	width: 200px;					/* total width of fixed columns on left */
+}
+
+.spreadsheet-table .movable-body {
+	position: relative;
+	top: -1px;
+}
+
+.spreadsheet-table.scroll-snapped .movable-body {
+	padding-top: 87px;				/* total height of header rows*/
+}
+
+.spreadsheet-table.scroll-snapped .movable-body .movable-rows {
+	top: 87px;						/* total height of header rows*/
+	position: absolute;
+}
+
+#body-scrollview {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 199px;					/* 1px less than total width of fixed columns on left. 1px less is for overlapping borders of tables */
+}
+
+#header-scrollview {
+	position: absolute;
+	top:0;
+	background-color: #FFFFFF;
+	bottom: 0;
+	left: 199px;					/* 1px less than total width of fixed columns on left. 1px less is for overlapping borders of tables */
+}
+
+#body-scrollview-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+
+/*////////////////////////////// App specific styles /////////////////////////////////*/
+.gantt-grid {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+.gantt-grid .table {
+	height: 100%;
+}
+
+.gantt-grid .table td {
+	width: 27px;
 }
 
 .task-bar, .parent-bar {
 	margin-bottom: 0;
-}
-
-#gantt-scrollview {
-	position: absolute;
-	top: 0;
-	left: 199px;
-	bottom: 0;
-}
-
-#gantt-scrollview-content {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-}
-
-.timeline {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-}
-
-.table-gantt {
-	height: 100%;
-}
-
-.timeline-grid {
-	height: 100%;
-}
-
-.table th {
-	text-align: center;
-}
-
-.task-bars {
-	position: absolute;
-	top: 87px;
 }
 
 .task-bars .table td {

@@ -36,11 +36,11 @@ YUI.add('app-nav', function(Y){
 			self.pageHeader = Y.one('.page-header');
 			
 			self.primaryNav = Y.one('#primaryNav');
-			self.secondaryNav = Y.one('#secondaryNav');
-			
 			self.primaryNav.activeLink = self.primaryNav.one('.active');
+
+			self.secondaryNav = Y.one('.secondary .navbar');
 			self.secondaryNav.activeLink = self.secondaryNav.one('.active');
-			
+
 			/**
 			 * Do the app nav setup.
 			 * If server returns isAuthenticated flag as true, it means the session is already established. This can happen in below cases:
@@ -93,6 +93,8 @@ YUI.add('app-nav', function(Y){
 		
 		_setUpViewContainer: function(){
 			Y.one('.main').all('div').remove();
+			Y.one('.secondary').removeClass('hide');
+			Y.one('body').addClass('checker-body');
 		},
 		
 		_handleSubmission: function(e){
@@ -122,16 +124,31 @@ YUI.add('app-nav', function(Y){
 			this.secondaryNav.one('.project-name > a').set('innerHTML', e.newVal.get('name') + ' <b class="caret"></b>');
 		},
 		
+		_secondaryNavScrollSnapped: function(e){
+			this.secondaryNav.addClass('navbar-fixed-top');
+			Y.one('.secondary').addClass('scroll-snapped');
+		},
+		
+		_secondaryNavScrollUnsnapped: function(e){
+			this.secondaryNav.removeClass('navbar-fixed-top');
+			Y.one('.secondary').removeClass('scroll-snapped');
+		},
+		
 		_afterActiveViewChangeNav: function(e){
-			Y.log('_afterActiveViewChangeNav invoked');
 			var self = this,
 				viewInfo = self.getViewInfo(e.newVal);
+
 			if (viewInfo.subNav){
 				self.secondaryNav.removeClass('hide');
-				self.pageHeader.addClass('no-border');
+				self.secondaryNav.plug(Y.ScrollSnapPlugin, {
+					scrollOffset: 40
+				});
+				self.secondaryNav.ssp.on('scrollSnapped', Y.bind(self._secondaryNavScrollSnapped, self));
+				self.secondaryNav.ssp.on('scrollUnsnapped', Y.bind(self._secondaryNavScrollUnsnapped, self));
+
 			} else {
 				self.secondaryNav.addClass('hide');
-				self.pageHeader.removeClass('no-border');
+				self.secondaryNav.unplug('ssp');
 			}
 			
 			if(viewInfo.pageHeader){

@@ -102,19 +102,54 @@ YUI.add('gantt-view', function(Y){
 			
 			content = this.template(templateData);
 			
-			var container = this.get('container')
-				container.setContent(content);
+			var container = this.get('container');
+			container.setContent(content);
 			
-			var scrollview = new Y.ScrollView({
-				id : "gantt-scrollview",
-				srcNode : container.one('#gantt-scrollview-content'),
-				width : 970,
-				axis: 'x'
+			var	headerScrollview = new Y.ScrollView({
+					id: 'header-scrollview',
+					srcNode: container.one('#header-scrollview-content'),
+					width: '970px',
+					axis: 'x'
+				}),
+				bodyScrollview = new Y.ScrollView({
+					id : "body-scrollview",
+					srcNode : container.one('#body-scrollview-content'),
+					width : '970px',
+					axis : 'x'
+				});
+					
+			//This will ensure that both scrollviews are in sync
+			headerScrollview['_flick'] = bodyScrollview['_flick'] = function(){
+				Y.ScrollView.prototype['_flick'].apply(bodyScrollview, arguments);
+				Y.ScrollView.prototype['_flick'].apply(headerScrollview, arguments);
+			};
+			headerScrollview['_onGestureMoveEnd'] = bodyScrollview['_onGestureMoveEnd'] = function(){
+				Y.ScrollView.prototype['_onGestureMoveEnd'].apply(bodyScrollview, arguments);
+				Y.ScrollView.prototype['_onGestureMoveEnd'].apply(headerScrollview, arguments);
+			};
+			headerScrollview['_onGestureMove'] = bodyScrollview['_onGestureMove'] = function(){
+				Y.ScrollView.prototype['_onGestureMove'].apply(bodyScrollview, arguments);
+				Y.ScrollView.prototype['_onGestureMove'].apply(headerScrollview, arguments);
+			};
+			headerScrollview['_onGestureMoveStart'] = bodyScrollview['_onGestureMoveStart'] = function(){
+				Y.ScrollView.prototype['_onGestureMoveStart'].apply(bodyScrollview, arguments);
+				Y.ScrollView.prototype['_onGestureMoveStart'].apply(headerScrollview, arguments);
+			};
+				
+			bodyScrollview.render(container.one('.movable-body'));
+			headerScrollview.plug(Y.Plugin.ScrollViewScrollbars);
+			headerScrollview.render(container.one('.fixable-header'));
+			
+			var spreadsheetTable = container.one('.spreadsheet-table');
+			spreadsheetTable.plug(Y.ScrollSnapPlugin, {
+				scrollOffset: 400
 			});
-			
-			var parentNode = container.one('.gantt-chart');
-			scrollview.render(parentNode);
-			
+			spreadsheetTable.ssp.on('scrollSnapped', function(e){
+				this.get('host').addClass('scroll-snapped');
+			});
+			spreadsheetTable.ssp.on('scrollUnsnapped', function(e){
+				this.get('host').removeClass('scroll-snapped');
+			});
 			return this;
 		}
 	});

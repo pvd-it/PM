@@ -92,10 +92,10 @@ YUI.add('resource-view', function(Y){
 		},
 		
 		render: function(){
-			this.get('container').append('<div class="btn-toolbar">' +
+			/*this.get('container').append('<div class="btn-toolbar">' +
 											'<div class="btn-group"><button class="save btn btn-small btn-warning">Save</button></div>' + 
 											'<div class="btn-group"><button class="print btn btn-small btn-info">Print</button></div>' +
-										'</div>');
+										'</div>');*/
 			this.table.render(this.get('container'));
 		},
 		
