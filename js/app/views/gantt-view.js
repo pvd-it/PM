@@ -142,7 +142,7 @@ YUI.add('gantt-view', function(Y){
 			
 			var spreadsheetTable = container.one('.spreadsheet-table');
 			spreadsheetTable.plug(Y.ScrollSnapPlugin, {
-				scrollOffset: 400
+				scrollOffset: 70
 			});
 			spreadsheetTable.ssp.on('scrollSnapped', function(e){
 				this.get('host').addClass('scroll-snapped');

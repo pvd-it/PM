@@ -5,10 +5,7 @@ body {
 .checker-body {
 	position: relative;
 	background-color: white;
-	background-image: url(../bootstrap/img/connect.png);
-	background-repeat: repeat-x;
-	background-position: 0 -31px;
-	padding-top: 60px;
+	padding-top: 41px;
 }
 
 a:focus {
@@ -62,6 +59,10 @@ a:focus {
 	min-height: 500px;
 }
 
+.secondary {
+	background-image: url(../bootstrap/img/connect.png);
+}
+
 .secondary .page-header {
 	color: #5A5A5A;
 	margin: 0;
@@ -102,7 +103,16 @@ a:focus {
 	position: fixed;
 	z-index: 10;
 	background-color: #FFFFFF;
-	top: 80px;
+	top: 100px;
+}
+
+.spreadsheet-table.scroll-snapped .hide-scroll {     /* Prevents bleedthrough while scrolling vertically in snap mode*/
+	background-color: white;
+    height: 20px;
+    position: fixed;
+    top: 80px;
+    width: 100%;
+    z-index: 200;
 }
 
 .spreadsheet-table .unmovable-cols {

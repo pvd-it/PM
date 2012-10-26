@@ -11,13 +11,9 @@ YUI.add('scroll-snap', function(Y){
 	
 	// Attribute definitions for the plugin
 	ScrollSnapPlugin.ATTRS = {
-	    hostY : {
-	    	value: -1
-	    },
-	    
 	    scrollOffset: {
 	    	value: 0
-	    }
+	    },
 	};
 	
 	// Extend Plugin.Base
@@ -26,7 +22,6 @@ YUI.add('scroll-snap', function(Y){
 			var host = this.get('host'),
 				hostY = host.getY();
 			
-			this.set('hostY', hostY);			
 			this.scrollSnapClass = Y.ClassNameManager.getClassName('scroll', 'snap');
 			this.evtHandles = [];
 			this.evtHandles.push(Y.on('scroll', Y.bind(this._handleWindowScroll, this)));
@@ -34,21 +29,18 @@ YUI.add('scroll-snap', function(Y){
 		
 		_handleWindowScroll: function(e){
 			var host = this.get('host'),
-				hostY = this.get('hostY'),
 				docScrollY = host.get('docScrollY'),
 				scrollOffset = this.get('scrollOffset'),
 				cls = this.scrollSnapClass;
+				
+			if (docScrollY >= scrollOffset) {
+				host.addClass(cls);
+				this.fire('scrollSnapped');
+			}
 			
-			if ((docScrollY + scrollOffset) >= hostY) {
-				if (!host.hasClass(cls)){
-					host.addClass(cls);
-					this.fire('scrollSnapped');
-				}
-			} else {
-				if (host.hasClass(cls)){
-					host.removeClass(cls);
-					this.fire('scrollUnsnapped');
-				}
+			if (docScrollY < scrollOffset) {
+				host.removeClass(cls);
+				this.fire('scrollUnsnapped');
 			}
 		},
 		

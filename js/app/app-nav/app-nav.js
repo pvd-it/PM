@@ -141,7 +141,7 @@ YUI.add('app-nav', function(Y){
 			if (viewInfo.subNav){
 				self.secondaryNav.removeClass('hide');
 				self.secondaryNav.plug(Y.ScrollSnapPlugin, {
-					scrollOffset: 40
+					scrollOffset: 70
 				});
 				self.secondaryNav.ssp.on('scrollSnapped', Y.bind(self._secondaryNavScrollSnapped, self));
 				self.secondaryNav.ssp.on('scrollUnsnapped', Y.bind(self._secondaryNavScrollUnsnapped, self));

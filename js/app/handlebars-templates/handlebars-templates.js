@@ -179,7 +179,7 @@ function program17(depth0,data) {
   
   return "\n									<td></td>\n								";}
 
-  buffer += "<div class=\"spreadsheet-table yui3-skin-sam\">\n	<div class=\"fixable-header\">\n		<div class=\"unmovable-cols\">\n			<table class=\"table table-bordered table-condensed\">\n				<tbody>\n					<tr>\n						<th>Month</th>\n					</tr>\n					<tr>\n						<th>Date</th>\n					</tr>\n					<tr>\n						<th>Day</th>\n					</tr>\n				</tbody>\n			</table>\n		</div>\n		<div id=\"header-scrollview-content\" class=\"yui3-scrollview-loading\">\n			<table class=\"table table-bordered table-condensed table-gantt\">\n				<tbody>\n					<tr>\n						";
+  buffer += "<div class=\"spreadsheet-table yui3-skin-sam\">\n	<div class=\"hide-scroll\"></div> \n	<div class=\"fixable-header\">\n		<div class=\"unmovable-cols\">\n			<table class=\"table table-bordered table-condensed\">\n				<tbody>\n					<tr>\n						<th>Month</th>\n					</tr>\n					<tr>\n						<th>Date</th>\n					</tr>\n					<tr>\n						<th>Day</th>\n					</tr>\n				</tbody>\n			</table>\n		</div>\n		<div id=\"header-scrollview-content\" class=\"yui3-scrollview-loading\">\n			<table class=\"table table-bordered table-condensed table-gantt\">\n				<tbody>\n					<tr>\n						";
   foundHelper = helpers.months;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data)}); }
   else { stack1 = depth0.months; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
