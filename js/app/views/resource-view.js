@@ -60,42 +60,11 @@ YUI.add('resource-view', function(Y){
 			});
 		},
 		
-		events: {
-			'.save': {
-				click: function(e){
-					this.get('model').save(function(err, response){
-							if (err){
-								Y.fire('alert', {
-									type: 'error',
-									message: 'Some error occured while saving the project. Server returned: ' + err
-								});
-							}
-							else {
-								Y.fire('alert', {
-									type: 'success',
-									message: 'Project saved successfullly'
-								});
-							}
-					});
-				}
-			},
-			
-			'.print': {
-				click: function(e){
-					Y.log(this.get('model').get('resources').toJSON());
-				}
-			}
-		},
-		
 		moveFocusToTable: function(){
 			this.table.focus();
 		},
 		
 		render: function(){
-			/*this.get('container').append('<div class="btn-toolbar">' +
-											'<div class="btn-group"><button class="save btn btn-small btn-warning">Save</button></div>' + 
-											'<div class="btn-group"><button class="print btn btn-small btn-info">Print</button></div>' +
-										'</div>');*/
 			this.table.render(this.get('container'));
 		},
 		

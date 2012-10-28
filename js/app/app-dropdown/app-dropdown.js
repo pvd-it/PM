@@ -3,6 +3,7 @@ YUI.add('app-dropdown', function(Y){
 	 * This is an extension class to be mixed with Y.App class, so that dropdowns across the app are handled.
 	 * This allows efficient event handling using delegation
 	 */
+	var Dropdown;
 	
 	Y.namespace('App').Dropdown = Dropdown = function() {};
 	
@@ -20,11 +21,21 @@ YUI.add('app-dropdown', function(Y){
 		},
 		
 		_handleClickDropdown: function(e){
-			var self = this;
-				target = e.target;
+			var self = this,
+				target = e.target,
+				dropDownMenu,
+				dataDropdown,
+				dataDropdownAction,
+				handler;
 			
 			if (self._lastActiveDropdown) {
 				self._closeDropdown();
+				dropDownMenu = self._lastActiveDropdown.next();
+				if (dropDownMenu.contains(target)) {
+					dataDropdown = dropDownMenu.getAttribute('data-dropdown');
+					dataDropdownAction = target.getAttribute('data-dropdown-action');
+					Y.fire(dataDropdown + ':' + dataDropdownAction);
+				}
 			}
 			
 			if (target.hasClass('dropdown-toggle')){

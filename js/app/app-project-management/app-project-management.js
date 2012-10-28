@@ -5,7 +5,7 @@ YUI.add('app-project-management', function(Y){
 	
 	Y.namespace('ProjectManagement');
 	
-	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav, Y.PMApp.Login, Y.AppBaseFix], {
+	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav, Y.PMApp.Login, Y.AppBaseFix, Y.App.AlertBoard], {
 		views: {
 			login:		{type: Y.PMApp.LoginView, preserve: false},
 			logout:		{type: Y.PMApp.LogoutView, preserve: false, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
@@ -20,19 +20,20 @@ YUI.add('app-project-management', function(Y){
 		},
 		
 		initializer: function(){
-			this.after('loginSuccess', this._afterLoginSuccess);
+			var self = this;
 			
-			this.after('alert:closed', this._afterAlertClosed);
-			Y.on('alert', Y.bind(this._afterAlertReceived, this));
+			self.after('loginSuccess', self._afterLoginSuccess);
 			
-			this.after('currentUserChange', this._afterCurrentUserChange);
-			this.after('currentProjectChange', this._afterCurrentProjectChange);
+			self.after('currentUserChange', self._afterCurrentUserChange);
+			self.after('currentProjectChange', self._afterCurrentProjectChange);
 			
-			this.on('*:editProjectOverview', this._onEditProjectOverview);
-			this.on('*:projectCreated', this._onProjectCreateUpdate);
-			this.on('*:projectUpdated', this._onProjectCreateUpdate);
+			self.on('*:editProjectOverview', self._onEditProjectOverview);
+			self.on('*:projectCreated', self._onProjectCreateUpdate);
+			self.on('*:projectUpdated', self._onProjectCreateUpdate);
 			
-			this.alertArray = [];
+			Y.on('projectActions:save', Y.bind(self._saveCurrentProject, self));
+			Y.on('projectActions:discard', Y.bind(self._reloadCurrentProject, self));
+			Y.on('projectActions:export', Y.bind(self._exportCurrentProject, self));
 		},
 
 		showView: function(view){
@@ -49,79 +50,56 @@ YUI.add('app-project-management', function(Y){
 				str = str + '</h1>';
 				//this.pageHeader.set('innerHTML', str);
 			}
-			
-			if (self.views[view].subNav) {
-				//this._showSubNav();
-			} else {
-				//this._hideSubNav();
-			}
 			Y.AppBaseFix.prototype.showView.apply(this, arguments);
 		},
 		
 		render: function(){
 			App.superclass.render.apply(this, arguments);
 			Y.log('App render');
-			this._renderAlertBoard();
 		},
 		
-		_renderAlertBoard: function(){
-			var alertBoard = Y.one('.' + getClassName('app', 'alert', 'board'));
-			this.alertBoard = alertBoard;
-		},
-		
-		_subNavSnapped: function(e){
-			var prjName = this.get('currentProject').get('name');
-			this.subNavbar.rightText.setContent(prjName);
-		},
-		
-		_subNavUnsnapped: function(e){
-			this.subNavbar.rightText.setContent('');
-		},
-		
-		/**
-		 * whenever a new view comes up remove all alert messages...
-		 * TODO: Instead of doing alert message cleanup in catchAll, better to hook to activeViewChange event 
-		 */
-		_handleCatchAll: function(req, res, next){
-			Y.log('handle catch all');
-			YArray.each(this.alertArray, function(alertWidget){
-				if (alertWidget.preserveOnce){
-					delete alertWidget.preserveOnce;
-				} else {
-					alertWidget.close(true);
-				}
-			}, this);
-			next && next();
-		},
-
-		_afterAlertReceived: function(e){
-			var alert = new Y.Alert({
-				type: e.type,
-				message: e.message
-			});
+		_reloadCurrentProject: function(e){
+			var self = this;
 			
-			alert.preserveOnce = e.preserveOnce;
-			this.alertArray.push(alert);
-			//Make yourself target of alert, so that you can listen to closed event
-			alert.addTarget(this);
-			alert.render(this.alertBoard);
-			this.alertBoard.scrollIntoView();
+			self.get('currentProject').load(function(err, res){
+				if (err){
+					Y.fire('alert', {
+						type: 'error',
+						message: 'Unable to load project. Please try again.'
+					});
+					return;
+				}
+				
+				Y.fire('alert', {
+					type: 'warning',
+					message: 'Discarded changes made. Project has been reloaded.'
+				});
+			});
 		},
 		
-		/**
-		 * Handle alert close event
-		 */
-		_afterAlertClosed: function(e){
-			Y.log('App alter close notification');
-			var index = YArray.indexOf(this.alertArray, e.target);
-			if (index >=0){
-				YArray.remove(this.alertArray, index);
-			}
-			e.target.destroy();
+		_exportCurrentProject: function(e){
+			
+		},
+		
+		_saveCurrentProject: function(e){
+			var self = this;
+			self.get('currentProject').save(function(err, response){
+				if (err){
+					Y.fire('alert', {
+						type: 'error',
+						message: 'Some error occured while saving the project. Server returned: ' + err
+					});
+				}
+				else {
+					Y.fire('alert', {
+						type: 'success',
+						message: 'Project saved successfullly'
+					});
+				}
+			});
 		},
 		
 		_afterLoginSuccess: function(e){
-			Y.log('after login success');
 			this.set('currentUser', e.user);
 			this.replace('/dashboard');
 		},
@@ -168,31 +146,12 @@ YUI.add('app-project-management', function(Y){
 			}
 		},
 		
-		handleSchedule: function(req, res, next){
-			/*if (this.get('tasks').size() === 0){
-				this.get('tasks').loadFromServer(next);	
-			} else {
-				next();
-			}*/
-			next();
-		},
-		
 		showScheduleView: function(req, res){
 			this.showView('schedule', {
 				model: this.get('currentProject')
 			});
 			this.get('activeView').moveFocusToTable();
 		},					
-		
-		handleResource: function(req, res, next){
-			/*if (this.get('resources').size() === 0){
-				this.get('resources').loadFromServer(next);
-				Y.namespace('Project').Resources = this.get('resources');
-			} else {
-				next();
-			}*/
-			next();
-		},
 		
 		showResourceView: function(req, res){
 			this.showView('resource', {
@@ -218,11 +177,6 @@ YUI.add('app-project-management', function(Y){
 			}
 		},
 		
-		showLogoutView: function(req, res){
-			this.showView('logout');
-			this.get('activeView').doLogout();
-		},
-		
 		showNewProjectView: function(req, res){
 			this.showView('newproject');
 		},
@@ -234,7 +188,7 @@ YUI.add('app-project-management', function(Y){
 			});
 		},
 		
-		handleProject: function(req, res, next){
+		handleProject: function(req, res){
 			var self = this,
 				proj = new Y.Project({
 					_id : req.params.id
@@ -249,7 +203,7 @@ YUI.add('app-project-management', function(Y){
 					return;
 				} 
 				self.set('currentProject', proj);
-				next();
+				self.save('/project/' + req.params.id + '/overview');
 			});
 		},
 		
@@ -273,21 +227,16 @@ YUI.add('app-project-management', function(Y){
 		ATTRS: {
 			routes: {
 				value: [
-//					{path: '/*', callback: '_handleCatchAll'},
-					{path: '/schedule', callback: 'handleSchedule'},
-					{path: '/schedule', callback: 'showScheduleView'},
-					{path: '/resource', callback: 'handleResource'},
-					{path: '/resource', callback: 'showResourceView'},
-					{path: '/gantt', callback: 'showGanttView'},
+					{path: '/project/:id/schedule', callback: 'showScheduleView'},
+					{path: '/project/:id/resource', callback: 'showResourceView'},
+					{path: '/project/:id/gantt', callback: 'showGanttView'},
 					{path: '/login', callback: 'showLoginView'},
 					{path: '/', callback: 'showLoginView'},
-					{path: '/logout', callback: 'showLoginView'},
 					{path: '/newproject', callback: 'showNewProjectView'},
 					{path: '/dashboard', callback: 'showDashboardView'},
-					{path: '/project', callback: 'showProjectView'},
-					{path: '/project/edit', callback: 'showEditProjectView'},
+					{path: '/project/:id/edit', callback: 'showEditProjectView'},
 					{path: '/project/:id', callback: 'handleProject'},
-					{path: '/project/:id', callback: 'showProjectView'},
+					{path: '/project/:id/overview', callback: 'showProjectView'},
 					{path: '/usersettings', callback: 'showUserView'}
 				]
 			},

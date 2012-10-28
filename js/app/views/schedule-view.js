@@ -129,33 +129,6 @@ YUI.add('schedule-view', function(Y){
 			});
 		},
 		
-		events: {
-			'.save': {
-				click: function(e){
-					this.get('model').save(function(err, response){
-							if (err){
-								Y.fire('alert', {
-									type: 'error',
-									message: 'Some error occured while saving the project. Server returned: ' + err
-								});
-							}
-							else {
-								Y.fire('alert', {
-									type: 'success',
-									message: 'Project saved successfullly'
-								});
-							}
-					});
-				}
-			},
-			
-			'.print': {
-				click: function(e){
-					Y.log(Y.JSON.stringify(this.get('model').serialize()));
-				}
-			}
-		},
-		
 		moveFocusToTable: function(){
 			this.table.focus();
 		},
@@ -166,13 +139,7 @@ YUI.add('schedule-view', function(Y){
 			
 			me.table.render(this.get('container'));
 			tableBB = me.table.get('boundingBox');
-			
-			/*
-			me.get('container').prepend('<div class="btn-toolbar">' +
-											'<div class="btn-group"><button class="btn-warning btn btn-small save">Save</button></div>' + 
-											'<div class="btn-group"><button class="btn btn-small btn-info print">Print</button></div>' +
-										'</div>');*/
-		},
+		},			
 		
 		destructor: function(){
 			YObject.each(this.inlineEditors, function(editor){

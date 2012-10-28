@@ -13,7 +13,7 @@ YUI.add('project-view', function(Y){
 		},
 		
 		events: {
-			'.yui3-button-primary': {
+			'.btn': {
 				'click': function(e){
 					e.halt();
 					this.fire('editProjectOverview');

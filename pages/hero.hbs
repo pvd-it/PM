@@ -72,7 +72,7 @@
 		        <div class="navbar hide">
 					<div class="navbar-inner" id="secondaryNav">
 						<div class="container">
-							<ul class="nav">
+							<ul class="nav project-links">
 								<li class="active">
 									<a href="/project">Overview</a>
 								</li>
@@ -92,15 +92,15 @@
 										Project Name
 										<b class="caret"></b>
 									</a>
-									<ul class="dropdown-menu">
+									<ul class="dropdown-menu" data-dropdown="projectActions">
 										<li>
-											<a href="#"><i class="icon-check"> </i> Save Changes</a>
+											<a href="#" data-dropdown-action="save"><i class="icon-check"> </i> Save Changes</a>
 										</li>
 										<li>
-											<a href="#"><i class="icon-ban-circle"> </i> Discard Changes</a>
+											<a href="#" data-dropdown-action="discard"><i class="icon-ban-circle"> </i> Discard Changes</a>
 										</li>
 										<li>
-											<a href="#"><i class="icon-download-alt"> </i> Export as JSON</a>
+											<a href="#" data-dropdown-action="export"><i class="icon-download-alt"> </i> Export as JSON</a>
 										</li>
 									</ul>
 								</li>
@@ -591,6 +591,11 @@
 								requires: ['datatable-body'],
 							},
 							
+							'app-alert-board': {
+								path: 'app-alert-board/app-alert-board.js',
+								requires: ['alert']
+							},
+							
 							'app-login': {
 								path: 'app-login/app-login.js',
 								requires: ['io-base'],
@@ -598,7 +603,7 @@
 							
 							'app-project-management': {
 								path: 'app-project-management/app-project-management.js',
-								requires: ['app-base-fix', 'app-dropdown', 'app-login', 'datatable-tree-body', 'app-base', 'alert', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'app-nav'],
+								requires: ['app-base-fix', 'app-dropdown', 'app-login', 'app-alert-board', 'app-nav', 'app-base', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'datatable-tree-body'],
 							},
 							
 							'app-nav': {

@@ -3,6 +3,7 @@
  * This should also handle page header display
  */
 YUI.add('app-nav', function(Y){
+	var Nav;
 	
 	Y.namespace('PMApp').Nav = Nav = function() {};
 
@@ -18,6 +19,21 @@ YUI.add('app-nav', function(Y){
 					'<ul class="nav pull-right">' + 
 						'<li><a href="/usersettings"><i class="icon-user icon-white"> </i> {name}</a></li>' +
 					'</ul>',
+					
+		projectNavTemplate: '<ul class="nav">' +
+								'<li class="active">' +
+									'<a href="/project/{id}/overview">Overview</a>' +
+								'</li>' +
+								'<li>' +
+									'<a href="/project/{id}/schedule">Schedule</a>' +
+								'</li>' +
+								'<li>' +
+									'<a href="/project/{id}/gantt">Gantt</a>' +
+								'</li>' +
+								'<li>' +
+									'<a href="/project/{id}/resource">Team</a>' +
+								'</li>' +
+							'</ul>',
 		
 		initializer: function(){
 			var self = this;
@@ -31,15 +47,9 @@ YUI.add('app-nav', function(Y){
 			var self = this,
 				container = self.get('container');
 				
-			container.on('click', Y.bind(self._handleClickNav, self));
-			
 			self.pageHeader = Y.one('.page-header');
-			
 			self.primaryNav = Y.one('#primaryNav');
-			self.primaryNav.activeLink = self.primaryNav.one('.active');
-
 			self.secondaryNav = Y.one('.secondary .navbar');
-			self.secondaryNav.activeLink = self.secondaryNav.one('.active');
 
 			/**
 			 * Do the app nav setup.
@@ -53,42 +63,6 @@ YUI.add('app-nav', function(Y){
 			} else {
 				self.primaryNav.one('form').on('submit', self._handleSubmission, self);
 			}
-		},
-		
-		_handleClickNav: function(e){
-			var linkNode = e.target,
-				self = this;
-				
-			if (self.primaryNav.contains(linkNode)) {
-				self._setActiveLink(self.primaryNav, linkNode.get('parentNode'));
-			} else if (self.secondaryNav.contains(linkNode)){
-				self._setActiveLink(self.secondaryNav, linkNode.get('parentNode'));
-			}
-		},
-		
-		_setActiveLink: function(navNode, linkNode) {
-			var prevActiveLink = navNode.activeLink;
-
-			//If link node being clicked is 'Project-name' dropdown then do nothing
-			if (linkNode.hasClass('project-name')) {
-				return;
-			}
-			
-			//If user clicked on the link which is already active do nothing
-			if (prevActiveLink === linkNode){
-				return;
-			}
-			
-			//If link which is clicked is part of dropdown which is inside navigtion do nothing
-			if (linkNode.ancestor(function(node){
-				return node.hasClass('dropdown') && navNode.contains(node);
-			})){
-				return;
-			}
-
-			navNode.activeLink = linkNode;
-			linkNode.addClass('active');
-			prevActiveLink && prevActiveLink.removeClass('active');
 		},
 		
 		_setUpViewContainer: function(){
@@ -120,8 +94,14 @@ YUI.add('app-nav', function(Y){
 		},
 		
 		_afterCurrentProjectChangeNav: function(e){
-			var prjId = e.newVal.get('_id');
-			this.secondaryNav.one('.project-name > a').set('innerHTML', e.newVal.get('name') + ' <b class="caret"></b>');
+			var self = this,
+				prjId = e.newVal.get('_id');
+				
+			//Update the secondary nav bar ProjectName dropdown with new project's name
+			self.secondaryNav.one('.project-name > a').set('innerHTML', e.newVal.get('name') + ' <b class="caret"></b>');
+			
+			//Update the secondary nav bar links with new project's id
+			self.secondaryNav.one('.project-links').set('innerHTML', Y.substitute(self.projectNavTemplate, {id: prjId}));
 		},
 		
 		_secondaryNavScrollSnapped: function(e){
@@ -136,8 +116,11 @@ YUI.add('app-nav', function(Y){
 		
 		_afterActiveViewChangeNav: function(e){
 			var self = this,
-				viewInfo = self.getViewInfo(e.newVal);
-
+				viewInfo = self.getViewInfo(e.newVal),
+				path = window.location.pathname,
+				prevActiveLink,
+				activeLink;
+				
 			if (viewInfo.subNav){
 				self.secondaryNav.removeClass('hide');
 				self.secondaryNav.plug(Y.ScrollSnapPlugin, {
@@ -156,6 +139,21 @@ YUI.add('app-nav', function(Y){
 				self.pageHeader.removeClass('hide');
 			} else {
 				self.pageHeader.addClass('hide');
+			}
+			
+			//synchronize links, first start with secondary nav bar then move to primary nav
+			activeLink = self.secondaryNav.one('a[href="' + window.location.pathname + ']');
+			if (activeLink){
+				prevActiveLink = self.secondaryNav.one('.active');
+				prevActiveLink && prevActiveLink.removeClass('active');
+				activeLink.get('parentNode').addClass('active');
+				return;
+			}
+			activeLink = self.primaryNav.one('a[href="' + window.location.pathname + ']');
+			if (activeLink){
+				prevActiveLink = self.primaryNav.one('.active');
+				prevActiveLink && prevActiveLink.removeClass('active');
+				activeLink.get('parentNode').addClass('active');
 			}
 		},
 	};
