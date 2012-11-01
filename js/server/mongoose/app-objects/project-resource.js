@@ -78,3 +78,7 @@ module.exports.deleteResources = function(resources, callback){
 	});
 	projectResourceModel.find({}).where('_id')['in'](_ids).remove(callback);
 };
+
+module.exports.deleteResourcesByProjectId = function(projectId, callback){
+	projectResourceModel.find({}).where('projectId')['in']([projectId]).remove(callback);
+};

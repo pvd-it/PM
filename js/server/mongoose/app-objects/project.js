@@ -57,6 +57,22 @@ module.exports.retreiveProjectById = function(projectId, callback) {
 	});
 };
 
+module.exports.removeProjectById = function(projectId, callback){
+	ProjectTask.deleteTasksByProjectId(projectId, function(taskErr){
+		if (taskErr){
+			callback(taskErr);
+			return;
+		}
+		ProjectResource.deleteResourcesByProjectId(projectId, function(resErr){
+			if (resErr){
+				callback(resErr);
+				return;
+			}
+			projectModel.find({}).where('_id')['in']([projectId]).remove(callback);
+		});
+	});
+};
+
 module.exports.updateProject = function(jsonProject, callback) {
 	var projId = jsonProject._id,
 		tasks = jsonProject.tasks,

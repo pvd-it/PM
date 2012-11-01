@@ -13,6 +13,47 @@ YUI.add('task-list', function(Y) {
 			this.publish(EVT_PARENT_CHANGE,    {defaultFn: this._defAddFn});
 		},
 		
+		_addInterceptor: function(e){
+			if (e.index === 0 && this.size() > 0) {
+				e.halt(); //prevent the default action
+				Y.fire('alert', {
+					type: 'info',
+					message: 'You are trying to insert a task before first task, which represents the entire project. A task can not be inserted before project task.'
+				});
+				return;
+			}
+			
+			var newClientId = e.model.get('clientId'),
+				above = this.item(e.index-1),
+				defaultParentClientId = above ? above.get('parent') : undefined,
+				depthLevel = above ? above.get('depthLevel'): 0;
+			
+			if (!defaultParentClientId){ //It means that task is getting added next to a task, which doesn't have parent. It means it's getting added as sibling of project task, so make it child of project task
+				defaultParentClientId = 'task_0';
+				depthLevel = 1;
+			}
+			
+			if (defaultParentClientId){
+				e.model._set('parent', defaultParentClientId);
+				this.getByClientId(defaultParentClientId).get('children').add(newClientId);
+				e.model.set('startDate', this.getByClientId(defaultParentClientId).get('startDate'), {silent: true});
+				e.model.set('depthLevel', depthLevel, {silent: true});
+			}
+		},
+		
+		_removeInterceptor: function(e){
+			var clientId = e.model.get('clientId');
+			if (clientId === 'task_0'){
+				e.halt(); //prevent the default action
+				Y.fire('alert', {
+					type: 'info',
+					message: 'You are trying to delete very first task, which represents the entire project. This task can not be deleted.'
+				});
+				return;
+			}
+			Y.TreeModelList.prototype._removeInterceptor.apply(this, arguments);
+		},
+		
 		_taskChangeInterceptor: function(e){
 			var task = e.target,
 				list = this;

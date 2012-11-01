@@ -87,9 +87,6 @@ YUI.add('tree-model-list', function(Y) {
 					oldParent.get('children').remove(childClientId);
 				}
 				
-				newParent.get('children').add(childClientId); //Add the item as child of new parent				
-				child.set('parent', newParent.get('clientId')); //Associate new parent with item
-				
 				//Adjustment for the depth of descendants = child's new depth - child's current depth
 				//child's new depth = newParent's depth + 1
 				depthAdjustment = (newParent.get('depthLevel') + 1) - child.get('depthLevel');
@@ -109,6 +106,10 @@ YUI.add('tree-model-list', function(Y) {
 						descendant.set('visible', childVisibility);
 					}
 				});
+				
+				//Do this here, so that all changes done to descendants are visible, when change event for 'parent' is fired
+				newParent.get('children').add(childClientId); //Add the item as child of new parent				
+				child.set('parent', newParent.get('clientId')); //Associate new parent with item
 				
 				return descendants;
 		},

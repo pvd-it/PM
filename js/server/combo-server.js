@@ -138,16 +138,23 @@ app.get('/bootstrap/*', function(req, res, next){
 });
 
 app.post('/data/project/create', function(req, res, next) {
-	req.body.tasks = undefined;
-	
 	var proj = new Project(req.body);
+
 	proj.save(function(err, result){
 		if (err){
 			res.send(500);
-		} else {
+			return;
+		}
+		req.body._id = result._id;
+		ProjectSchema.updateProject(req.body, function(prjSaveErr){
+			if (prjSaveErr){
+				res.send(500);
+				return;
+			}
 			User.findOne({_id: req.session.userId}, function(e, user){
 				if (e){
 					res.send(500);
+					return;
 				}
 				user.currentProjects.push(proj);
 				user.save(function(er, r){
@@ -157,8 +164,8 @@ app.post('/data/project/create', function(req, res, next) {
 						res.send(proj);
 					}
 				});
-			});
-		}
+			});			
+		});
 	});
 });
 
@@ -186,6 +193,16 @@ app.get('/data/project/:id', function(req, res, next){
 			return;
 		}
 		res.send(prj);
+	});
+});
+
+app['delete']('/data/project/:id', function(req, res, next){
+	ProjectSchema.removeProjectById(req.params.id, function(err){
+		if (err){
+			res.send(500);
+			return;
+		}
+		res.send(200);
 	});
 });
 

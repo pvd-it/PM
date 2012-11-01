@@ -86,3 +86,7 @@ module.exports.deleteTasks = function(tasks, callback){
 	});
 	projectTaskModel.find({}).where('_id')['in'](_ids).remove(callback);
 };
+
+module.exports.deleteTasksByProjectId = function(projectId, callback){
+	projectTaskModel.find({}).where('projectId')['in']([projectId]).remove(callback);
+};

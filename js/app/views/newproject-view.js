@@ -27,7 +27,7 @@ YUI.add('newproject-view', function(Y){
 		},
 		
 		events: {
-			'.yui3-button-primary': {
+			'.btn-primary': {
 				
 				'click': function(e){
 					e.halt();
@@ -62,13 +62,16 @@ YUI.add('newproject-view', function(Y){
 							newProj.setAttrs(newValues);
 						} else {
 							newProj = new Y.Project(newValues);
+							Y.Task.lastCount = -1;
+							var firstTask = new Y.Task({
+								name: projectName,
+								startDate: new Date(),
+								work: 0
+							});
+							newProj.get('tasks').add(firstTask);
 						}
 						
-						if(existingProject){
-							errorMessage = 'Some error occured while saving the project. Server returned: ';
-						} else {
-							errorMessage = 'Some error occured while creating the project. Server returned: ';
-						}
+						errorMessage = existingProject ? 'Some error occured while saving the project. Server returned: ' : 'Some error occured while creating the project. Server returned: ';
 						
 						newProj.save(function(err, response){
 							if (err){

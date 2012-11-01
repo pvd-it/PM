@@ -34,6 +34,7 @@ YUI.add('app-project-management', function(Y){
 			Y.on('projectActions:save', Y.bind(self._saveCurrentProject, self));
 			Y.on('projectActions:discard', Y.bind(self._reloadCurrentProject, self));
 			Y.on('projectActions:export', Y.bind(self._exportCurrentProject, self));
+			Y.on('projectActions:delete', Y.bind(self._deleteCurrentProject, self));
 		},
 
 		showView: function(view){
@@ -79,6 +80,23 @@ YUI.add('app-project-management', function(Y){
 		
 		_exportCurrentProject: function(e){
 			
+		},
+		
+		_deleteCurrentProject: function(e){
+			var self = this;
+			self.get('currentProject').destroy({remove: true}, function(err, response){
+				if (err){
+					Y.fire('alert', {
+						type: 'error',
+						message: 'Some error occured while removing the project. Server returned: ' + err
+					});
+				} else {
+					Y.fire('alert', {
+						type: 'info',
+						message: 'Project was deleted successfullly'
+					});
+				}
+			});
 		},
 		
 		_saveCurrentProject: function(e){
