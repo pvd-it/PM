@@ -27,6 +27,10 @@ YUI.add('task-list', function(Y) {
 				above = this.item(e.index-1),
 				defaultParentClientId = above ? above.get('parent') : undefined,
 				depthLevel = above ? above.get('depthLevel'): 0;
+
+			if (newClientId === 'task_0'){
+				return;
+			}
 			
 			if (!defaultParentClientId){ //It means that task is getting added next to a task, which doesn't have parent. It means it's getting added as sibling of project task, so make it child of project task
 				defaultParentClientId = 'task_0';
