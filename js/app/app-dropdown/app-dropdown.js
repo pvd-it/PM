@@ -24,17 +24,23 @@ YUI.add('app-dropdown', function(Y){
 			var self = this,
 				target = e.target,
 				dropDownMenu,
-				dataDropdown,
+				dataDropdownCategory,
 				dataDropdownAction,
+				dataActionConfirmation,
 				handler;
 			
 			if (self._lastActiveDropdown) {
 				self._closeDropdown();
 				dropDownMenu = self._lastActiveDropdown.next();
 				if (dropDownMenu.contains(target)) {
-					dataDropdown = dropDownMenu.getAttribute('data-dropdown');
+					dataDropdownCategory = dropDownMenu.getAttribute('data-dropdown-category');
 					dataDropdownAction = target.getAttribute('data-dropdown-action');
-					Y.fire(dataDropdown + ':' + dataDropdownAction);
+					dataActionConfirmation = target.getAttribute('data-action-confirmation');
+					Y.fire(dataDropdownCategory + ':appAction', {
+						action: dataDropdownAction,
+						confirmationRequired: dataActionConfirmation === 'true' ? true : false,
+						category: dataDropdownCategory
+					});
 				}
 			}
 			

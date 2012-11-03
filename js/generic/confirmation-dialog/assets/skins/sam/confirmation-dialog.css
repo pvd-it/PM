@@ -1,0 +1,21 @@
+.yui3-confirmation-dialog .modal {
+	left: auto;
+    margin: 0;
+    overflow: auto;
+    position: static;
+    top: auto;
+    width: auto;
+    z-index: 0;
+}
+
+.yui3-confirmation-dialog-hidden {
+	display: none;
+}
+
+.yui3-confirmation-dialog-focused {
+	outline: none;
+}
+
+.yui3-confirmation-dialog {
+	position: absolute;
+}

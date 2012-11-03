@@ -5,7 +5,7 @@ YUI.add('app-project-management', function(Y){
 	
 	Y.namespace('ProjectManagement');
 	
-	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav, Y.PMApp.Login, Y.AppBaseFix, Y.App.AlertBoard], {
+	Y.ProjectManagement.App = App = Y.Base.create('appProjectManagement', Y.App, [Y.App.Dropdown, Y.PMApp.Nav, Y.PMApp.Login, Y.AppBaseFix, Y.App.AlertBoard, Y.App.DialogManager], {
 		views: {
 			login:		{type: Y.PMApp.LoginView, preserve: false},
 			logout:		{type: Y.PMApp.LogoutView, preserve: false, pageHeader: 'Logout', pageHeaderTeaser: ' is successful, so you are'},
@@ -31,10 +31,7 @@ YUI.add('app-project-management', function(Y){
 			self.on('*:projectCreated', self._onProjectCreateUpdate);
 			self.on('*:projectUpdated', self._onProjectCreateUpdate);
 			
-			Y.on('projectActions:save', Y.bind(self._saveCurrentProject, self));
-			Y.on('projectActions:discard', Y.bind(self._reloadCurrentProject, self));
-			Y.on('projectActions:export', Y.bind(self._exportCurrentProject, self));
-			Y.on('projectActions:delete', Y.bind(self._deleteCurrentProject, self));
+			Y.after('projectActions:appAction', Y.bind(self._performProjectAction, self));
 		},
 
 		showView: function(view){
@@ -57,6 +54,34 @@ YUI.add('app-project-management', function(Y){
 		render: function(){
 			App.superclass.render.apply(this, arguments);
 			Y.log('App render');
+		},
+		
+		_performProjectAction: function(e){
+			if (e.confirmationRequired) {
+				if (!e.hasConfirmation){
+					return;
+				}
+			}
+			
+			var self = this;
+			
+			switch(e.action){
+				case 'save':
+					self._saveCurrentProject(e);
+				break;
+					
+				case 'discard':
+					self._reloadCurrentProject(e);
+				break;
+				
+				case 'export':
+					self._exportCurrentProject(e);
+				break;
+				
+				case 'delete':
+					self._deleteCurrentProject(e);
+				break;
+			}
 		},
 		
 		_reloadCurrentProject: function(e){

@@ -182,3 +182,14 @@ a:focus {
 .yui3-scrollview-loading {
 	visibility: hidden;
 }
+
+/***************Dialog Box************************ */
+.yui3-confirmation-dialog-loading {
+	display: none;
+}
+
+.yui3-widget-mask {
+	background-color: black;
+    opacity: 0.4;	
+}
+/***************Dialog Box************************ */

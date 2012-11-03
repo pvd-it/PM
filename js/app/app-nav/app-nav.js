@@ -17,6 +17,7 @@ YUI.add('app-nav', function(Y){
 						'<button class="btn btn-danger"><i class="icon-white icon-share"></i> Logout</button>' + 
 					'</form>' +
 					'<ul class="nav pull-right">' + 
+						'<li><a href="/help"><i class="icon-bell icon-white"> </i> Help</a></li>' +
 						'<li><a href="/usersettings"><i class="icon-user icon-white"> </i> {name}</a></li>' +
 					'</ul>',
 					
@@ -98,7 +99,7 @@ YUI.add('app-nav', function(Y){
 				prjId = e.newVal.get('_id');
 				
 			//Update the secondary nav bar ProjectName dropdown with new project's name
-			self.secondaryNav.one('.project-name > a').set('innerHTML', e.newVal.get('name') + ' <b class="caret"></b>');
+			self.secondaryNav.one('.project-name > a').set('innerHTML', '<i class="icon-gift"> </i> ' + e.newVal.get('name') + ' <b class="caret"></b>');
 			
 			//Update the secondary nav bar links with new project's id
 			self.secondaryNav.one('.project-links').set('innerHTML', Y.substitute(self.projectNavTemplate, {id: prjId}));
