@@ -117,6 +117,8 @@ a:focus {
 
 .spreadsheet-table .unmovable-cols {
 	width: 200px;					/* total width of fixed columns on left */
+	z-index: 1;
+	position: relative;
 }
 
 .spreadsheet-table .movable-body {
@@ -143,9 +145,12 @@ a:focus {
 #header-scrollview {
 	position: absolute;
 	top:0;
-	background-color: #FFFFFF;
 	bottom: 0;
 	left: 199px;					/* 1px less than total width of fixed columns on left. 1px less is for overlapping borders of tables */
+}
+
+#header-scrollview table {
+	background-color: #FFF;
 }
 
 #body-scrollview-content {

@@ -1,7 +1,7 @@
 {
   "name": "PM",
   "description": "Web based project management",
-  "version": "0.0.1-12",
+  "version": "0.0.1-13",
   "repository": {
     "type": "git",
     "url": "https://pvd-it@github.com/pvd-it/PM.git"
