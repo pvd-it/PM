@@ -42,7 +42,8 @@ YUI.add('list-builder', function(Y){
 			self.tagTextLocator = config.resultTextLocator;
 			self.acConfig = {
 				source: config.source,
-				resultTextLocator: config.resultTextLocator
+				resultTextLocator: config.resultTextLocator,
+				resultListLocator: config.resultListLocator
 			};
 			self.after(CURRENT_SELECTED_TAG+CHANGE, this._afterCurrentSelectedTagChanged);
 			self.after(LIST_TO_EDIT+CHANGE, this._afterListToEditChanged);

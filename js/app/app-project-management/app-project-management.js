@@ -104,7 +104,9 @@ YUI.add('app-project-management', function(Y){
 		},
 		
 		_exportCurrentProject: function(e){
-			
+			var self = this,
+				obj = self.get('currentProject').serialize();
+			Y.log(obj);
 		},
 		
 		_deleteCurrentProject: function(e){

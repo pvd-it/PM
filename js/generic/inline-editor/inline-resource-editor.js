@@ -7,12 +7,14 @@ YUI.add('inline-resource-editor', function(Y) {
 	
 	Y.InlineResourceEditor = Y.Base.create('inlineEditor', Y.Widget, [Y.WidgetPosition, Y.WidgetStack, Y.WidgetPositionAlign], 
 	{
-		initializer: function(){
+		initializer: function(config){
 			var self = this;
+			self.resultListLocator = config.resultListLocator;
 		},
 		
 		renderUI: function() {
-			var contentBox = this.get('contentBox'),
+			var self = this,
+				contentBox = this.get('contentBox'),
 				source = this.get('resources'),
 				listToEdit = this.get('listToEdit');
 				
@@ -35,6 +37,7 @@ YUI.add('inline-resource-editor', function(Y) {
 				resultTextLocator: function(result){
 					return result.get('name');
 				},
+				resultListLocator: self.resultListLocator,
 				source: source,
 			});
 			this.lb.render(contentBox.one('.editorContainer'));
@@ -104,6 +107,8 @@ YUI.add('inline-resource-editor', function(Y) {
 			}
 			
 			self.lb.set('listToEdit', val);
+			self.lb.get('itemsAdded').length = 0;
+			self.lb.get('itemsRemoved').length = 0;
 			self.set('visible', true);
 			self.align(node, [Y.WidgetPositionAlign.BR, Y.WidgetPositionAlign.BL]);
 			self.lb._inputNode.focus();
@@ -124,6 +129,8 @@ YUI.add('inline-resource-editor', function(Y) {
 			self.hide();
 			self.fire('done', {
 				value: self.lb.get('listToEdit'),
+				itemsAdded: self.lb.get('itemsAdded'),
+				itemsRemoved: self.lb.get('itemsRemoved')
 			});
 		},
 		

@@ -8,7 +8,7 @@ YUI.add('schedule-view', function(Y){
 		initializer: function(){
 			
 			var me = this,
-				resources = me.get('model').get('resources'),		
+				resources = me.get('model').get('resources'),
 				inlineEditors = {
 					'inlineTextEditor': new Y.InlineEditor({
 		        		zIndex: 1,
@@ -21,7 +21,17 @@ YUI.add('schedule-view', function(Y){
 					'inlineResourceEditor': new Y.InlineResourceEditor({
 		        		zIndex: 1,
 		        		visible: false,
-		        		resources: resources._items
+		        		resources: {},
+		        		//Introduced to circumvent a bug. When you save project while being on schedule-view and after save is successful,
+		        		//add or remove resources to/from tasks, then autocomplete instance was holding the old models (prior to saving),
+		        		//so when you do save again, project is not saved properly.
+		        		//Because the next save will save the new resource models, however schedule autocomplete had updated old model instances.
+		        		//So to make sure, that autocomplete always gets current model, introduced resultListLocator, which using closure always
+		        		//gets latest _items from Resource ModelList.
+		        		//TODO: Introduce Y.ModelList source type for autocomplete widget
+		        		resultListLocator: function(response){
+		        			return resources._items;
+		        		}
 					})
 				};
 			
@@ -84,7 +94,7 @@ YUI.add('schedule-view', function(Y){
 																			},
 					
 					//8
-					{key: 'predecessors',		label: 'Predecessors',					
+					{key: 'predecessors',		label: 'Depends on',					
 						formatter: function(o){
 							var data = o.record.lists[0];
 							o.value = '';
@@ -117,11 +127,24 @@ YUI.add('schedule-view', function(Y){
 							});
 							o.value = o.value.substring(o, o.value.length-2);
 						},
+
+						editFunction: function(e, row, eventFacade){
+							var taskClientId = row.get('clientId'),
+								assignedTasks;
+								
+							eventFacade.resourcesAdded = e.itemsAdded;
+							eventFacade.resourcesRemoved = e.itemsRemoved;
+							
+							YArray.each(e.itemsAdded, function(res){
+								res.assignTask(taskClientId);
+							});
+							
+							YArray.each(e.itemsRemoved, function(res){
+								res.unassignTask(taskClientId);
+							});
+						},
 						partialUpdate: true
 					},
-					
-					
-
 				],
 				recordType: Y.Task,
 				data: this.get('model').get('tasks'),

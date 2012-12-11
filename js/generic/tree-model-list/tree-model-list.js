@@ -1,6 +1,12 @@
 YUI.add('tree-model-list', function(Y) {
-	var YArray = Y.Array;
+	var YArray 	= 	Y.Array,
+		YLang	=	Y.Lang;
 	
+	/**
+	Extends ModelList to support tree structure
+	@class Y.TreeModelList
+	@extends Y.ModelList	
+	 */
 	Y.TreeModelList = Y.Base.create('treeModelList', Y.ModelList, [], {
 		
 		deletedItems: [],
@@ -22,11 +28,11 @@ YUI.add('tree-model-list', function(Y) {
 				newParent,
 				i;
 				
-			//Indent means become child of you sibling.				
+			//Indent means become child of your previous sibling.				
 			for(i=itemIndex-1; i>=0; i--){
 				newParent = list.item(i);
 				//So climb up in the list to find an item whose parent is same as your parent (means find previous sibling) 
-				if (itemParentId == newParent.get('parent')) {
+				if (itemParentId === newParent.get('parent')) {
 					this._changeParent(item, newParent);
 					break;	
 				} else {
@@ -52,6 +58,7 @@ YUI.add('tree-model-list', function(Y) {
 				currentParent = list.getByClientId(itemParentId);
 				newParentId = currentParent.get('parent');
 				
+				//If your current parent has a parent, then outdent is possible
 				if (newParentId) {
 					newParent = list.getByClientId(newParentId);
 					var descendants = this._changeParent(item, newParent);
@@ -69,6 +76,8 @@ YUI.add('tree-model-list', function(Y) {
 					YArray.each(descendants, function(model, index){
 						list.add(model, {index: (newLocation+index), silent: true});	
 					});
+					
+					return newParent; //If outdent was done then return new parent element
 				}
 			}
 		},
@@ -103,13 +112,13 @@ YUI.add('tree-model-list', function(Y) {
 					descendant.set('depthLevel', depthLevel, {silent: true});
 					//if child is not visible all it's descendants should also not be visible
 					if (!childVisibility){
-						descendant.set('visible', childVisibility);
+						descendant.set('visible', childVisibility, {silent: true});
 					}
 				});
 				
 				//Do this here, so that all changes done to descendants are visible, when change event for 'parent' is fired
 				newParent.get('children').add(childClientId); //Add the item as child of new parent				
-				child.set('parent', newParent.get('clientId')); //Associate new parent with item
+				child.set('parent', newParent.get('clientId'), {silent: true}); //Associate new parent with item
 				
 				return descendants;
 		},
@@ -144,15 +153,15 @@ YUI.add('tree-model-list', function(Y) {
 			}, this);
 		},
 		
+		/*
+		 * This interceptor ensures that when an item is added, it gets the same parent as of the item above it.
+		 * If the item is first item or item above it doesn't have parent then the item being added gets no parent.
+		 */
 		_addInterceptor: function(e){
-			var newClientId = e.model.get('clientId'),
-				above = this.item(e.index-1),
-				defaultParentClientId = above ? above.get('parent') : undefined;
+			var candidParent = this._findCandidParent(e.model, e.index);
 			
-			if (defaultParentClientId){
-				e.model._set('parent', defaultParentClientId);
-				this.getByClientId(defaultParentClientId).get('children').add(newClientId);
-				e.model.set('depthLevel', above.get('depthLevel'), {silent: true});
+			if (candidParent){
+				this._changeParent(e.model, candidParent);
 			}
 		},
 		
@@ -164,7 +173,7 @@ YUI.add('tree-model-list', function(Y) {
 				
 			if (parent){
 				parent.get('children').remove(clientId);
-			}		
+			}
 			
 			this._findDescendants(e.model, descendants);
 			this.remove(descendants, {silent: true});
@@ -184,6 +193,14 @@ YUI.add('tree-model-list', function(Y) {
 				arr.push(modelItem);
 				this._findDescendants(modelItem, arr);
 			},this);
+		},
+		
+		_findCandidParent: function(item, index){
+			var newClientId = item.get('clientId'),
+				above = this.item(index-1),
+				defaultParentClientId = above ? above.get('parent') : undefined;
+				
+			return defaultParentClientId ? this.getByClientId(defaultParentClientId) : defaultParentClientId ;
 		},
 		
 		_afterReset: function(e){

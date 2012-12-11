@@ -66,7 +66,7 @@ YUI.add('task', function(Y) {
 			},
 		
 			work: {
-				value: 0,
+				value: 8,
 				setter: function(val){
 					if (YLang.isNumber(val)){
 						return val;

@@ -44,7 +44,8 @@ YUI.add('app-dropdown', function(Y){
 				}
 			}
 			
-			if (target.hasClass('dropdown-toggle')){
+			if (target.hasClass('dropdown-toggle') || (target.hasClass('caret') && target.get('parentNode').hasClass('dropdown-toggle'))){
+				target =  target.hasClass('caret') ? target.get('parentNode'): target;
 				if (self._lastActiveDropdown !== target){
 					self._lastActiveDropdown = target;
 					self._openDropdown();

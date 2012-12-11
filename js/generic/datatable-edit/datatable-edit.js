@@ -47,12 +47,19 @@ YUI.add('datatable-edit', function(Y) {
         	var cellTd = this.get(ACTIVE_CELL),
         		data = this.get('data'),
         		columns = this.get('columns'),
-        		row = this.get(ACTIVE_ROW_INDEX),
-        		col = this.get(ACTIVE_COL_INDEX),
-        		item = data.item(row),
-        		key = columns[col]['key'];
+        		rowIndex = this.get(ACTIVE_ROW_INDEX),
+        		colIndex = this.get(ACTIVE_COL_INDEX),
+        		item = data.item(rowIndex),
+        		key = columns[colIndex]['key'],
+        		column = columns[colIndex],
+        		columnFunction = column.editFunction,
+        		eventFacade = {src: 'UI'};
+        		
+        	if (columnFunction){
+        		columnFunction(e, item, eventFacade);
+        	}
         	
-        	item.set(key, e.value, {src: 'UI'});
+        	item.set(key, e.value, eventFacade);
 			this._afterSyncUI();
         	this.focus();
         },

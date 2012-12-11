@@ -583,7 +583,7 @@
 							
 							resource: {
 								path: 'resource/resource.js',
-								requires: ['model']
+								requires: ['model', 'array-extras-fix']
 							},
 							
 							'resource-list': {
@@ -665,7 +665,8 @@
 				if (pmApp.get('isAuthenticated')) {
 					pmApp.navigate('/dashboard');
 				} else {
-					pmApp.dispatch();	
+					pmApp.dispatch();
+					Y.one('.navbar-form input[type="text"]').focus();
 				}
 			});
 		</script>

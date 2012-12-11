@@ -12,6 +12,5 @@ YUI.add('resource-list', function(Y) {
 		_removeInterceptor: function(e){
 			this.deletedItems.push(e.model.toJSON());
 		},
-		
 	});
 });

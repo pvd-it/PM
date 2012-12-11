@@ -11,75 +11,9 @@ YUI.add('project-calendar', function(Y){
 	};
 	
 	ProjectCalendar.prototype = {
-		calcTaskEndDate: function(taskId, prevStartDate, newStartDate, prevWorkHours, newWorkHours) {
-			var data = this.data,
-				endDate,
-				dateKey,
-				dateEntry,
-				duration,
-				me = this;
-				
-			//Y.log('calcTaskEndDate ' + taskId + ' ' + prevStartDate + ' ' + newStartDate + ' ' + prevWorkHours + ' ' + newWorkHours);
-			
-			if (prevStartDate) {
-				prevWorkHours = prevWorkHours || 0;
-				
-				//Y.log(prevWorkHours);
-				
-				while (prevWorkHours > 0){
-					dateKey = this._getDateAsKey(prevStartDate);
-					dateEntry = data[dateKey];
-					
-					if (dateEntry) {
-						if (YObject.hasKey(dateEntry, taskId)) {
-							var workDone = dateEntry[taskId];
-							prevWorkHours -= workDone;
-							delete dateEntry[taskId]; 
-							prevStartDate = this.getNextWorkingDay(prevStartDate);
-						} else {
-							break;
-						}
-					} else {
-						break;
-					}
-				}
-			}
-			
-			if (newStartDate){
-				endDate = newStartDate;
-				newWorkHours = newWorkHours || 0;
-				
-				while (newWorkHours > 0){
-					if (newWorkHours > me.MAX_HOURS_PER_DAY){
-						this._setTaskHoursOnDate(taskId, me.MAX_HOURS_PER_DAY, endDate);
-						newWorkHours -= me.MAX_HOURS_PER_DAY;
-						endDate = this.getNextWorkingDay(endDate);
-					} else {
-						this._setTaskHoursOnDate(taskId, newWorkHours, endDate);
-						newWorkHours = 0;
-					}
-				}
-			}
-			return endDate;
-		},
-		
+
 		_getDateAsKey: function(date){
 			return YDate.format(date, {format: '%Y%m%d'});
-		},
-		
-		_setTaskHoursOnDate: function(taskId, hours, date) {
-			var data = this.data,
-				dateKey = this._getDateAsKey(date),
-				dateEntry;
-							
-			if (YObject.hasKey(data, dateKey)) {
-				dateEntry = data[dateKey];
-			} else {
-				dateEntry = {};
-				data[dateKey] = dateEntry;
-			}
-			
-			dateEntry[taskId] = hours;
 		},
 		
 		getNextWorkDay: function(date, resource) {
@@ -116,7 +50,8 @@ YUI.add('project-calendar', function(Y){
 			
 		},
 		
-		calcTaskEndDateWithResourceFromScratch: function(task){
+		calcTaskEndDateWithResourceFromScratch: function(task, taskList){
+			//TODO: Include logic for handling summary task
 			var taskId = task.get('clientId'),
 				taskWork = task.get('work'),
 				taskStartDate = task.get('startDate'),
@@ -172,9 +107,28 @@ YUI.add('project-calendar', function(Y){
 					break;
 				}
 			}
+			
+			task.set('endDate', taskStartDate, {silent: true});
+			me._updateAncestorsEndDate(task, taskList);
 			return taskStartDate;
 		},
 		
+		_updateAncestorsEndDate: function(task, taskList) {
+			var parentTask = taskList.getByClientId(task.get('parent')),
+				self = this;
+				
+			if (parentTask) {
+				var taskEndDate = task.get('endDate'),
+					parentEndDate = parentTask.get('endDate');
+					
+				if (Y.DataType.Date.isGreater(taskEndDate, parentEndDate)) {
+					parentTask.set('endDate', taskEndDate, {silent: true});
+					//TODO: Update dependent tasks
+					self._updateAncestorsEndDate(parentTask, taskList);
+				}
+			}
+		},
+				
 		_calculateWork: function(remainingTaskEffort, availableHoursToResourceForDay){
 			var me = this;
 			if (remainingTaskEffort <= availableHoursToResourceForDay){
@@ -189,7 +143,7 @@ YUI.add('project-calendar', function(Y){
 	
 	};
 	
-	Y.ProjectCalendar = ProjectCalendar;
+	Y.ProjectCalendar = new ProjectCalendar();
 
 /**
  *This is how the data property of ProjectCalendar will be maintained, per resource/task and per task/resource basis 

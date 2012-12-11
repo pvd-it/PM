@@ -140,11 +140,13 @@ YUI.add('datatable-navigate-key', function(Y) {
 						
 					case 37: //Left
 						this.outdent();
+						this.syncUI();
 						e.preventDefault();
 						break;
 						
 					case 39: //right
 						this.indent();
+						this.syncUI();
 						e.preventDefault();
 						break;
 					

@@ -1,4 +1,4 @@
- .yui3-listbuilder-content {
+.yui3-listbuilder-content {
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -10,7 +10,7 @@
 	border-radius: 5px;
 }
 
- .yui3-listbuilder-focused .yui3-listbuilder-content {
+.yui3-listbuilder-focused .yui3-listbuilder-content {
 	border: 1px solid rgba(82, 168, 236, 0.8);
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
@@ -47,7 +47,7 @@
 	background-color: #B1C2D3;
 	background-image: -moz-linear-gradient(#D6E4F1,#B1C2D3);
 	background-image: -webkit-gradient(linear,0 top,0 bottom,from(#D6E4F1),to(#B1C2D3));
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D6E4F1,endColorstr=#B1C2D3));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D6E4F1,endColorstr=#B1C2D3);
 	padding: 3px 25px 3px 3px;
 
 }
@@ -56,7 +56,7 @@
 	background-color: #666;
 	background-image: -moz-linear-gradient(#333,#666);
 	background-image: -webkit-gradient(linear,0 top,0 bottom,from(#333),to(#666));
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#333333,endColorstr=#666666));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#333333,endColorstr=#666666);
 	color: white;
 }
 

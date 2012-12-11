@@ -11,6 +11,8 @@ YUI.add('project', function(Y){
 			this.set('resources', new Y.ResourceList(), {silent: true});
 			Y.ProjectCalendar.data = {};
 			this.set('calendar', Y.ProjectCalendar.data);
+			Y.ProjectCalendar.dependencyGraph = {};
+			this.set('dependencyGraph', Y.ProjectCalendar.dependencyGraph);
 		},
 		
 		load: function (options, callback) {
@@ -62,7 +64,7 @@ YUI.add('project', function(Y){
 	                self.changed = {};
 	
 					Y.ProjectCalendar.data = self.get('calendar');
-	
+					Y.ProjectCalendar.dependencyGraph = self.get('dependencyGraph');
 	                self.fire(EVT_LOAD, facade);
 	            }
 	
@@ -124,6 +126,7 @@ YUI.add('project', function(Y){
 			                self.setAttrs(parsed, options);
 			        
 							Y.ProjectCalendar.data = self.get('calendar');
+							Y.ProjectCalendar.dependencyGraph = self.get('dependencyGraph');
 			        
 			                self.changed = {};
 		                    self.fire(EVT_SAVE, facade);
@@ -214,7 +217,8 @@ YUI.add('project', function(Y){
 		constraints: {},
 		lastTaskCount: {},
 		calendar: {
-			value: {}
 		},
+		dependencyGraph: {
+		}
 	});
 });

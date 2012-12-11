@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
 		'cost': String,
 		'type': String,
 		'position': Number,
+		'assignedTasks': [String],
 		'projectId': {type: ObjectId, ref: 'Project'}
 	}),
 	

@@ -12,7 +12,8 @@ var mongoose = require('mongoose'),
 		constraints: String,
 		lastTaskCount: Number,
 		lastResourceCount: Number,
-		calendar: {}
+		calendar: {},
+		dependencyGraph: {},
 	}),
 	
 	projectModel = mongoose.model('Project', projectSchema);
