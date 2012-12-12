@@ -98,6 +98,9 @@
 											<a href="#" data-dropdown-action="save" ><i class="icon-check"> </i> Save Changes</a>
 										</li>
 										<li>
+											<a href="#" data-dropdown-action="schedule"><i class="icon-time"> </i> Update Schedule</a>
+										</li>
+										<li>
 											<a href="#" data-dropdown-action="discard" data-action-confirmation="true"><i class="icon-ban-circle"> </i> Discard Changes</a>
 										</li>
 										<li>
@@ -603,7 +606,7 @@
 							
 							'project': {
 								path: 'project/project.js',
-								requires: ['task-list', 'resource-list']
+								requires: ['task-list', 'resource-list', 'project-dependency-graph']
 							},
 							
 							'datatable-schedule': {
@@ -614,6 +617,10 @@
 							'project-calendar': {
 								path: 'project-calendar/project-calendar.js',
 								requires: ['datatype-date-format', 'datatype-date-math', 'task', 'resource']
+							},
+							
+							'project-dependency-graph': {
+								path: 'project-dependency-graph/project-dependency-graph.js',
 							},
 							
 							'datatable-tree-body': {

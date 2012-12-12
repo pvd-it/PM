@@ -81,6 +81,10 @@ YUI.add('app-project-management', function(Y){
 				case 'delete':
 					self._deleteCurrentProject(e);
 				break;
+				
+				case 'schedule':
+					Y.ProjectDependencyGraph.calculateSchedule(self.get('currentProject').get('tasks'));
+				break;
 			}
 		},
 		

@@ -46,7 +46,7 @@ YUI.add('task-list', function(Y) {
 			if(identifiedParent){
 				var identifiedParentWork = identifiedParent.get('work');
 
-				//TODO: Implement point 1 in comments
+				//TODO: Implement point 1 in comments to udpate the dependency graph
 				
 				//Since we already call indent it means identifiedParent will have at least one child. So if it has exactly one child then
 				//it means the parent is created because of current indentation.
@@ -55,32 +55,10 @@ YUI.add('task-list', function(Y) {
 					//Since the identified parent is becoming a summary task, it's effort becomes zero, which means all it's ancestors effort needs to be reduced
 					self._updateAncestorsWork(identifiedParent, 0-identifiedParentWork);
 					identifiedParentWork = 0;
-	
-					var grandParent = self.getByClientId(identifiedParent.get('parent')),
-						parentPredecessors = identifiedParent.get('predecessors');
-					
-					//Since parent doesn't have predecessors then it's startDate would be start date of it's parent
-					if (!parentPredecessors || parentPredecessors.length === 0){
-						grandParent.set('startDate', grandParent.get('startDate'), {silent: true});
-					}
-					
-					//Since endDate needs to be set by child end date, put a sentinel value, so that endDate check will work properly
-					identifiedParent.set('endDate', new Date(0), {silent: true});
-					
-					//TODO: Check if parent start date needs to be recalculated, since it's predecessors might have changed in first TODO.
 				}
-				
-				var childPredecessors =  child.get('predecessors');
-				//Since child doesn't have predecessors then it's startDate would be same as parent's startDate
-				if (!childPredecessors || childPredecessors.length === 0){
-					child.set('startDate', identifiedParent.get('startDate'), {silent: true});
-				}
-				//TODO: Check if child start date needs to be recalculated, since it's predecessors might have changed in first TODO
 				
 				identifiedParentWork = identifiedParentWork + child.get('work');
 				identifiedParent.set('work', identifiedParentWork, {silent: true});
-				
-				Y.ProjectCalendar.calcTaskEndDateWithResourceFromScratch(child, this);
 			}
 		},
 		
@@ -112,22 +90,11 @@ YUI.add('task-list', function(Y) {
 				if (oldParent.get('children').size() === 0) {
 					oldParent.set('work', DEFAULT_WORK, {silent: true});
 					self._updateAncestorsWork(oldParent, DEFAULT_WORK);
-					Y.ProjectCalendar.calcTaskEndDateWithResourceFromScratch(oldParent, this);
 				} else {
 					var oldParentWork = oldParent.get('work');
 					oldParentWork = oldParentWork - taskWork;
 					oldParent.set('work', oldParentWork, {silent: true});
-					//TODO: Update endDate based on remaining children
 				}
-				
-				//Check if outdented task depends on other task. If not then outdent task's start date would be same as start date of it's new parent
-				var outdentPredecessors = task.get('predecessors');
-				if (!outdentPredecessors || outdentPredecessors.length === 0) {
-					var newParentStartDate = newParent.get('startDate');
-					task.set('startDate', newParentStartDate, {silent: true});
-					Y.ProjectCalendar.calcTaskEndDateWithResourceFromScratch(oldParent, this);
-				}
-				//TODO: See if predecessors change is happening, if yes then calculate new start date and reschedule
 			}
 		},
 		
@@ -174,17 +141,6 @@ YUI.add('task-list', function(Y) {
 				parentWork = parentWork + childWork;
 				parent.set('work', parentWork, {silent: true});
 				this._updateAncestorsWork(parent, childWork);
-				
-				//By default startDate of child, would be that of parent, unless modified because of predecessor or some constraints
-				e.model.set('startDate', parent.get('startDate'), {silent: true});
-				
-				// Calculate task end date
-				e.model.set('endDate', Y.ProjectCalendar.calcTaskEndDateWithResourceFromScratch(e.model, this), {silent: true});
-				
-				// See if task end date is greater than parent end date. If parent end date is not set, then set the task's end date
-				if (!parent.get('endDate') || YDate.isGreater(e.model.get('endDate'), parent.get('endDate'))) {
-					parent.set('endDate', e.model.get('endDate'), {silent: true});
-				}
 			}
 		},
 		
@@ -216,15 +172,13 @@ YUI.add('task-list', function(Y) {
 					pwork = DEFAULT_WORK;
 
 					var parentOfParent = this.getByClientId(parent.get('parent'));
-					
-					//TODO: If parent does have predecessors then calculate start date accordingly otherwise parentOfParent's start date is fine
-					parent.set('startDate', parentOfParent.get('startDate'), {silent: true});
 					parent.set('work', pwork, {silent: true});
-					parent.set('endDate', Y.ProjectCalendar.calcTaskEndDateWithResourceFromScratch(parent, this), {silent: true});
 				}
 				
 				this._updateAncestorsWork(parent, workAdjustment);
 			}
+			
+			Y.ProjectDependencyGraph.deleteNode(clientId);
 		},
 		
 		_taskChangeInterceptor: function(e){
@@ -328,60 +282,13 @@ YUI.add('task-list', function(Y) {
 		},
 		
 		_handleWorkChange: function(task, newWork, oldWork){
-			var parentId = task.get('parent'),
-				childCount = task.get('children').size(),
-				workDiff = newWork - oldWork,
+			var workDiff = newWork - oldWork,
 				list = this;
 			
-			//If task is a parent
-			if (childCount > 0){
-				
-			} else {
-			//task is a leaf level task
-			//calculate endDate based on new work value
-				var endDate = Y.ProjectCalendar.calcTaskEndDate(task.get('clientId'), task.get('startDate'), task.get('startDate'), oldWork, newWork);
-				task.set('endDate', endDate);
-			}
-			
-			//If task has parent
-			if (parentId){
-				var parent = list.getByClientId(parentId),
-					parentWork = parent.get('work');
-					
-				parentWork = parentWork + workDiff;
-				
-				parent.set('work', parentWork);
-			}
-			
+			list._updateAncestorsWork(task, workDiff);
 		},
 		
 		_handleStartDateChange: function(task, newStartDate, oldStartDate){
-			var largestEndDate = newStartDate,
-				list = this;
-			
-			if (task.get('children').size() > 0) {
-				//The task is parent task
-				task.get('children').each(function(childTaskId){
-					var childTask = this.getByClientId(childTaskId),
-						childPreds = childTask.get('predecessors'),
-						hasPreds = false;
-					
-					YObject.each(childPreds, function(v, k){
-						YObject.each(v, function(tid){
-							hasPreds = true;
-						});
-					});
-					
-					if (!hasPreds){
-						childTask.set('startDate', newStartDate);
-					}
-					
-				}, this);
-				
-			} else {
-				var endDate = Y.ProjectCalendar.calcTaskEndDate(task.get('clientId'), oldStartDate, newStartDate, task.get('work'), task.get('work'));
-				task.set('endDate', endDate);
-			}
 		},
 		
 		_handlePredecessorEndDateChange: function(taskId){

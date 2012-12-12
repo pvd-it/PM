@@ -7,12 +7,20 @@ YUI.add('project', function(Y){
 		
 		initializer: function(config){
 			this.idAttribute = '_id';
-			this.set('tasks', new Y.TaskList(), {silent: true});
-			this.set('resources', new Y.ResourceList(), {silent: true});
+			
 			Y.ProjectCalendar.data = {};
 			this.set('calendar', Y.ProjectCalendar.data);
-			Y.ProjectCalendar.dependencyGraph = {};
-			this.set('dependencyGraph', Y.ProjectCalendar.dependencyGraph);
+			
+			Y.ProjectDependencyGraph.dependencyGraph = {
+				transitions: {
+					incoming: {},
+					outgoing: {}
+				}
+			};
+			this.set('dependencyGraph', Y.ProjectDependencyGraph.dependencyGraph);
+			
+			this.set('tasks', new Y.TaskList(), {silent: true});
+			this.set('resources', new Y.ResourceList(), {silent: true});
 		},
 		
 		load: function (options, callback) {
@@ -56,15 +64,15 @@ YUI.add('project', function(Y){
 	                Y.Task.resources = self.get('resources');
 	                self.get('tasks').reset(parsed.tasks);
 	                
-	                
 	                delete parsed.tasks;
 	                delete parsed.resources;
 	
 	                self.setAttrs(parsed, options);
 	                self.changed = {};
-	
+
 					Y.ProjectCalendar.data = self.get('calendar');
-					Y.ProjectCalendar.dependencyGraph = self.get('dependencyGraph');
+					Y.ProjectDependencyGraph.dependencyGraph = self.get('dependencyGraph');
+					
 	                self.fire(EVT_LOAD, facade);
 	            }
 	
@@ -126,7 +134,7 @@ YUI.add('project', function(Y){
 			                self.setAttrs(parsed, options);
 			        
 							Y.ProjectCalendar.data = self.get('calendar');
-							Y.ProjectCalendar.dependencyGraph = self.get('dependencyGraph');
+							Y.ProjectDependencyGraph.dependencyGraph = self.get('dependencyGraph');
 			        
 			                self.changed = {};
 		                    self.fire(EVT_SAVE, facade);

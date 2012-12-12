@@ -50,7 +50,7 @@ YUI.add('project-calendar', function(Y){
 			
 		},
 		
-		calcTaskEndDateWithResourceFromScratch: function(task, taskList){
+		calcTaskEndDateWithResourceFromScratch: function(task){
 			//TODO: Include logic for handling summary task
 			var taskId = task.get('clientId'),
 				taskWork = task.get('work'),
@@ -63,7 +63,6 @@ YUI.add('project-calendar', function(Y){
 				resourceAlloc,
 				assignedWork,
 				hoursRemainingForDay;
-			
 			
 			/**
 			 *	1. See if there is entry for this task's start date. 
@@ -109,26 +108,9 @@ YUI.add('project-calendar', function(Y){
 			}
 			
 			task.set('endDate', taskStartDate, {silent: true});
-			me._updateAncestorsEndDate(task, taskList);
 			return taskStartDate;
 		},
 		
-		_updateAncestorsEndDate: function(task, taskList) {
-			var parentTask = taskList.getByClientId(task.get('parent')),
-				self = this;
-				
-			if (parentTask) {
-				var taskEndDate = task.get('endDate'),
-					parentEndDate = parentTask.get('endDate');
-					
-				if (Y.DataType.Date.isGreater(taskEndDate, parentEndDate)) {
-					parentTask.set('endDate', taskEndDate, {silent: true});
-					//TODO: Update dependent tasks
-					self._updateAncestorsEndDate(parentTask, taskList);
-				}
-			}
-		},
-				
 		_calculateWork: function(remainingTaskEffort, availableHoursToResourceForDay){
 			var me = this;
 			if (remainingTaskEffort <= availableHoursToResourceForDay){

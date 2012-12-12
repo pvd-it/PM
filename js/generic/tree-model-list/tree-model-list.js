@@ -88,12 +88,17 @@ YUI.add('tree-model-list', function(Y) {
 				oldParent,
 				list = this,
 				childVisibility,
-				depthAdjustment;
+				depthAdjustment,
+				newParentClientId = newParent.get('clientId');
 				
 				//If current parent is there, then remove the item from being a child of current parent
 				if (currentParentId){
 					oldParent = list.getByClientId(currentParentId);
 					oldParent.get('children').remove(childClientId);
+					
+					//TODO: Update dependency graph. This however should be done in TaskList.
+					Y.ProjectDependencyGraph.removeOutgoingTransition(currentParentId, childClientId);
+					Y.ProjectDependencyGraph.removeOutgoingTransition(childClientId, currentParentId);
 				}
 				
 				//Adjustment for the depth of descendants = child's new depth - child's current depth
@@ -118,8 +123,12 @@ YUI.add('tree-model-list', function(Y) {
 				
 				//Do this here, so that all changes done to descendants are visible, when change event for 'parent' is fired
 				newParent.get('children').add(childClientId); //Add the item as child of new parent				
-				child.set('parent', newParent.get('clientId'), {silent: true}); //Associate new parent with item
+				child.set('parent', newParentClientId, {silent: true}); //Associate new parent with item
 				
+				//TODO: Update dependency graph. This however should be done in TaskList.
+				Y.ProjectDependencyGraph.addOutgoingTransition(newParentClientId, childClientId, 'SD_SD');
+				Y.ProjectDependencyGraph.addOutgoingTransition(childClientId, newParentClientId, 'ED_ED');
+
 				return descendants;
 		},
 		
