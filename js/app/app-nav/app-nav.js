@@ -34,6 +34,9 @@ YUI.add('app-nav', function(Y){
 								'<li>' +
 									'<a href="/project/{id}/resource">Team</a>' +
 								'</li>' +
+								'<li>' +
+									'<a href="/project/{id}/workflow">Workflow</a>' +
+								'</li>' +
 							'</ul>',
 		
 		initializer: function(){

@@ -198,3 +198,50 @@ a:focus {
     opacity: 0.4;	
 }
 /***************Dialog Box************************ */
+
+/*********************Workflow*************************/
+.dot {
+    position: absolute;
+    color: #396491;
+    font-size: 20px;
+    height: 0;
+    line-height: 12px;
+    opacity: 0.8;
+    width: 0;
+    cursor: move;
+}
+
+.dot .point { 
+    background-color: #000;
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    font-size: 0px;
+}
+
+.number-label {
+    position: absolute;
+    top: -1em;
+    left: -0.9em;
+    width: 1em;
+    height: 1em;    
+    line-height: 1em;
+}
+
+.dot .fat-finger {
+    position: absolute;
+    top: -30px; /* minus half the fat-finger height */
+    left: -30px;
+    width: 60px;
+    height: 60px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    background-color: #abc;
+    opacity: 0.3;
+    filter: alpha (opacity = 30);
+}
+/*********************Workflow*************************/

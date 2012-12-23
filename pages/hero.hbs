@@ -85,6 +85,9 @@
 								<li>
 									<a href="/resource">Team</a>
 								</li>
+								<li>
+									<a href="/workflow">Workflow</a>
+								</li>
 							</ul>
 							<ul class="nav pull-right">
 								<li class="dropdown project-name">
@@ -372,9 +375,9 @@
 		
 		{{#with env}}
 			{{#if useCDN}}
-				<script src="http://yui.yahooapis.com/3.7.3/build/yui/yui-min.js"></script>
+				<script src="http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js"></script>
 			{{else}}
-				<script src="http://127.0.0.1:8020/YUI/3.7.3/build/yui/yui.js"></script>
+				<script src="http://127.0.0.1:8020/YUI/3.8.0/build/yui/yui.js"></script>
 			{{/if}}
 		{{/with}}
 	
@@ -525,6 +528,11 @@
 								requires : ['widget-base', 'widget-autohide', 'widget-modality', 'widget-position', 'widget-position-align', 'widget-position-constrain', 'widget-stack'],
 								skinnable: true
 							},
+							
+							'queue-demote': {
+								path: 'queue-demote/queue-demote.js',
+								requires: ['queue-promote']
+							}
 						}
 					},
 					
@@ -584,6 +592,11 @@
 								requires: ['view', 'project-calendar', 'datatype-date-math-fix', 'handlebars-templates', 'scrollview-base', 'scrollview-scrollbars']
 							},
 							
+							'workflow-view':{
+								path: 'views/workflow-view.js',
+								requires: ['view', 'project-dependency-graph', 'substitute']
+							},
+							
 							resource: {
 								path: 'resource/resource.js',
 								requires: ['model', 'array-extras-fix']
@@ -621,6 +634,7 @@
 							
 							'project-dependency-graph': {
 								path: 'project-dependency-graph/project-dependency-graph.js',
+								requires: ['queue-demote']
 							},
 							
 							'datatable-tree-body': {
@@ -640,7 +654,7 @@
 							
 							'app-project-management': {
 								path: 'app-project-management/app-project-management.js',
-								requires: ['app-base-fix', 'app-dialog-manager', 'app-dropdown', 'app-login', 'app-alert-board', 'app-nav', 'app-base', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'datatable-tree-body'],
+								requires: ['app-base-fix', 'app-dialog-manager', 'app-dropdown', 'app-login', 'app-alert-board', 'app-nav', 'app-base', 'json', 'login-view', 'logout-view', 'newproject-view', 'dashboard-view', 'project-view', 'schedule-view', 'resource-view', 'gantt-view', 'workflow-view', 'datatable-tree-body'],
 							},
 							
 							'app-nav': {

@@ -162,7 +162,7 @@ YUI.add('schedule-view', function(Y){
 			
 			me.table.render(this.get('container'));
 			tableBB = me.table.get('boundingBox');
-		},			
+		},
 		
 		destructor: function(){
 			YObject.each(this.inlineEditors, function(editor){

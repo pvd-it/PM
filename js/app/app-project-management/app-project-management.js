@@ -16,7 +16,8 @@ YUI.add('app-project-management', function(Y){
 			newproject: {type: Y.PMApp.NewProjectView, preserve: false, pageHeader: 'Create a Project', pageHeaderTeaser: 'to manage it better'},
 			dashboard: 	{type: Y.PMApp.DashboardView, preserve: false, pageHeader: 'Dashboard', 
 																	pageHeaderTeaser: 'is where you see all your projects, tasks and notifications'},
-			usersettings: {type: Y.PMApp.UserSettingsView, preserve: true, pageHeader: 'Personalize', pageHeaderTeaser: 'to your own preferences'}
+			usersettings: {type: Y.PMApp.UserSettingsView, preserve: true, pageHeader: 'Personalize', pageHeaderTeaser: 'to your own preferences'},
+			workflow: 	{type: Y.PMApp.WorkflowView, preserve: false, pageHeader: 'Workflow', pageHeaderTeaser: 'visualizes project', subNav: true},
 		},
 		
 		initializer: function(){
@@ -270,6 +271,10 @@ YUI.add('app-project-management', function(Y){
 			this.showView('newproject', {
 				model: this.get('currentProject')
 			});
+		},
+		
+		showWorkflowView: function(req, res){
+			this.showView('workflow');
 		}
 		
 	}, {
@@ -286,7 +291,8 @@ YUI.add('app-project-management', function(Y){
 					{path: '/project/:id/edit', callback: 'showEditProjectView'},
 					{path: '/project/:id', callback: 'handleProject'},
 					{path: '/project/:id/overview', callback: 'showProjectView'},
-					{path: '/usersettings', callback: 'showUserView'}
+					{path: '/usersettings', callback: 'showUserView'},
+					{path: '/project/:id/workflow', callback: 'showWorkflowView'}
 				]
 			},
 			

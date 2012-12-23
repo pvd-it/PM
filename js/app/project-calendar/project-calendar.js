@@ -51,7 +51,6 @@ YUI.add('project-calendar', function(Y){
 		},
 		
 		calcTaskEndDateWithResourceFromScratch: function(task){
-			//TODO: Include logic for handling summary task
 			var taskId = task.get('clientId'),
 				taskWork = task.get('work'),
 				taskStartDate = task.get('startDate'),

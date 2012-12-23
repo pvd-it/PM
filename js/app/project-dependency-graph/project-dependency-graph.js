@@ -1,7 +1,8 @@
 /**
- * Provides the Y.TaskList class
+ * Provides the Y.ProjectDependencyGraph class
  * @module project-dependency-graph
- */
+ * @class ProjectDependencyGraph
+ **/
 YUI.add('project-dependency-graph', function(Y){
 	
 	var ProjectDependencyGraph,
@@ -78,13 +79,17 @@ YUI.add('project-dependency-graph', function(Y){
  		 @param {Object} list
 		 */
 		calculateSchedule: function(list){
+			
+			this.resetGraph();
+			
 			var startTime = new Date();
+			
 			var self = this,
 				dependencyGraph = self.dependencyGraph,
 				transitions = dependencyGraph.transitions,
 				incoming = transitions.incoming,
 				outgoing = transitions.outgoing,
-				queue = [],
+				queue = new Y.Queue(),
 				currentNode,
 				outTrans,
 				inTrans,
@@ -97,14 +102,13 @@ YUI.add('project-dependency-graph', function(Y){
 				task,
 				isSummaryTask;
 			
-			queue.push('task_0');
+			queue.add('task_0');
 			
-			while(queue.length > 0){
-				Y.log(queue);
-				currentNode = queue.shift();			//Get taskId from queue
+			while(queue.size() > 0){
+				Y.log('[' + queue._q + ']');
+				currentNode = queue.next();			//Get taskId from queue
 				task = list.getByClientId(currentNode); //Get task model from list
 				isSummaryTask = task.get('children').size();
-				
 				startDate = rootStartDate;			//Reset startDate
 				endDate = rootStartDate;			//Reset endDate
 				sendDependentEndDate = true;
@@ -154,22 +158,20 @@ YUI.add('project-dependency-graph', function(Y){
 						if (obj.type === 'SD_SD' && sendSuccessorStartDate){
 							obj.done = true;
 							obj.value = startDate;
-							queue.push(key);
+							queue.demotePush(key);
 						}
 						
 						if ((obj.type === 'ED_SD' || obj.type === 'RES_ED_SD' || obj.type === 'ED_ED') && sendSuccessorStartDate && sendDependentEndDate){
 							obj.done = true;
 							obj.value = endDate;
-							queue.push(key);
+							queue.demotePush(key);
 						}						
 					}
 				});
 			}
-		
-			self.resetGraph();
-			
 			var endTime = new Date();
 			Y.log(endTime.getTime() - startTime.getTime());
+			Y.log(transitions);
 		},
 	
 		resetGraph: function(){
@@ -188,6 +190,43 @@ YUI.add('project-dependency-graph', function(Y){
 				});
 				
 			});
+		},
+		
+		/**
+		@method processTaskForSchedule
+		@param {String} currentTaskId	Task id of task being processed 
+		@param {Y.Task} currentTask	Task object being processed
+		@param {Object} transition	Object containing incoming and outcoming dependencies for tasks in project
+		@param {Y.Queue} queue	Queue to put taskid for which incoming transitions are done while processing. This queue object
+			is augmented by  {{#crossLink "queue-demote"}}{{/crossLink}} module
+		**/
+		processTaskForSchedule: function(currentTaskId, currentTask, transition, projectCalendar, queue) {
+			var isSummaryTask = currentTask.getChildCount(),
+				isStartDateAvailable = true,
+				currentTaskIncoming = transition.incoming[currentTaskId], 
+				startDate,
+				endDate;
+			
+			YObject.each(currentTaskIncoming, function(val, key, obj){
+				if (!obj.startDateKnown){
+					if (val.done && (val.type === 'SD_SD' || val.type === 'ED_SD')){
+						if (!startDate || YDate.isGreater(val.value, startDate)){
+							startDate = val.value;
+						}
+					} else if ((val.type === 'SD_SD' || val.type === 'ED_SD') && !val.done){
+						isStartDateAvailable = false;
+					}
+				}
+			});
+			
+			if (isStartDateAvailable && !currentTaskIncoming.startDateKnown){
+				currentTaskIncoming.startDateKnown = true;
+				currentTask.set('startDate', startDate);
+				if (!isSummaryTask){
+					endDate = projectCalendar.calcTaskEndDateWithResourceFromScratch(currentTask);
+					currentTask.set('endDate', endDate);
+				}
+			}
 		}
 	};
 	
