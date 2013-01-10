@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-	User = require('./app-objects/user'),
+	User = require('./app-objects/user').model,
 	Organization = require('./app-objects/organization');
 
 //mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');
