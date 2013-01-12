@@ -108,7 +108,7 @@ hbs.registerHelper('appcss', function(context, block){
 });
 
 if (process.env.CDN === 'YES') {
-	mongoose.connect('mongodb://nodejitsu:7473599b0969b76144917a93936805f0@staff.mongohq.com:10040/nodejitsudb650685699003');	
+	mongoose.connect('mongodb://db:db@mongo.onmodulus.net:27017/uxy7Tomy');
 } else {
 	mongoose.connect('mongodb://localhost/pmapp');	
 }
