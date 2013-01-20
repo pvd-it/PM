@@ -1,0 +1,1 @@
+YUI.add("model-list-variance",function(e){function n(){}var t=e.Array;n.prototype={serialize:function(){var e=[],n=[],r=this.deletedItems,i;return t.each(this._items,function(t,r){i=t.serialize?t.serialize():t.toJSON(),t.isNew()?e.push(i):(t.isModified()||i.position!==r)&&n.push(i),i.position=r},this),{newItems:e,modifiedItems:n,deletedItems:r}}},e.ModelListVariance=n});

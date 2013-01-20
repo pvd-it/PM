@@ -1,0 +1,1 @@
+YUI.add("queue-demote",function(e,t){e.mix(e.Queue.prototype,{demote:function(e){var t=this.indexOf(e);t>-1&&this._q.push(this._q.splice(t,1)[0])},demotePush:function(e){var t=this.indexOf(e);t>-1?this._q.push(this._q.splice(t,1)[0]):this._q.push(e)}})},"3.7.3",{requires:["yui-base"]});

@@ -1,0 +1,10 @@
+{
+	"name": "scroll-snap",
+	"builds": {
+		"scroll-snap": {
+			"jsfiles": [
+				"scroll-snap.js"
+			]			
+		}
+	}
+}

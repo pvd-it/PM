@@ -1,0 +1,1 @@
+YUI.add("resource-list",function(e){e.ResourceList=e.Base.create("resourceList",e.ModelList,[e.ModelListVariance],{model:e.Resource,deletedItems:[],initializer:function(){this.on("remove",this._removeInterceptor)},_removeInterceptor:function(e){this.deletedItems.push(e.model.toJSON())}})});

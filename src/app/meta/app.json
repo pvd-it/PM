@@ -1,0 +1,45 @@
+{
+	"app-alert-board": {
+		"requires": [
+			"alert"
+		]
+	},
+	
+	"app-dialog-manager": {
+		"requires": [
+			"confirmation-dialog",
+			"intl"
+		],
+		
+		"lang": [
+		]
+	},
+	
+	"app-dropdown": {
+		"requires": [
+			"node", 
+			"event"
+		]
+	},
+	
+	"app-login": {
+		"requires": [
+			"io-base"
+		]
+	},
+	
+	"app-nav": {
+		"requires": [
+			"view", 
+			"substitute",
+			"scroll-snap"
+		]
+	},
+	
+	"alert":{
+		"requires": [
+			"widget",
+			"transition"
+		]
+	}
+}

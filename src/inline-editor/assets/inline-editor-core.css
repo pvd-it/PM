@@ -1,0 +1,16 @@
+.yui3-inlineeditor.yui3-widget-positioned {
+	position: absolute;
+}
+
+.yui3-inlineeditor.yui3-widget-positioned .popover {
+	display: block;
+	width: auto;
+}
+
+.yui3-inlineeditor.yui3-widget-positioned .popover .arrow {
+	left: 10%;
+}
+
+.yui3-inlineeditor-hidden {
+	display: none;
+}

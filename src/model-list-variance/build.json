@@ -1,0 +1,10 @@
+{
+	"name": "model-list-variance",
+	"builds": {
+		"model-list-variance": {
+			"jsfiles": [
+				"model-list-variance.js"
+			]			
+		}
+	}
+}

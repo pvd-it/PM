@@ -1,0 +1,34 @@
+{
+	"name": "project-models",
+	"builds": {
+		"project": {
+			"jsfiles": [
+				"project.js"
+			]
+		},
+		
+		"resource": {
+			"jsfiles": [
+				"resource.js"
+			]
+		},
+		
+		"resource-list": {
+			"jsfiles": [
+				"resource-list.js"
+			]
+		},
+		
+		"task": {
+			"jsfiles": [
+				"task.js"
+			]
+		},
+		
+		"task-list": {
+			"jsfiles": [
+				"task-list.js"
+			]
+		}
+	}
+}

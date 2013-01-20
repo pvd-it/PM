@@ -1,0 +1,40 @@
+{
+	"name": "app",
+	"builds": {
+		"app-alert-board": {
+			"jsfiles": [
+				"app-alert-board.js"
+			]
+		},
+		
+		"app-dialog-manager": {
+			"jsfiles": [
+				"app-dialog-manager.js"
+			]
+		},
+		
+		"app-dropdown": {
+			"jsfiles": [
+				"app-dropdown.js"
+			]
+		},
+		
+		"app-login": {
+			"jsfiles": [
+				"app-login.js"
+			]
+		},
+		
+		"app-nav": {
+			"jsfiles": [
+				"app-nav.js"
+			]
+		},
+		
+		"alert": {
+			"jsfiles": [
+				"alert.js"
+			]
+		}
+	}
+}

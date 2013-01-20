@@ -1,0 +1,10 @@
+{
+	"name": "app-project-management",
+	"builds": {
+		"app-project-management": {
+			"jsfiles": [
+				"app-project-management.js"
+			]			
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"name": "fix",
+	"builds": {
+		"app-base-fix": {
+			"jsfiles": [
+				"app-base.js"
+			]
+		},
+		"array-extras-fix": {
+			"jsfiles": [
+				"array-extras.js"
+			]
+		},
+		"datatype-date-math-fix": {
+			"jsfiles": [
+				"datatype-date-math.js"
+			]
+		},
+		"mock-fix": {
+			"jsfiles": [
+				"mock.js"
+			]
+		}
+	}
+}

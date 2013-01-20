@@ -1,0 +1,16 @@
+{
+	"name": "tree-model",
+	"builds": {
+		"tree-model": {
+			"jsfiles": [
+				"tree-model.js"
+			]			
+		},
+		
+		"tree-model-list": {
+			"jsfiles": [
+				"tree-model-list.js"
+			]
+		}
+	}
+}

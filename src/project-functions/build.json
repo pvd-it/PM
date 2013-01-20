@@ -1,0 +1,16 @@
+{
+	"name": "project-functions",
+	"builds": {
+		"project-calendar": {
+			"jsfiles": [
+				"project-calendar.js"
+			]			
+		},
+		
+		"project-dependency-graph": {
+			"jsfiles": [
+				"project-dependency-graph.js"
+			]
+		}
+	}
+}

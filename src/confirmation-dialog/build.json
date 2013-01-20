@@ -1,0 +1,15 @@
+{
+	"name": "confirmation-dialog",
+	"builds": {
+		"confirmation-dialog": {
+			"jsfiles": [
+				"confirmation-dialog.js"
+			],
+			
+			"config": {
+				"skinnable": true
+			}
+
+		}
+	}
+}

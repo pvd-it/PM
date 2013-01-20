@@ -1,0 +1,16 @@
+{
+	"name": "datatable-ext",
+	"builds": {
+		"datatable-navigate": {
+			"jsfiles": [
+				"datatable-navigate.js"
+			]
+		},
+		
+		"datatable-event-bindings": {
+			"jsfiles": [
+				"datatable-event-bindings.js"
+			]
+		}
+	}
+}

@@ -1,0 +1,1 @@
+YUI.add("tree-model",function(e){e.TreeModel=e.Base.create("treeModel",e.Model,[],{initializer:function(t){t?this._set("children",new e.ArrayList(t.children)):this._set("children",new e.ArrayList)},getChildCount:function(){return this.get("children").size()}},{ATTRS:{depthLevel:{value:0},parent:{},children:{},collapsed:{value:!1},visible:{value:!0}}})});

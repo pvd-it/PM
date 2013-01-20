@@ -1,0 +1,26 @@
+{
+	"name": "inline-editor",
+	"builds": {
+		"inline-editor": {
+			"jsfiles": [
+				"inline-editor.js"
+			],
+			
+			"config": {
+				"skinnable": true
+			}
+		},
+		
+		"inline-date-editor": {
+			"jsfiles": [
+				"inline-date-editor.js"
+			]
+		},
+		
+		"inline-resource-editor": {
+			"jsfiles": [
+				"inline-resource-editor.js"
+			]
+		}
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"datatable-navigate": {
+		"skinnable": true,
+		"requires": [
+			"node", 
+			"datatable-base", 
+			"substitute",
+			"datatable-event-bindings"
+		]
+	},
+	
+	"datatable-event-bindings": {
+		"requires": [
+			"event"
+		]
+	}
+}
+

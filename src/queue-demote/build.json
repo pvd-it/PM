@@ -1,0 +1,10 @@
+{
+	"name": "queue-demote",
+	"builds": {
+		"queue-demote": {
+			"jsfiles": [
+				"queue-demote.js"
+			]			
+		}
+	}
+}
