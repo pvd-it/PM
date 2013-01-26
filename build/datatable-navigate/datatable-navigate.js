@@ -2,8 +2,8 @@
 Adds the capability to maintain active cell within the datatable.
 Uses hidden text area hack to capture key strokes, builds foundation for copy and paste
 @module datatable-navigate
-@class Y.DataTableNavigate
-@requires Y.DataTable.EventBindings
+@class DataTableNavigate
+@requires DataTable.EventBindings
 */
 YUI.add('datatable-navigate', function(Y) {
 

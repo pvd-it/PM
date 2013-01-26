@@ -11,6 +11,12 @@
 			"jsfiles": [
 				"datatable-event-bindings.js"
 			]
+		},
+		
+		"datatable-selection": {
+			"jsfiles": [
+				"datatable-selection.js"
+			]
 		}
 	}
 }

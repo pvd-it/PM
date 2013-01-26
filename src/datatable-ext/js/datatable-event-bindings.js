@@ -60,6 +60,10 @@ YUI.add('datatable-event-bindings', function(Y){
 			
 			plain: {
 				
+			},
+			
+			ctrlshift: {
+				
 			}
 		},
 		
@@ -76,27 +80,42 @@ YUI.add('datatable-event-bindings', function(Y){
 					' charCode:' + e.charCode);
 			
 			var self = this,
+				keyBindings = self.keyBindings,
+				kbGroup,
 				keyCode = e.keyCode + '',
-				fn,
+				fn, beforeFn, afterFn,
 				preventDefault = true;
-			
-			if (e.ctrlKey){
-				fn = self.keyBindings.ctrl[keyCode];
+			if (e.ctrlKey && e.shiftKey){
+				kbGroup = keyBindings.ctrlshift;
+			} else if (e.ctrlKey){
+				kbGroup = keyBindings.ctrl;
 			} else if (e.shiftKey){
-				fn = self.keyBindings.shift[keyCode];
+				kbGroup = keyBindings.shift;
 			} else {
-				fn = self.keyBindings.plain[keyCode];
+				kbGroup = keyBindings.plain;
 			}
+
+			fn = kbGroup[keyCode];
+			beforeFn = kbGroup.beforeFn;
+			afterFn = kbGroup.afterFn;
 			
+			if (beforeFn){
+				beforeFn.call(self, e);
+			}
 			if (fn){
 				if (YLang.isObject(fn) && !YLang.isFunction(fn)){
 					fn = fn.fn;
 					preventDefault = fn.preventDefault;
 				}
+				Y.log('Invoking identified function');
 				fn.call(self, e);
+				Y.log('Invoked identified function');
 				if (preventDefault){
 					e.preventDefault();
 				}
+			}
+			if (afterFn){
+				afterFn.call(self, e);
 			}
 		},
 		

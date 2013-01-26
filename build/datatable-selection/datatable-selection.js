@@ -49,7 +49,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveToLastColumn
 		*/
 		moveToLastColumn: function(){
-			Y.log('Y.DataTableSelection moveToLastColumn');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveToLastColumn.apply(self, arguments);
@@ -60,7 +59,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveToFirstColumn
 		*/
 		moveToFirstColumn: function(){
-			Y.log('Y.DataTableSelection moveToFirstColumn');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveToFirstColumn.apply(self, arguments);
@@ -71,7 +69,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveLeft
 		*/
 		moveLeft: function(){
-			Y.log('Y.DataTableSelection moveLeft');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveLeft.apply(self, arguments);
@@ -82,7 +79,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveUp
 		*/
 		moveUp: function(){
-			Y.log('Y.DataTableSelection moveUp');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveUp.apply(self, arguments);
@@ -93,7 +89,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveRight
 		*/
 		moveRight: function(){
-			Y.log('Y.DataTableSelection moveRight');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveRight.apply(self, arguments);
@@ -104,7 +99,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveDown
 		*/
 		moveDown: function(){
-			Y.log('Y.DataTableSelection moveDown');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveDown.apply(self, arguments);
@@ -115,7 +109,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveToLastCell
 		*/
 		moveToLastCell: function(){
-			Y.log('Y.DataTableSelection moveToLastCell');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveToLastCell.apply(self, arguments);
@@ -126,7 +119,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method moveToFirstCell
 		*/
 		moveToFirstCell: function(){
-			Y.log('Y.DataTableSelection moveToFirstCell');
 			var self = this;
 			self.clearSelection();
 			navigateProto.moveToFirstCell.apply(self, arguments);
@@ -166,7 +158,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method clearSelection
 		*/
 		clearSelection : function() {
-			Y.log('Y.DataTableSelection clearSelection');
 			this.set(SELECTION_IN_PROGRESS, false);
 		},
 		
@@ -175,7 +166,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectToFirstColumn
 		*/
 		selectToFirstColumn: function(){
-			Y.log('Y.DataTableSelection selectToFirstColumn');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveToFirstColumn.apply(self, arguments);
@@ -187,7 +177,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectToLastColumn
 		*/
 		selectToLastColumn: function(){
-			Y.log('Y.DataTableSelection selectToLastColumn');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveToLastColumn.apply(self, arguments);
@@ -199,7 +188,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectUp
 		*/
 		selectUp : function() {
-			Y.log('Y.DataTableSelection selectUp');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveUp.apply(self, arguments);
@@ -211,7 +199,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectDown
 		*/
 		selectDown : function() {
-			Y.log('Y.DataTableSelection selectDown');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveDown.apply(self, arguments);
@@ -223,7 +210,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectLeft
 		*/
 		selectLeft : function() {
-			Y.log('Y.DataTableSelection selectLeft');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveLeft.apply(self, arguments);
@@ -235,7 +221,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectRight
 		*/
 		selectRight : function() {
-			Y.log('Y.DataTableSelection selectRight');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveRight.apply(self, arguments);
@@ -247,7 +232,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectToFirstCell
 		*/
 		selectToFirstCell: function(){
-			Y.log('Y.DataTableSelection selectToFirstCell');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveToFirstCell.apply(self, arguments);
@@ -259,7 +243,6 @@ YUI.add('datatable-selection', function(Y) {
 		@method selectToLastCell
 		*/
 		selectToLastCell: function(){
-			Y.log('Y.DataTableSelection selectToLastCell');
 			var self = this;
 			self._startSelection();
 			navigateProto.moveToLastCell.apply(self, arguments);
@@ -317,7 +300,6 @@ YUI.add('datatable-selection', function(Y) {
 		},
 
 		_uiSyncSelection : function() {
-			Y.log('Y.DataTableSelection _uiSyncSelection');
 			var self = this,
 				region = self._computeSelectionRegion(),
 				startTd = self.getCell(region.startCell),
@@ -329,11 +311,7 @@ YUI.add('datatable-selection', function(Y) {
 				maskHeight = endRegion.bottom - startRegion.top;
 				
 			self._selectionMask.addClass(CLS_SELECTION_MASK_ACTIVE);
-			Y.log(startRegion);
-			Y.log(endRegion);
 			self._selectionMask.setXY(startXY);
-			Y.log('maskWidth: ' + maskWidth);
-			Y.log('maskHeight: ' + maskHeight);
 			self._selectionMask.setStyles({
 				width: maskWidth,
 				height: maskHeight

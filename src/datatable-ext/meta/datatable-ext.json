@@ -13,6 +13,13 @@
 		"requires": [
 			"event"
 		]
+	},
+	
+	"datatable-selection": {
+		"skinnable": true,
+		"requires": [
+			"datatable-navigate"
+		]
 	}
 }
 
