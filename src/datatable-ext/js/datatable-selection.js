@@ -265,11 +265,46 @@ YUI.add('datatable-selection', function(Y) {
 			navigateProto.moveToLastCell.apply(self, arguments);
 			self._doSelection();
 		},
+		
+		/**
+		Overrides the _mouseDownHandler
+		@method _mouseDownHandler
+		*/
+		_mouseDownHandler: function(e){
+			Y.log('Y.DataTableSelection _mouseDownHandler');
+			Y.log(e);
+			e.domEvent.preventDefault();
+			
+			var self = this,
+				selectionInProgress = self.get(SELECTION_IN_PROGRESS),
+				shiftKey = e.domEvent.shiftKey,
+				clickedTd = e.domEvent.target.ancestor('td', true);
+				
+			if (shiftKey && !selectionInProgress){
+				self._startSelection();
+				navigateProto._mouseDownHandler.apply(self, arguments);
+				self._doSelection();
+				return;
+			}
+			
+			if (shiftKey && selectionInProgress){
+				if (clickedTd){
+					navigateProto._mouseDownHandler.apply(self, arguments);
+					self._doSelection();
+				} else {
+					self.clearSelection();
+				}
+				return;
+			}
+
+			self.clearSelection();
+			navigateProto._mouseDownHandler.apply(self, arguments);
+		},
 
 		_startSelection : function() {
 			var self = this,
 				selectionInProgress = self.get(SELECTION_IN_PROGRESS);
-				
+
 			if (!selectionInProgress){
 				self.set(SELECTION_IN_PROGRESS, true);
 				self.set(SELECTION_START, [self.get(ACTIVE_ROW_INDEX), self.get(ACTIVE_COL_INDEX)]);
