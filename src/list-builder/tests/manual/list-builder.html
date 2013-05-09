@@ -1,50 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>ListBuilder manual test</title>
-</head>
-<body class="yui3-skin-sam">
-
-<h1>ListBuilder manual test</h1>
-
-<script src="http://127.0.0.1:8020/YUI/3.7.1/build/yui/yui.js" type="text/javascript"></script>
-<script type="text/javascript">
-	YUI({
-		filter : 'raw',
-		
-		groups: {
-			generic: {
-				base: '../../../',
-				modules : {
-					'list-builder' : {
-						path : 'list-builder/list-builder.js',
-						requires : ['autocomplete-list', 'substitute', 'array-extras-fix', 'list-builder-keys', 'autocomplete-filters', 'autocomplete-highlighters'],
-						skinnable: true
-					},
-					
-					'list-builder-keys': {
-						path: 'list-builder/list-builder-keys.js'
+	<head>
+		<meta charset="utf-8">
+		<title>ListBuilder manual test</title>
+	</head>
+	<body class="yui3-skin-sam">
+		<h1>ListBuilder manual test</h1>
+		<script src="http://127.0.0.1:8020/YUI/3.8.1/build/yui/yui.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var Y = {
+				version : 'a'
+			};
+			YUI.Env[Y.version] = {};
+		</script>
+		<script src="http://127.0.0.1:8020/PM/build/loader/js/yui3.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			YUI({
+				groups: {
+					custom: {
+						base: '/PM/build/',
+						filter: 'DEBUG',
+						modules: YUI.Env['a'].modules
 					}
 				},
-			},
-			
-			fix: {
-				base: '../../../../fix/',
-				modules: {
-					'array-extras-fix': {
-						path: 'array-extras/array-extras.js',
-					}
-				}
-			}
-		},
-	}).use('list-builder', function(Y){
-		var lb = new Y.ListBuilder({
-			source: ['Tarak', 'Mehta', 'ka', 'Ooltah', 'Chashmah'],
-			listToEdit: ['Hello', 'Hi', 'Bye bye', 'I am', 'fine', 'thank you']
-		});
-		lb.render();
-	});
-</script>
-</body>
+				
+				filter: 'MIN'
+			}).use('list-builder', function(Y) {
+				var lb = new Y.ListBuilder({
+					source : ['Tarak', 'Mehta', 'ka', 'Ooltah', 'Chashmah'],
+					listToEdit : ['Hello', 'Hi', 'Bye bye', 'I am', 'fine', 'thank you', 'my', 'name', 'is', 'Anthony', 'Gonsalves']
+				});
+				lb.render();
+			});
+		</script>
+	</body>
 </html>

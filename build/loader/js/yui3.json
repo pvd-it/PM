@@ -35,6 +35,28 @@
             "scroll-snap"
         ]
     },
+    "array-extras-fix": {},
+    "confirmation-dialog": {
+        "requires": [
+            "widget-base",
+            "widget-modality",
+            "widget-autohide",
+            "widget-position",
+            "widget-position-align",
+            "widget-stack"
+        ],
+        "skinnable": true
+    },
+    "datatable-bootstrap-plugin": {
+        "requires": [
+            "plugin"
+        ]
+    },
+    "datatable-edit": {
+        "requires": [
+            "datatable-navigate"
+        ]
+    },
     "datatable-event-bindings": {
         "requires": [
             "event"
@@ -54,5 +76,80 @@
             "datatable-navigate"
         ],
         "skinnable": true
+    },
+    "datatable-tree": {
+        "requires": [
+            "datatable-navigate"
+        ],
+        "skinnable": true
+    },
+    "datatype-date-math-fix": {
+        "requires": [
+            "datatype-date-math"
+        ]
+    },
+    "inline-date-editor": {
+        "requires": [
+            "event",
+            "node",
+            "widget",
+            "widget-position",
+            "widget-stack",
+            "widget-position-align"
+        ]
+    },
+    "inline-editor": {
+        "requires": [
+            "event",
+            "node",
+            "widget",
+            "widget-position",
+            "widget-stack",
+            "widget-position-align"
+        ],
+        "skinnable": true
+    },
+    "inline-resource-editor": {
+        "requires": [
+            "event",
+            "node",
+            "widget",
+            "widget-position",
+            "widget-stack",
+            "widget-position-align"
+        ]
+    },
+    "list-builder": {
+        "requires": [
+            "autocomplete-list",
+            "substitute",
+            "array-extras-fix",
+            "list-builder-keys",
+            "autocomplete-filters",
+            "autocomplete-highlighters"
+        ],
+        "skinnable": true
+    },
+    "list-builder-keys": {
+        "requires": [
+            "event",
+            "node"
+        ]
+    },
+    "mock-fix": {},
+    "project-dependency-graph": {
+        "requires": [
+            "task"
+        ]
+    },
+    "tree-model": {
+        "requires": [
+            "model"
+        ]
+    },
+    "tree-model-list": {
+        "requires": [
+            "model-list"
+        ]
     }
 }

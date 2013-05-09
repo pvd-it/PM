@@ -2,8 +2,8 @@
 	"datatable-navigate": {
 		"skinnable": true,
 		"requires": [
-			"node", 
-			"datatable-base", 
+			"node",
+			"datatable-base",
 			"substitute",
 			"datatable-event-bindings"
 		]
@@ -17,6 +17,25 @@
 	
 	"datatable-selection": {
 		"skinnable": true,
+		"requires": [
+			"datatable-navigate"
+		]
+	},
+	
+	"datatable-bootstrap-plugin": {
+		"requires": [
+			"plugin"
+		]
+	},
+	
+	"datatable-edit": {
+		"requires": [
+			"datatable-navigate"
+		]
+	},
+	
+	"datatable-tree": {
+		"skinnable": true,		
 		"requires": [
 			"datatable-navigate"
 		]

@@ -1,0 +1,37 @@
+{
+	"inline-editor": {
+		"skinnable": true,
+		"requires": [
+			"event",
+			"node",
+			"widget",
+			"widget-position",
+			"widget-stack",
+			"widget-position-align"
+		]
+	},
+	
+	"inline-date-editor": {
+		"requires": [
+			"event",
+			"node",
+			"widget",
+			"widget-position",
+			"widget-stack",
+			"widget-position-align"
+		]
+	},
+	
+	"inline-resource-editor": {
+		"requires": [
+			"event",
+			"node",
+			"widget",
+			"widget-position",
+			"widget-stack",
+			"widget-position-align"
+		]
+	}	
+
+}
+

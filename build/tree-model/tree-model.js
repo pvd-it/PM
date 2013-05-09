@@ -5,7 +5,7 @@ Provides the TreeModel to be used in TreeTable
 YUI.add('tree-model', function(Y) {
 	/**
 	Y.Model derived class to represent, tree node
-	@class Y.TreeModel
+	@class TreeModel
 	*/
 	Y.TreeModel = Y.Base.create('treeModel', Y.Model, [], {
 		initializer: function(config) {

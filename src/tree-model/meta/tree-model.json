@@ -1,0 +1,13 @@
+{
+	"tree-model": {
+		"requires": [
+			"model"
+		]
+	},
+	
+	"tree-model-list": {
+		"requires": [
+			"model-list"
+		]
+	}
+}

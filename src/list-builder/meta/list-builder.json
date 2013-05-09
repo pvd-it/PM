@@ -1,0 +1,20 @@
+{
+	"list-builder": {
+		"skinnable": true,
+		"requires": [
+			"autocomplete-list", 
+			"substitute", 
+			"array-extras-fix", 
+			"list-builder-keys", 
+			"autocomplete-filters", 
+			"autocomplete-highlighters"		
+		]
+	},
+	
+	"list-builder-keys": {
+		"requires": [
+			"event",
+			"node"
+		]
+	}
+}

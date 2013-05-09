@@ -17,6 +17,24 @@
 			"jsfiles": [
 				"datatable-selection.js"
 			]
+		},
+		
+		"datatable-bootstrap-plugin": {
+			"jsfiles": [
+				"datatable-bootstrap-plugin.js"
+			]
+		},
+		
+		"datatable-edit": {
+			"jsfiles": [
+				"datatable-edit.js"
+			]
+		},
+		
+		"datatable-tree": {
+			"jsfiles": [
+				"datatable-tree.js"
+			]
 		}
 	}
 }

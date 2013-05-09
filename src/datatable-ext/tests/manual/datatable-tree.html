@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>DataTable Navigate Test</title>
+		<link rel="stylesheet" href="/PM/bootstrap/css/bootstrap.min.css" />
+		<style type="text/css">
+			.button-panel {
+				position: fixed;
+				top: 10px;
+				right: 10px;
+			}
+			
+			.table {
+				width: 800px;
+				margin-top: 20px;
+				margin-left: 20px;
+			}
+		</style>
+	</head>
+	<body class="yui3-skin-bootstrap">
+		<script src="http://127.0.0.1:8020/YUI/3.8.1/build/yui/yui.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var Y = {
+				version: 'a'
+			};
+			YUI.Env[Y.version] = {};
+		</script>
+		<script src="http://127.0.0.1:8020/PM/build/loader/js/yui3.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var dt;
+			YUI({
+				groups: {
+					custom: {
+						base: '/PM/build/',
+						filter: 'DEBUG',
+						modules: YUI.Env['a'].modules
+					}
+				},
+				
+				skin: {
+					defaultSkin: 'bootstrap'
+				},
+				
+				filter: 'RAW'
+			}).use('datatable-tree', 'datatable-bootstrap-plugin', 'tree-model', 'tree-model-list', function(Y) {
+				var treeModelList = new Y.TreeModelList({
+					items: [
+						{
+							depthLevel: 0,
+							children: ['treeModel_2', 'treeModel_3'],
+							visible: true,
+							author: "Jolly Roger",
+							published: "September 12, 2007",
+							description: "A riveting tale of suspense and drama.",
+							revision: "a5"
+						},
+						
+						{
+							depthLevel: 1,
+							visible: true,
+							author: "Andrew Wooldridge",
+							published: "January 17, 2013",
+							description: "Announcing Support for GitHub Issues in YUI",
+							revision: "1"
+						},
+						
+						{
+							depthLevel: 1,
+							visible: true,
+							author: "Dav Glass",
+							published: "January 15, 2013",
+							description: "Meeting notes from the first YUI Reviewers meeting",
+							revision: "2"
+						}
+					]
+				});
+				dt = new Y.DataTableTree({
+					columns: [
+						{
+							key: 'author',
+							label: '#',
+							formatter: function(o){
+								o.value = o.rowIndex+1;
+							}
+						},
+						{key: 'author', label: 'Author', isTreeKnob: true},
+						{key: 'author', label: 'Author', isTreeColumn: true},
+						{key: 'published', label: 'Publishing Date'},
+						{key: 'description', label: 'Summary'},
+						{key: 'revision', label: 'Revision'}
+					],
+					recordType: Y.TreeModel,
+					data: treeModelList
+				});
+				
+				dt.plug(Y.Plugin.DataTableBootstrap, {
+					striped: true, 
+					bordered: true, 
+					hover: false, 
+					condensed: true 
+				});
+				dt.render();
+			});
+		</script>
+	</body>
+</html>

@@ -1,17 +1,23 @@
+/**
+@module tree-model-list
+*/
 YUI.add('tree-model-list', function(Y) {
 	var YArray	=	Y.Array;
 
 	/**
 	Extends ModelList to support tree structure
-	@class Y.TreeModelList
-	@extends Y.ModelList
+	@class TreeModelList
+	@extends ModelList
 	*/
 	Y.TreeModelList = Y.Base.create('treeModelList', Y.ModelList, [], {
 
 		deletedItems: [],
-
+		
+		model: Y.TreeModel,
+		
 		initializer: function(){
-			this.model =  Y.TreeModel;
+			Y.log('TreeModelList initializer');
+			
 			this.on('add', this._addInterceptor);
 			this.on('remove', this._removeInterceptor);
 			this.on('*:depthLevelChange', this._childDepthChanging);

@@ -1,7 +1,0 @@
-.yui3-datatable-selection-mask-active {
-	background-color: #5C7B91 /* #fbdece /*#ffc19f*/;
-	border: 1px solid #005189 /*#ed671f*/;
-	opacity: 0.3;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	display: block;
-}

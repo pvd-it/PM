@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<title>DataTable Navigate Test</title>
 	</head>
-	<body class="yui3-skin-sam">
-		<script src="http://127.0.0.1:8020/YUI/3.8.0/build/yui/yui.js" type="text/javascript"></script>
+	<body class="yui3-skin-bootstrap">
+		<script src="http://127.0.0.1:8020/YUI/3.8.1/build/yui/yui.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var Y = {
 				version: 'a'
@@ -22,6 +22,10 @@
 						filter: 'min',
 						modules: YUI.Env['a'].modules
 					}
+				},
+				
+				skin: {
+					defaultSkin: 'bootstrap'
 				}
 			}).use('datatable-navigate', function(Y) {
 				dt = new Y.DataTableNavigate({

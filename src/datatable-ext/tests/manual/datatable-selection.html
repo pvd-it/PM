@@ -3,9 +3,17 @@
 	<head>
 		<meta charset="utf-8">
 		<title>DataTable Selection Test</title>
+		<link rel="stylesheet" href="/PM/bootstrap/css/bootstrap.min.css" />
+		<style type="text/css">
+			.table {
+				width: 800px;
+				margin-top: 20px;
+				margin-left: 20px;
+			}
+		</style>
 	</head>
-	<body class="yui3-skin-sam">
-		<script src="http://127.0.0.1:8020/YUI/3.8.0/build/yui/yui.js" type="text/javascript"></script>
+	<body class="yui3-skin-bootstrap">
+		<script src="http://127.0.0.1:8020/YUI/3.8.1/build/yui/yui.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var Y = {
 				version: 'a'
@@ -22,8 +30,12 @@
 						filter: 'MIN',
 						modules: YUI.Env['a'].modules
 					}
+				},
+				
+				skin: {
+					defaultSkin: 'bootstrap'
 				}
-			}).use('datatable-selection', function(Y) {
+			}).use('datatable-selection', 'datatable-bootstrap-plugin', function(Y) {
 				dt = new Y.DataTableSelection({
 					columns: [
 						{key: 'author', label: 'Author'},
@@ -449,7 +461,12 @@
 						}
 					]
 				});
-				
+				dt.plug(Y.Plugin.DataTableBootstrap, {
+					striped: true, 
+					bordered: true, 
+					hover: false, 
+					condensed: true 
+				});
 				dt.render();
 			});
 		</script>

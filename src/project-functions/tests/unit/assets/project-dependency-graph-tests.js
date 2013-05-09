@@ -1,4 +1,4 @@
-YUI.add('project-calendar-tests', function(Y) {
+YUI.add('project-dependency-graph-tests', function(Y) {
 
     var ASSERT = Y.Assert,
         ARRAYASSERT = Y.ArrayAssert,
@@ -6,7 +6,8 @@ YUI.add('project-calendar-tests', function(Y) {
         YJSON = Y.JSON,
 	    suite = new Y.Test.Suite("ProjectDependencyGraph"),
     	aTestCase;
-    	
+    
+
 	aTestCase = new Y.Test.Case({	//Test various scenarios how a task and it's transitions are processed
         name: 'transition processing test',
         
@@ -434,5 +435,4 @@ YUI.add('project-calendar-tests', function(Y) {
     suite.add(aTestCase);
     
     Y.Test.Runner.add(suite);
-
 });

@@ -56,7 +56,7 @@ YUI.add('datatable-navigate', function(Y) {
 				}
 			});
 		},
-
+		
 		_activeRowIndexValidator : function(val) {
 			var row = val, rowCount;
 

@@ -1,0 +1,7 @@
+{
+	"project-dependency-graph": {
+		"requires": [
+			"task"
+		]
+	}
+}

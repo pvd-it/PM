@@ -10,8 +10,8 @@ YUI.add('task-list', function(Y) {
 
 	/**
 	* Represents project task list. Provides facilities for Indent, Outdent and Schedule Calculations.
-	* @class Y.TaskList
-	* @extends Y.TreeModelList
+	* @class TaskList
+	* @extends TreeModelList
 	*/
 	Y.TaskList = Y.Base.create('taskList', Y.TreeModelList, [Y.ModelListVariance], {
 		initializer: function(){

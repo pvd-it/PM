@@ -1,0 +1,13 @@
+{
+	"confirmation-dialog": {
+		"skinnable": true,
+		"requires": [
+			"widget-base", 
+			"widget-modality", 
+			"widget-autohide", 
+			"widget-position", 
+			"widget-position-align", 
+			"widget-stack"
+		]
+	}
+}
